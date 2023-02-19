@@ -16,7 +16,7 @@
         ?>
     </h1>
     <marquee>SEND HELP!!</marquee>
-    <h2>I am Kel Vin</h2>
+    <h2> Kel Vin</h2>
 </body>
 
 </html>
