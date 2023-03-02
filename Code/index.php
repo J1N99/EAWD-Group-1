@@ -11,20 +11,9 @@
 <body>
     <h1>
         <?php
-<<<<<<< HEAD
-        echo "Hello World!";
-<<<<<<< HEAD
-        echo "XXX";
-        echo "XXX";
-        echo "XXX";
-        echo "XXX";
-=======
-        echo "Hello World!";
->>>>>>> e7400d4c98ca576fe120d3aa0f14a4b60617791c
-=======
         echo "Hello World! kelvin is here";
 
->>>>>>> ce581f0 (hello)
+ 
         ?>
     </h1>
     <marquee>SEND HELP!!</marquee>
