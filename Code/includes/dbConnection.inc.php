@@ -1,6 +1,6 @@
 <?php
 
-$serverName = "localhost:3307";
+$serverName = "localhost";
 $dbUserName = "root";
 $dbUserPassword = "";
 $dbName = "feedbackDB";
