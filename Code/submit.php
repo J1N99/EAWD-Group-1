@@ -1,50 +1,58 @@
-<?php  include("header.php")?>
+<?php  
+include("header.php");
+include("includes/dbConnection.inc.php");
+// call for categories
+$sql = "SELECT * FROM categories";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+?>
 
 <form action="includes/addidea.inc.php" method="post" enctype="multipart/form-data">
     <div>
+        <label>Categories:</label>
 
 
-        <label>Product Name:</label><br />
-        <input type="text" class="pname" name="pname" placeholder="Name" required><br />
 
-        <label>Product Description:</label><br />
-        <textarea class="pdescription" name="pdescription" style="width:80%;height:100px;" required></textarea><br />
-
-        <label>Price:</label><br />
-        <input type="number" class="price" name="price" placeholder="Price" min="0.00" max="10000.00" step="0.01"
-            required /><br />
-
-        <label>Product Category:</label><br />
-        <select class="category" name="category">
-            <option value="coffee">Coffee</option>
-            <option value="merchandise">Merchandise</option>
+        <?php
+                if ($resultCheck > 0) {
+                    ?>
+        <select name="did">
+            <?php
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $id= $row["categories_id"];
+                ?>
+            <option value="<?php echo $id ?>"><?php echo $row['categories'] ?></option>
+            <?php
+                    }
+                    ?>
         </select>
+
+        <?php
+                }
+         ?>
+
+
+        <br>
+        <label>Idea Description:</label><br />
+        <textarea name="description" style="width:300px;height:100px;" required></textarea>
+
         <br />
 
-
-        <!--come back file later-->
-        <label>Product Image:<a class="imagelink" href="">View Orginal Image</a></label><br />
-        <label style="color:red;font-size:12px;">If update image please upload image else don't upload image <br />Image
-            size must below 0.1MB<br />Recommendation size 900px width and height</label>
-
-        <input type="file" name="productimage" />
-        <input type="hidden" class="pid" name="pid">
+        <label>Upload file:</label><br />
+        <label style="color:red">Please upload the file in PDF(Not necessary to upload document)</label>
+        <input type="file" name="uploadDocument" />
+        <br />
+        <label>Please read the term and condition and check the box:</label>
+        <br />
+        <input type="checkbox" name="checkbox" required />
+        <a href="term.php">Term and condition</a>
+        <input name="id" type="hidden" value="<?php echo $_SESSION['id']?>" />
         <br />
 
-
+        <button type="submit" name="submit">Submit</button>
 
     </div>
-    <div class="modal-footer">
 
-
-        <!--close modal example-->
-
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-
-        <!--End close modal-->
-
-        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-    </div>
 
 </form>
 <?php include("footer.php")?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2023 at 05:30 AM
+-- Generation Time: Mar 06, 2023 at 03:08 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -31,6 +31,15 @@ CREATE TABLE `categories` (
   `categories_id` int(11) NOT NULL,
   `categories` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`categories_id`, `categories`) VALUES
+(8, 'report'),
+(9, 'complain'),
+(10, 'test');
 
 -- --------------------------------------------------------
 
@@ -61,7 +70,8 @@ CREATE TABLE `idea` (
   `finalCloseDate` date NOT NULL,
   `views` int(11) NOT NULL,
   `submitDate` date NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -99,7 +109,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `position`, `name`, `department`, `email`, `password`) VALUES
 (1, 1, 'Ang Wei Jin', 'staff', '', ''),
-(5, 1, 'Chooi Chee Kean', 'staff', 'cheekean2013@gmail.com', '$2y$10$cZeewRPT.CVevunj5JgiLe0aU0COOnABu4MpYoIBSdKUcQtTDaHxG');
+(5, 1, 'Chooi Chee Kean', 'staff', 'cheekean2013@gmail.com', '$2y$10$cZeewRPT.CVevunj5JgiLe0aU0COOnABu4MpYoIBSdKUcQtTDaHxG'),
+(6, 1, 'Voon Chen Ning', 'staff', 'cn06@gmail.com', '$2y$10$bthRSvrCiBasixd4qgdydODo59NcOgZjesQv.hTHkFAw0e5RSeoh.');
 
 --
 -- Indexes for dumped tables
@@ -143,7 +154,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -161,7 +172,7 @@ ALTER TABLE `likepost`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
