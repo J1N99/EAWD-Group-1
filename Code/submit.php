@@ -32,11 +32,15 @@ $resultCheck = mysqli_num_rows($result);
          ?>
 
 
-        <br>
+        <br />
+        <label>Idea Title:</label><br />
+        <input type="text" name="title" required />
+        <br />
         <label>Idea Description:</label><br />
         <textarea name="description" style="width:300px;height:100px;" required></textarea>
 
         <br />
+
 
         <label>Upload file:</label><br />
         <label style="color:red">Please upload the file in PDF(Not necessary to upload document)</label>

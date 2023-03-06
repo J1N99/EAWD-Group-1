@@ -187,7 +187,7 @@ function deleteCategories($conn,$id)
 }
 
 
-function filevalidationpdf($img_name, $img_tempname, $conn,$categories,$description,$id)
+function filevalidationpdf($img_name, $img_tempname, $conn,$categories,$description,$id,$title)
 {
      
         
@@ -204,7 +204,7 @@ function filevalidationpdf($img_name, $img_tempname, $conn,$categories,$descript
             $newpdfname = uniqid("pdf-", true) . '.' . $filetypelower;
             $img_upload_path = "../uploads/" . $newpdfname;
             move_uploaded_file($img_tempname, $img_upload_path);
-            insertIdea($id, $categories,$date,$description, $newpdfname, $conn);
+            insertIdea($id, $categories,$date,$description, $newpdfname, $conn,$title);
             //save db 
             header("location:../submit.php?status=success");
         } else {
@@ -213,10 +213,10 @@ function filevalidationpdf($img_name, $img_tempname, $conn,$categories,$descript
         }
    
 }
-function insertIdea($id,$categories,$date,$description,$newpdfname,$conn)
+function insertIdea($id,$categories,$date,$description,$newpdfname,$conn,$title)
 {   
  
-    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description) VALUES (?,?,?,?,?);";
+    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title) VALUES (?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location:../submit.php?error=stmterror2");
@@ -224,7 +224,7 @@ function insertIdea($id,$categories,$date,$description,$newpdfname,$conn)
     }
 
 
-    mysqli_stmt_bind_param($stmt, "sssss",$newpdfname ,$categories,$date,$id, $description);
+    mysqli_stmt_bind_param($stmt, "ssssss",$newpdfname ,$categories,$date,$id, $description,$title);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location:../submit.php?error=none");
