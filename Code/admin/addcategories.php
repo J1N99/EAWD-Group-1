@@ -32,22 +32,10 @@ $resultCheck = mysqli_num_rows($result);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id= $row["categories_id"];
                 ?>
-
-
-
-
-
-
-
             <option value="<?php echo $id ?>"><?php echo $row['categories'] ?></option>
-
-
-
-
             <?php
                     }
                     ?>
-
         </select>
         <button type="submit" name="submit">Delete</button>
         <?php
@@ -56,9 +44,8 @@ $resultCheck = mysqli_num_rows($result);
                 ?>
         <h1>This is no data on the option</h1>
         <?php
-}
+        }
         ?>
-
     </form>
 
 
