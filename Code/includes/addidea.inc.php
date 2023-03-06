@@ -16,11 +16,13 @@ if (isset($_POST['submit'])) {
 
 
     if($_FILES['uploadDocument']['size'] == 0) {
-       
+      $newpdfname="";
+      $date=date("Y/m/d");
+      insertIdea($id,$categories,$date,$description,$newpdfname,$conn);
     }
-  
+    else{
     filevalidationpdf($img_name, $img_tempname, $conn,$categories,$description,$id);
-
+    }
   
 }
 ?>
