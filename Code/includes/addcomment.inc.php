@@ -1,6 +1,22 @@
 <?php
+	//start session
+	session_start();
+	
+	//reference to the database connection file
+	include('dbConnection.inc.php');
+?>
+
+<?php
       // Try Email - Start here
-      $email = $_SESSION['email'];
+      // Query (nid to wait for db design)
+      $query1 = mysqli_query($conn, "select user_id from idea where idea_id = ?");
+      if(mysqli_num_rows($query1)>0){
+        while($row1 = mysqli_fetch_assoc($query1)){ 
+            $emailAuthor = $row1['email'];
+        }
+      }
+
+      $email = $emailAuthor;
 
       $msg = "Try";
 
@@ -27,8 +43,7 @@
       
       if(mail($to, $subject, $message, $headers))
       {
-          echo "<script>alert('try email done');
-          window.location.href='EmailOTP.php';</script>";
+          echo "<script>alert('try email done');</script>";
       }
       else
       {
