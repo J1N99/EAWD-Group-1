@@ -1,0 +1,5 @@
+position
+
+1=QA manager
+2=QA coordinator
+3=staff

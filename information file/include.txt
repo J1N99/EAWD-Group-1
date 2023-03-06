@@ -1,0 +1,8 @@
+this file to let backend to easy to copy header and footer
+<?php
+include("header.php");
+?>
+
+<?php
+include("footer.php");
+?>

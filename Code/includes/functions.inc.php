@@ -122,9 +122,67 @@ function loginuser($conn, $email, $password)
         $_SESSION['name'] = $uidexists["name"];
         $_SESSION['department'] = $uidexists["department"];
         $_SESSION['email'] = $uidexists["email"];
+        if ($_SESSION['position']==1)
+        {
+            // if position is  QA manager redirect to admin pages;
+            header("location:../admin/index.php");
+        }
+        else{
         header("location:../index.php");
+        }
         exit();
     }
 }
 
+function categoriestaken($conn, $categories)
+{
+
+    $sql = "SELECT * FROM categories WHERE categories=?;";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location:../admin/addcategories.php?error=stmterror1");
+        exit(); //stop
+    }
+    mysqli_stmt_bind_param($stmt, "s", $categories);
+    mysqli_stmt_execute($stmt);
+    $resultData = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+    mysqli_stmt_close($stmt);
+}
+
+function createCategories($conn, $categories)
+{
+    $lowerCategories=strtolower($categories);
+
+    $sql = "INSERT INTO categories (categories) VALUES (?);";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location:../admin/addcategories.php?error=stmterror2");
+        exit(); //stop
+    }
+    mysqli_stmt_bind_param($stmt, "s",$lowerCategories);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location:../admin/addcategories.php?error=none");
+    exit();
+}
+
+function deleteCategories($conn,$id)
+{
+    $sql ="DELETE FROM categories WHERE categories_id=$id";
+
+    if (!mysqli_query($conn, $sql)) {
+        header("Location:checkoutdetail.php?error=deletecartfail");
+    }
+    else
+    {
+        header("location:../admin/addcategories.php?error=none");
+    }
+
+}
 ?>
