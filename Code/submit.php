@@ -5,6 +5,7 @@ include("includes/dbConnection.inc.php");
 $sql = "SELECT * FROM categories";
 $result = mysqli_query($conn, $sql);
 $resultCheck = mysqli_num_rows($result);
+
 ?>
 
 <form action="includes/addidea.inc.php" method="post" enctype="multipart/form-data">
