@@ -30,7 +30,10 @@ else if(isset($_GET['idea']))
 else if (isset($_GET["comment"]))
 {
    // pending comment
-    
+    $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+    LEFT JOIN comment ON idea.idea_id=comment.idea_id
+    group by idea.idea_id ORDER BY comment.commentDate DESC";
 }
 else
 {
