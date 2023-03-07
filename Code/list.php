@@ -3,19 +3,40 @@ include("header.php");
 include("includes/dbConnection.inc.php");
 if(isset($_GET['view']))
 {
-    $sql="SELECT * FROM idea ORDER BY views DESC";
+    $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
+    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+    group by idea.idea_id ORDER BY views DESC";
    
 }
 else if(isset($_GET['tup']))
 {
-    $sql="SELECT idea.idea_id, sum(t_up) FROM idea 
+    $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
     group by idea.idea_id ORDER BY t_up DESC";
    
 }
+else if (isset($_GET['tdown']))
+{
+    $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+    group by idea.idea_id ORDER BY t_down DESC";
+}
+else if(isset($_GET['idea']))
+{
+    $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+    group by idea.idea_id ORDER BY submitDate DESC";
+}
+else if (isset($_GET["comment"]))
+{
+   // pending comment
+    
+}
 else
 {
- $sql="SELECT * FROM idea";
+ $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
+ LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+ group by idea.idea_id";
 }
 $result = mysqli_query($conn, $sql);
 $resultCheck = mysqli_num_rows($result);
@@ -68,9 +89,27 @@ $resultCheck = mysqli_num_rows($result);
                         $url = $row['document_url'];
                         $submitDate=$row['submitDate'];
                         $title=$row['title'];
+                        $t_up=$row['sum(t_up)'];
+                        $t_down=$row['sum(t_down)'];
                         if ($url!=="")
                         {
                             ?>
+<br />
+<h1>Like
+    <?php 
+if ($t_up==null)
+{
+$t_up=0;
+}
+echo $t_up;
+?>
+</h1>
+<h1>Dislike <?php 
+if ($t_down==null)
+{
+$t_down=0;
+}
+echo $t_down?></h1>
 <a href="uploads/<?php echo $url?>">Document</a>
 <?php
                         }
