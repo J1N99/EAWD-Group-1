@@ -88,7 +88,7 @@ $resultCheck = mysqli_num_rows($result);
 <?php
                 if ($resultCheck > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-
+                        $id=$row['idea_id'];
                         $url = $row['document_url'];
                         $submitDate=$row['submitDate'];
                         $title=$row['title'];
@@ -97,6 +97,8 @@ $resultCheck = mysqli_num_rows($result);
                         if ($url!=="")
                         {
                             ?>
+<br />
+<a href="listdetails.php?id=<?php echo $id?>"><?php echo $title?></a>
 <br />
 <h1>Like
     <?php 
@@ -113,7 +115,7 @@ if ($t_down==null)
 $t_down=0;
 }
 echo $t_down?></h1>
-<a href="uploads/<?php echo $url?>">Document</a>
+<a href=" uploads/<?php echo $url?>">Document</a>
 <?php
                         }
                               else{
