@@ -4,9 +4,6 @@ include("includes/dbConnection.inc.php");
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-
 <input type="button" class="like-button" data-item-id="1" data-id="<?php echo $_SESSION['id']?>" value="Like" />
 <script>
 $('.like-button').click(function() {

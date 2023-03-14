@@ -3,9 +3,8 @@ require_once("dbConnection.inc.php");
 require_once("functions.inc.php");
 $userid=$_POST['id'];
 $id=$_POST['item_id'];
-$up=1;
-$down=0;
-
+$up=0;
+$down=1;
 
 $sqlcheck="SELECT * FROM likepost WHERE user_id=$userid";
 $result = mysqli_query($conn, $sqlcheck);
@@ -14,18 +13,18 @@ $row=mysqli_fetch_assoc($result);
 if ($resultCheck > 0) {
     $Oriup=$row['t_up'];
     $Oridown=$row['t_down'];
-    if($up==$Oriup)
+    if($down==$Oridown)
     {
-        $query = "UPDATE likepost SET t_up=0 AND t_down=0 WHERE user_id=$userid";
+        $query = "UPDATE likepost SET t_down=0 AND t_up=0 WHERE user_id=$userid";
         $query_run = mysqli_query($conn, $query);
     }
     else
     {
-        $query = "UPDATE likepost SET t_up=1 AND t_down=0 WHERE user_id=$userid";
+        $query = "UPDATE likepost SET t_down=1 AND t_up=0 WHERE user_id=$userid";
         $query_run = mysqli_query($conn, $query);
     }
 }
-else{
+
 $sql = "INSERT INTO likepost (idea_id,user_id,t_up,t_down) VALUES (?,?,?,?);";
 $stmt = mysqli_stmt_init($conn);
 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -39,5 +38,4 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 header("location:../listdetails.php?id=$id&status=success");
 exit();
-}
 ?>

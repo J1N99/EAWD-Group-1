@@ -69,6 +69,8 @@ if ($resultCheck2 > 0) {
 <p>Author: <?php echo $commentName?></p>
 <input type="button" class="like-button" data-item-id="<?php echo $_GET['id']?>" data-id="<?php echo $_SESSION['id']?>"
     value="Like" />
+<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id']?>"
+    data-id="<?php echo $_SESSION['id']?>" value="Dislike" />
 
 <?php
     }
@@ -92,6 +94,33 @@ $('.like-button').click(function() {
         },
         success: function(response) {
             $('.like-button').val('Liked!');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error: ' + textStatus + ' - ' + errorThrown);
+        }
+    });
+
+
+});
+
+
+
+$('.dislike-button').click(function() {
+    // Get the ID of the item being liked
+    var item_id = $(this).data('item-id');
+    var id = $(this).data('id');
+    console.log(item_id);
+    console.log(id);
+    // Send an HTTP request to the server
+    $.ajax({
+        url: '/Web%20Developement/code/includes/dislike.inc.php',
+        type: 'POST',
+        data: {
+            item_id: item_id,
+            id: id
+        },
+        success: function(response) {
+            $('.dislike-button').val('disliked!');
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Error: ' + textStatus + ' - ' + errorThrown);
