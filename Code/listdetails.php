@@ -5,7 +5,7 @@ if(!isset($_GET['id']))
 {
     header("location:index.php");
 }
-else
+else if(isset($_GET['id']))
 {
     $id=$_GET['id'];
     $sql="SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down),idea.description FROM idea
@@ -33,6 +33,7 @@ if ($resultCheck > 0) {
         */
             
 ?>
+
 <h1>
     <? echo $title?>
 </h1>
@@ -66,8 +67,40 @@ if ($resultCheck2 > 0) {
 <p>This is comment <?php echo $comment ?></p>
 <p>This is comment Date <?php echo $commentDate?></p>
 <p>Author: <?php echo $commentName?></p>
+<input type="button" class="like-button" data-item-id="<?php echo $_GET['id']?>" data-id="<?php echo $_SESSION['id']?>"
+    value="Like" />
+
 <?php
     }
 }
+?>
+
+<script>
+$('.like-button').click(function() {
+    // Get the ID of the item being liked
+    var item_id = $(this).data('item-id');
+    var id = $(this).data('id');
+    console.log(item_id);
+    console.log(id);
+    // Send an HTTP request to the server
+    $.ajax({
+        url: '/Web%20Developement/code/includes/like.inc.php',
+        type: 'POST',
+        data: {
+            item_id: item_id,
+            id: id
+        },
+        success: function(response) {
+            $('.like-button').val('Liked!');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error: ' + textStatus + ' - ' + errorThrown);
+        }
+    });
+
+
+});
+</script>
+<?php
 include("footer.php");
 ?>
