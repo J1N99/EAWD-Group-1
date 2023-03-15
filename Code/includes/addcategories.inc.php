@@ -11,4 +11,3 @@ if (isset($_POST['submit'])) {
     
     createCategories($conn,$categories);
 }
-?>

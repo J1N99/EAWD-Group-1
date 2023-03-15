@@ -38,4 +38,3 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 header("location:../listdetails.php?id=$id&status=success");
 exit();
-?>
