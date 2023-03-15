@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 07:15 AM
+-- Generation Time: Mar 15, 2023 at 04:11 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -39,7 +39,8 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`categories_id`, `categories`) VALUES
 (8, 'report'),
 (9, 'complain'),
-(10, 'test');
+(10, 'test'),
+(11, 'test 3');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`comment_id`, `user_id`, `a_status`, `commentDate`, `idea_id`, `comment`) VALUES
-(1, 2, 0, '2023-03-07', 5, 'This is a comment ');
+(1, 5, 0, '2023-03-07', 5, 'This is a comment ');
 
 -- --------------------------------------------------------
 
@@ -113,9 +114,10 @@ CREATE TABLE `likepost` (
 --
 
 INSERT INTO `likepost` (`likepost_id`, `idea_id`, `user_id`, `t_up`, `t_down`) VALUES
-(1, 5, 5, 1, 0),
 (2, 5, 6, 1, 0),
-(3, 4, 6, 0, 1);
+(3, 4, 6, 0, 1),
+(14, 1, 5, 1, 0),
+(15, 5, 5, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -183,7 +185,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -201,7 +203,7 @@ ALTER TABLE `idea`
 -- AUTO_INCREMENT for table `likepost`
 --
 ALTER TABLE `likepost`
-  MODIFY `likepost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `likepost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user`
