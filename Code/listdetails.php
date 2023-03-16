@@ -7,6 +7,7 @@ if (!isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down),idea.description FROM idea
     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+    WHERE idea.idea_id=$id
     group by idea.idea_id ORDER BY views DESC";
 }
 $result = mysqli_query($conn, $sql);
@@ -21,27 +22,28 @@ if ($resultCheck > 0) {
     $t_up = $row['sum(t_up)'];
     $t_down = $row['sum(t_down)'];
     $description = $row['description'];
-    /*
-        $a_status=$row['a_status'];
-        $user_id=$row['user_id'];
-        $commentDate=$row['commentDate'];
-        $comment=$row['comment'];
-        */
+    if ($t_up == null) {
+        $t_up = 0;
+    }
+    if ($t_down == null) {
+        $t_down = 0;
+    }
+
 
 ?>
 
-    <h1>
-        <? echo $title ?>
-    </h1>
-    <pre>
+<h1>
+    <? echo $title ?>
+</h1>
+<pre>
     <? echo $description ?>
 </pre>
-    <p> This is like:<?php echo $t_up ?></p>
-    <p>This is dislike:<?php echo $t_down ?></p>
-    <p>Submit by<?php echo $submitDate ?></p>
-    <a href="uploads/<?php echo $url ?>">This is attachment of document:</a>
+<p> This is like:<span class="like"><?php echo $t_up ?></span></p>
+<p>This is dislike:<span class="dislike-value"><?php echo $t_down ?></span></p>
+<p>Submit by<?php echo $submitDate ?></p>
+<a href="uploads/<?php echo $url ?>">This is attachment of document:</a>
 
-    <?php
+<?php
 }
 
 
@@ -54,75 +56,187 @@ $result2 = mysqli_query($conn, $sql2);
 $resultCheck2 = mysqli_num_rows($result2);
 
 if ($resultCheck2 > 0) {
+
+    $sqlCheckLike = "SELECT * FROM likepost WHERE idea_id=$id AND user_id=$_SESSION[id]";
+    $resultClike = mysqli_query($conn, $sqlCheckLike);
+    $resultCheckLike = mysqli_num_rows($resultClike);
+    $rowCheckLike = mysqli_fetch_assoc($resultClike);
+
+
+
+
+
     while ($row2 = mysqli_fetch_assoc($result2)) {
         $comment = $row2['comment'];
         $commentDate = $row2['commentDate'];
         $commentName = $row2['name'];
 
     ?>
-        <p>This is comment <?php echo $comment ?></p>
-        <p>This is comment Date <?php echo $commentDate ?></p>
-        <p>Author: <?php echo $commentName ?></p>
-        <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>" data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
-        <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>" data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
+<p>This is comment <?php echo $comment ?></p>
+<p>This is comment Date <?php echo $commentDate ?></p>
+<p>Author: <?php echo $commentName ?></p>
+<?php
+        if ($rowCheckLike['t_up'] == 0) {
+        ?>
+<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
+<?php
+        } else {
+        ?>
+<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Liked" />
+<?php
+        }
 
+        if ($rowCheckLike['t_down'] == 0) {
+        ?>
+<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
+<?php
+        } else {
+        ?>
+
+<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Disliked" />
+<?php
+
+        }
+        ?>
 <?php
     }
 }
 ?>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- start like function-->
 <script>
-    $('.like-button').click(function() {
-        // Get the ID of the item being liked
-        var item_id = $(this).data('item-id');
-        var id = $(this).data('id');
-        console.log(item_id);
-        console.log(id);
-        // Send an HTTP request to the server
-        $.ajax({
-            url: '/Web%20Developement/code/includes/like.inc.php',
-            type: 'POST',
-            data: {
-                item_id: item_id,
-                id: id
-            },
-            success: function(response) {
-                $('.like-button').val('Liked!');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error: ' + textStatus + ' - ' + errorThrown);
+$('.like-button').click(function() {
+    // Get the ID of the item being liked
+    var item_id = $(this).data('item-id');
+    var id = $(this).data('id');
+    // Send an HTTP request to the server
+    $.ajax({
+        url: '/Web%20Developement/code/includes/like.inc.php',
+        type: 'POST',
+        data: {
+            item_id: item_id,
+            id: id
+        },
+        success: function(response) {
+            var likevalue = parseInt($(".like").text());
+            console.log(likevalue);
+
+            if ($(".like-button").val() === 'Liked') {
+
+
+                console.log("This is remove like");
+                var newlike = likevalue - 1;
+
+                $(".like").text(newlike);
+
+                $('.like-button').val('Like');
+
+            } else if ($(".like-button").val() === 'Like') {
+                console.log("This is add like");
+                var newlike = likevalue + 1;
+
+                $(".like").text(newlike);
+
+                $('.like-button').val('Liked');
             }
-        });
 
+            if ($(".dislike-button").val() === "Disliked") {
 
+                var dislikevalue = parseInt($(".dislike-value").text());
+                console.log(dislikevalue)
+                var newdislike = dislikevalue - 1;
+                console.log(newdislike)
+                $(".dislike-value").text(newdislike);
+                $(".dislike-button").val("Dislike");
+                $('.like-button').val('Liked');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error: ' + textStatus + ' - ' + errorThrown);
+        }
     });
 
 
+});
 
-    $('.dislike-button').click(function() {
-        // Get the ID of the item being liked
-        var item_id = $(this).data('item-id');
-        var id = $(this).data('id');
-        console.log(item_id);
-        console.log(id);
-        // Send an HTTP request to the server
-        $.ajax({
-            url: '/Web%20Developement/code/includes/dislike.inc.php',
-            type: 'POST',
-            data: {
-                item_id: item_id,
-                id: id
-            },
-            success: function(response) {
-                $('.dislike-button').val('disliked!');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error: ' + textStatus + ' - ' + errorThrown);
+
+// start dislike function
+$('.dislike-button').click(function() {
+    // Get the ID of the item being liked
+    var item_id = $(this).data('item-id');
+    var id = $(this).data('id');
+
+    // Send an HTTP request to the server
+    $.ajax({
+        url: '/Web%20Developement/code/includes/dislike.inc.php',
+        type: 'POST',
+        data: {
+            item_id: item_id,
+            id: id
+        },
+        success: function(response) {
+
+            var dislikevalue = parseInt($(".dislike-value").text());
+            console.log(dislikevalue);
+
+
+            if ($(".dislike-button").val() === 'Disliked') {
+
+
+                var newdislike = dislikevalue - 1;
+
+                $(".dislike-value").text(newdislike);
+
+                $('.dislike-button').val('Dislike');
+
+            } else if ($(".dislike-button").val() === 'Dislike') {
+
+                console.log("This is add dislike");
+
+                var newdislike = dislikevalue + 1;
+
+                $(".dislike-value").text(newdislike);
+
+                $('.dislike-button').val('Disliked');
             }
-        });
 
 
+            if ($(".like-button").val() === "Liked") {
+
+                var likevalue = parseInt($(".like").text());
+
+                var newlike = likevalue - 1;
+
+                $(".like").text(newlike);
+                $(".dislike-button").val("Disliked");
+                $('.like-button').val('Like');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error: ' + textStatus + ' - ' + errorThrown);
+        }
     });
+    var newdislike = <?php echo $t_down ?> + 1;
+    $(".dislike").text(newdislike);
+
+});
 </script>
 <?php
 include("footer.php");
