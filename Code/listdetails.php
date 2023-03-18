@@ -50,30 +50,40 @@ if ($resultCheck > 0) {
     $resultClike = mysqli_query($conn, $sqlCheckLike);
     $resultCheckLike = mysqli_num_rows($resultClike);
     $rowCheckLike = mysqli_fetch_assoc($resultClike);
-    if ($rowCheckLike['t_up'] == 0) {
+    if ($resultCheckLike>0) {
+        if ($rowCheckLike['t_up'] == 0) {
     ?>
 <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
     data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
 <?php
-    } else {
-    ?>
+        } else {
+        ?>
 <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
     data-id="<?php echo $_SESSION['id'] ?>" value="Liked" />
 <?php
-    }
+        }
 
-    if ($rowCheckLike['t_down'] == 0) {
-    ?>
+        if ($rowCheckLike['t_down'] == 0) {
+        ?>
 <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
     data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
 <?php
-    } else {
-    ?>
+        } else {
+        ?>
 
 <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
     data-id="<?php echo $_SESSION['id'] ?>" value="Disliked" />
 <?php
 
+        }
+    }
+    else{
+        ?>
+<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
+<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+    data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
+<?php
     }
     ?>
 
