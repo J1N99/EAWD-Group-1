@@ -68,35 +68,35 @@ $resultCheck = mysqli_num_rows($result);
 
 
 
-<label>Filter lastest ideas</label>
+<label>Filter latest ideas</label>
 <select
     onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
     <option default>Please select:</option>
     <option value="list.php?idea=true">
-        Lastest Idea
+        Latest Idea
     </option>
 </select>
 <label>Filter lastest</label>
 <select
     onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-    <option default>Please lastest comment:</option>
+    <option default>Please latest comment:</option>
     <option value="list.php?comment=true">
         Lastest comment
     </option>
 </select>
 
 <?php
-                if ($resultCheck > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $id=$row['idea_id'];
-                        $url = $row['document_url'];
-                        $submitDate=$row['submitDate'];
-                        $title=$row['title'];
-                        $t_up=$row['sum(t_up)'];
-                        $t_down=$row['sum(t_down)'];
-                        if ($url!=="")
-                        {
-                            ?>
+if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $id=$row['idea_id'];
+        $url = $row['document_url'];
+        $submitDate=$row['submitDate'];
+        $title=$row['title'];
+        $t_up=$row['sum(t_up)'];
+        $t_down=$row['sum(t_down)'];
+        if ($url!=="")
+        {
+            ?>
 <br />
 <a href="listdetails.php?id=<?php echo $id?>"><?php echo $title?></a>
 <br />
