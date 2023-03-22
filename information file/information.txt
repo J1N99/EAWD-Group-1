@@ -2,4 +2,5 @@ position
 
 1=QA manager
 2=QA coordinator
-3=staff
+3=admin
+4=staff
