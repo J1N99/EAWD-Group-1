@@ -1,28 +1,8 @@
 <?php
-require_once("dbConnection.inc.php");
-require_once("functions.inc.php");
+    require_once("dbConnection.inc.php");
+    require_once("functions.inc.php");
 
-$userid = $_POST['id'];
-$id = $_POST['item_id'];
-$comment = $_POST['comment'];
-$date = date("Y/m/d");
-$checkbox = $_POST['checkbox'];
-
-$sql = "INSERT INTO comment (user_id,a_status,commentDate,idea_id,comment) VALUES (?,?,?,?,?);";
-$stmt = mysqli_stmt_init($conn);
-if (!mysqli_stmt_prepare($stmt, $sql)) {
-    header("location:../listdetails.php?id=$id&commenterror=stmterror2");
-    exit(); //stop
-}
-mysqli_stmt_bind_param($stmt, "sisss", $userid, $checkbox, $date, $id, $comment);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_close($stmt);
-//header("location:../listdetails.php?id=$id&commentstatus=success");
-//exit();
-?>
-
-<?php
-
+    // Email function - Start here
     // Get the details of the user who submit the comment
     $userid = $_POST['id'];
     $id = $_POST['item_id'];
@@ -59,35 +39,84 @@ mysqli_stmt_close($stmt);
         }
     }
 
-
-$to = $emailAuthor;
-$subject = "A new comment on your idea!";
-$message = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
-                <div style='margin:50px auto;width:70%;padding:20px 0'>
-                <div style='border-bottom:1px solid #eee'>
-                    <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>Tempus</a>
-                </div>
-                <p style='font-size:1.1em'>Hi,</p>
-                <p>There is a new comment posted under your post.[" . $date . "]</p><br>
-                <p>" . $comment . "</p><br>
-                <p>By: " . $nameSender . "</p>
-                <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $msg . "</h2>
-                <p style='font-size:0.9em;'>Regards,<br />Tempus</p>
-                <hr style='border:none;border-top:1px solid #eee' />
-                <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
-                    <p>Footer Pending...</p>
-                </div>
-                </div>
-            </div>";
+// Email for Author - Start here
+$toAuthor = $emailAuthor;
+$subjectAuthor = "A new comment on your idea!";
+if($checkbox == 1)
+{
+    $messageAuthor = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
+    <div style='margin:50px auto;width:70%;padding:20px 0'>
+    <div style='border-bottom:1px solid #eee'>
+        <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
+    </div>
+    <p style='font-size:1.1em'>Hi,</p>
+    <p>There is a new comment posted under your post.[" . $date . "]</p><br>
+    <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $comment . "</h2>
+    <p>By: Anonymous</p>
+    <p style='font-size:0.9em;'>Regards,<br />Tempus</p>
+    <hr style='border:none;border-top:1px solid #eee' />
+    <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
+        <p>GGIT</p>
+        <p>14000 Bukit Mertajam</p>
+        <p>Pulau Pinang</p>
+    </div>
+    </div>
+    </div>";
+}
+else
+if($checkbox == 0)
+{
+    $messageAuthor = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
+    <div style='margin:50px auto;width:70%;padding:20px 0'>
+    <div style='border-bottom:1px solid #eee'>
+        <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
+    </div>
+    <p style='font-size:1.1em'>Hi,</p>
+    <p>There is a new comment posted under your post.[" . $date . "]</p><br>
+    <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $comment . "</h2>
+    <p>By: " . $nameSender . "</p>
+    <p style='font-size:0.9em;'>Regards,<br />Tempus</p>
+    <hr style='border:none;border-top:1px solid #eee' />
+    <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
+        <p>GGIT</p>
+        <p>14000 Bukit Mertajam</p>
+        <p>Pulau Pinang</p>
+    </div>
+    </div>
+    </div>";
+}
 $headers = "Content-type: text/html\r\n";
 
-mail($to, $subject, $message, $headers);
-if(mail($to, $subject, $message, $headers)) {
+if(mail($toAuthor, $subjectAuthor, $messageAuthor, $headers)) {
     echo "<script>alert('try email done');</script>";
     //header("location:../listdetails.php?id=$id&emailstatus=success");
 } else {
     echo "<script>alert('There are some errors in sending the email. Please try again');</script>";
 }
-// Try Email - End here
+// Email for Author - End here
+// Email function - End here
 
+?>
+
+<?php
+//require_once("dbConnection.inc.php");
+//require_once("functions.inc.php");
+
+$userid = $_POST['id'];
+$id = $_POST['item_id'];
+$comment = $_POST['comment'];
+$date = date("Y/m/d");
+$checkbox = $_POST['checkbox'];
+
+$sql = "INSERT INTO comment (user_id,a_status,commentDate,idea_id,comment) VALUES (?,?,?,?,?);";
+$stmt = mysqli_stmt_init($conn);
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location:../listdetails.php?id=$id&commenterror=stmterror2");
+    exit(); //stop
+}
+mysqli_stmt_bind_param($stmt, "sisss", $userid, $checkbox, $date, $id, $comment);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+//header("location:../listdetails.php?id=$id&commentstatus=success");
+//exit();
 ?>

@@ -153,7 +153,8 @@ $(document).ready(function() {
 
         // Send AJAX request to server to update view count in database
         $.ajax({
-            url: '/Web%20Developement/code/includes/viewcount.inc.php',
+            // Change to your own path if the function failed to run
+            url: '/try/EAWD-Group-1/code/includes/viewcount.inc.php',
             method: 'POST',
             data: {
                 item_id: item_id,
@@ -185,7 +186,8 @@ $('.submit-comment').click(function() {
     var item_id = $(this).data('item-id');
     var id = $(this).data('id');
     $.ajax({
-        url: '/Web%20Developement/code/includes/comment.inc.php',
+        // Change to your own path if the function failed to run
+        url: '/try/EAWD-Group-1/code/includes/comment.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -213,7 +215,8 @@ $('.like-button').click(function() {
 
     // Send an HTTP request to the server
     $.ajax({
-        url: '/Web%20Developement/code/includes/like.inc.php',
+        // Change to your own path if the function failed to run
+        url: '/try/EAWD-Group-1/code/includes/like.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -270,7 +273,8 @@ $('.dislike-button').click(function() {
 
     // Send an HTTP request to the server
     $.ajax({
-        url: '/Web%20Developement/code/includes/dislike.inc.php',
+        // Change to your own path if the function failed to run
+        url: '/try/EAWD-Group-1/code/includes/dislike.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
