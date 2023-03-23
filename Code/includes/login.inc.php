@@ -3,6 +3,8 @@ if (isset($_POST['submit'])) {
     $email = $_POST["email"];
     $password = $_POST['password'];
 
+    $_SESSION["email"] = $email;
+
     require_once("dbConnection.inc.php");
     require_once("functions.inc.php");
 

@@ -201,9 +201,9 @@ function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $descri
         move_uploaded_file($img_tempname, $img_upload_path);
         insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title);
         //save db 
-        header("location:../submit.php?status=success");
+        //header("location:../submit.php?status=success");
     } else {
-        header("location:../submit.php?error=wrongfiletype");
+        //header("location:../submit.php?error=wrongfiletype");
         exit();
     }
 }
@@ -213,16 +213,16 @@ function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $
     $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title) VALUES (?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../submit.php?error=stmterror2");
+        //header("location:../submit.php?error=stmterror2");
         exit(); //stop
     }
 
 
     mysqli_stmt_bind_param($stmt, "ssssss", $newpdfname, $categories, $date, $id, $description, $title);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    header("location:../submit.php?error=none");
-    exit();
+    //mysqli_stmt_close($stmt);
+    //header("location:../submit.php?error=none");
+    //exit();
 }
 
 
