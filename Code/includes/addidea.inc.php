@@ -1,27 +1,28 @@
 <?php
-    require_once("dbConnection.inc.php");
-    require_once("functions.inc.php");
+require_once("dbConnection.inc.php");
+require_once("functions.inc.php");
 
 if (isset($_POST['submit'])) {
-    $categories=$_POST['did'];
-    $description=$_POST['description'];
-    $title=$_POST['title'];
-    
+    $categories = $_POST['did'];
+    $description = $_POST['description'];
+    $title = $_POST['title'];
+
+    $astatus = $_POST['checkann'];
+
     $img_name = $_FILES['uploadDocument']['name'];
     $img_size = $_FILES['uploadDocument']['size'];
     $img_tempname = $_FILES['uploadDocument']['tmp_name'];
     $error = $_FILES['uploadDocument']['error'];
-    $id=$_POST['id'];
+    $id = $_POST['id'];
 
-    if($_FILES['uploadDocument']['size'] == 0) {
-      $newpdfname="";
-      $date=date("Y/m/d");
-      insertIdea($id,$categories,$date,$description,$newpdfname,$conn,$title);
+    if ($_FILES['uploadDocument']['size'] == 0) {
+        $newpdfname = "";
+        $date = date("Y/m/d");
+        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus);
+    } else {
+        filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus);
     }
-    else{
-    filevalidationpdf($img_name, $img_tempname, $conn,$categories,$description,$id,$title);
-    }
-  
+
 
   // Email function for Quality Assurance (QA) Coordinator - Start here
   // Queries
@@ -32,20 +33,17 @@ if (isset($_POST['submit'])) {
       }
   }
 
-  // Idea submitted anonymously or not
-  // Start here...
-
   // Retrieve all the email address of Quality Assurance (QA) Coordinator
+  $posQAC = 2;
   $query2 = mysqli_query($conn, 'select * from user where position = "2"');
   if (mysqli_num_rows($query2) > 0) {
       while ($row2 = mysqli_fetch_assoc($query2)) {
           // Assign the value of email to a variable
           $emailQAC = $row2['email'];
-          $nameQAC = $row2['name'];
 
-          // Contents of Email
-          $subjectQAC = "A new idea has been posted by ". $nameAuthor;
-          $messageQAC = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
+            // Contents of Email
+            $subjectQAC = "A new idea has been posted by " . $nameAuthor;
+            $messageQAC = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
           <div style='margin:50px auto;width:70%;padding:20px 0'>
           <div style='border-bottom:1px solid #eee'>
               <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
@@ -65,10 +63,11 @@ if (isset($_POST['submit'])) {
           </div>
           </div>";
 
-          $headers = "Content-type: text/html\r\n";
+            $headers = "Content-type: text/html\r\n";
 
           if(mail($emailQAC, $subjectQAC, $messageQAC, $headers)) {
             echo "<script>alert('Email has been sent.');</script>";
+            //header("location:../listdetails.php?id=$id&emailstatus=success");
         } else {
             echo "<script>alert('There are some errors in sending the email. Please try again');</script>";
         }
@@ -77,4 +76,3 @@ if (isset($_POST['submit'])) {
   // Email function for Quality Assurance (QA) Coordinator - End here
   header("location:../submit.php?status=success");
 }
-?>
