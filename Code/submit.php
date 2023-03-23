@@ -17,16 +17,16 @@ $resultCheck = mysqli_num_rows($result);
         <?php
         if ($resultCheck > 0) {
         ?>
-        <select name="did">
-            <?php
+            <select name="did">
+                <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                     $id = $row["categories_id"];
                 ?>
-            <option value="<?php echo $id ?>"><?php echo $row['categories'] ?></option>
-            <?php
+                    <option value="<?php echo $id ?>"><?php echo $row['categories'] ?></option>
+                <?php
                 }
                 ?>
-        </select>
+            </select>
 
         <?php
         }
@@ -47,9 +47,14 @@ $resultCheck = mysqli_num_rows($result);
         <label style="color:red">Please upload the file in PDF(Not necessary to upload document)</label>
         <input type="file" name="uploadDocument" />
         <br />
+
+        <input type="checkbox" class="checkann"><span>Do you want post it as annoymous</span>
+        <br /> <br />
         <label>Please read the term and condition and check the box:</label>
         <br />
         <input type="checkbox" name="checkbox" required />
+
+
         <a href="term.php">Term and condition</a>
         <input name="id" type="hidden" value="<?php echo $_SESSION['id'] ?>" />
         <br />
