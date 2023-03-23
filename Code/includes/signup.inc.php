@@ -6,7 +6,7 @@ if (isset($_POST["submit"])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $repeatpassword = $_POST['repassword'];
-
+    $department = $_POST['did'];
     require_once("dbConnection.inc.php");
     require_once("functions.inc.php");
 
@@ -31,7 +31,7 @@ if (isset($_POST["submit"])) {
         exit(); //stop
     }
 
-    createUser($conn, $name, $email, $password);
+    createUser($conn, $name, $email, $password, $department);
 } else {
     header("location:../signup.php");
 }
