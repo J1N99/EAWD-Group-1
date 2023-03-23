@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2023 at 04:11 AM
+-- Generation Time: Mar 23, 2023 at 06:00 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -62,7 +62,30 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`comment_id`, `user_id`, `a_status`, `commentDate`, `idea_id`, `comment`) VALUES
-(1, 5, 0, '2023-03-07', 5, 'This is a comment ');
+(1, 5, 0, '2023-03-07', 5, 'This is a comment '),
+(2, 5, 1, '2023-03-16', 5, 'This is a new comment'),
+(3, 5, 1, '2023-03-16', 5, 'This is try new coment'),
+(4, 5, 0, '2023-03-18', 5, 'This is new cooment'),
+(5, 5, 1, '2023-03-18', 5, 'This is another new comment');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `department_id` int(11) NOT NULL,
+  `department` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`department_id`, `department`) VALUES
+(3, 'computer'),
+(4, 'finance');
 
 -- --------------------------------------------------------
 
@@ -93,7 +116,7 @@ INSERT INTO `idea` (`idea_id`, `document_url`, `a_status`, `categories_id`, `clo
 (2, 'pdf-6405fe6cd75d90.43371750.pdf', 0, 9, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Complain', 'Table 2'),
 (3, '', 0, 10, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Test Empty', 'Table 3'),
 (4, 'pdf-64060175056090.80554375.pdf', 0, 9, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Test files', 'Table 4'),
-(5, 'pdf-6406087ed57de7.80537377.pdf', 0, 9, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'table no use', 'Table 5');
+(5, 'pdf-6406087ed57de7.80537377.pdf', 0, 9, '0000-00-00', '0000-00-00', 69, '2023-03-06', 5, 'table no use', 'Table 5');
 
 -- --------------------------------------------------------
 
@@ -114,10 +137,8 @@ CREATE TABLE `likepost` (
 --
 
 INSERT INTO `likepost` (`likepost_id`, `idea_id`, `user_id`, `t_up`, `t_down`) VALUES
-(2, 5, 6, 1, 0),
-(3, 4, 6, 0, 1),
-(14, 1, 5, 1, 0),
-(15, 5, 5, 1, 0);
+(23, 5, 3, 1, 0),
+(24, 5, 5, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +150,7 @@ CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `position` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `department` varchar(100) NOT NULL,
+  `department` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -139,9 +160,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `position`, `name`, `department`, `email`, `password`) VALUES
-(1, 1, 'Ang Wei Jin', 'staff', '', ''),
-(5, 1, 'Chooi Chee Kean', 'staff', 'cheekean2013@gmail.com', '$2y$10$cZeewRPT.CVevunj5JgiLe0aU0COOnABu4MpYoIBSdKUcQtTDaHxG'),
-(6, 1, 'Voon Chen Ning', 'staff', 'cn06@gmail.com', '$2y$10$bthRSvrCiBasixd4qgdydODo59NcOgZjesQv.hTHkFAw0e5RSeoh.');
+(1, 1, 'Ang Wei Jin', 0, '', ''),
+(5, 1, 'Chooi Chee Kean', 0, 'cheekean2013@gmail.com', '$2y$10$cZeewRPT.CVevunj5JgiLe0aU0COOnABu4MpYoIBSdKUcQtTDaHxG'),
+(6, 1, 'Voon Chen Ning', 0, 'cn06@gmail.com', '$2y$10$bthRSvrCiBasixd4qgdydODo59NcOgZjesQv.hTHkFAw0e5RSeoh.'),
+(7, 1, 'Ooi Kel Vin', 3, 'mambamentality9925@gmail.com', '$2y$10$i3gpSbnvj43y2OpKeFbH9ObDHHfzswRNxdAaZSOvSvmSU3W13EyiW');
 
 --
 -- Indexes for dumped tables
@@ -158,6 +180,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`comment_id`);
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`department_id`);
 
 --
 -- Indexes for table `idea`
@@ -191,7 +219,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `idea`
@@ -203,13 +237,13 @@ ALTER TABLE `idea`
 -- AUTO_INCREMENT for table `likepost`
 --
 ALTER TABLE `likepost`
-  MODIFY `likepost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `likepost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
