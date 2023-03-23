@@ -32,13 +32,16 @@ if (isset($_POST['submit'])) {
       }
   }
 
+  // Idea submitted anonymously or not
+  // Start here...
+
   // Retrieve all the email address of Quality Assurance (QA) Coordinator
-  $posQAC = 2;
   $query2 = mysqli_query($conn, 'select * from user where position = "2"');
   if (mysqli_num_rows($query2) > 0) {
       while ($row2 = mysqli_fetch_assoc($query2)) {
           // Assign the value of email to a variable
           $emailQAC = $row2['email'];
+          $nameQAC = $row2['name'];
 
           // Contents of Email
           $subjectQAC = "A new idea has been posted by ". $nameAuthor;
@@ -47,8 +50,8 @@ if (isset($_POST['submit'])) {
           <div style='border-bottom:1px solid #eee'>
               <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
           </div>
-          <p style='font-size:1.1em'>Hi,</p>
-          <p>Date: [" . $date . "]</p><br>
+          <p style='font-size:1.1em'>Hi, [" . $nameQAC . "]</p>
+          <p>Date: " . $date . "</p><br>
           <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
           <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
           <p>Posted By: " . $nameAuthor . "</p>
@@ -66,7 +69,6 @@ if (isset($_POST['submit'])) {
 
           if(mail($emailQAC, $subjectQAC, $messageQAC, $headers)) {
             echo "<script>alert('Email has been sent.');</script>";
-            //header("location:../listdetails.php?id=$id&emailstatus=success");
         } else {
             echo "<script>alert('There are some errors in sending the email. Please try again');</script>";
         }
