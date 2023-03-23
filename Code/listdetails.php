@@ -50,7 +50,7 @@ if ($resultCheck > 0) {
     $resultClike = mysqli_query($conn, $sqlCheckLike);
     $resultCheckLike = mysqli_num_rows($resultClike);
     $rowCheckLike = mysqli_fetch_assoc($resultClike);
-    if ($resultCheckLike>0) {
+    if ($resultCheckLike > 0) {
         if ($rowCheckLike['t_up'] == 0) {
     ?>
 <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
@@ -76,8 +76,7 @@ if ($resultCheck > 0) {
 <?php
 
         }
-    }
-    else{
+    } else {
         ?>
 <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
     data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
@@ -154,7 +153,7 @@ $(document).ready(function() {
         // Send AJAX request to server to update view count in database
         $.ajax({
             // Change to your own path if the function failed to run
-            url: '/try/EAWD-Group-1/code/includes/viewcount.inc.php',
+            url: '/Web%20Developement/Code/includes/viewcount.inc.php',
             method: 'POST',
             data: {
                 item_id: item_id,
@@ -187,7 +186,7 @@ $('.submit-comment').click(function() {
     var id = $(this).data('id');
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/try/EAWD-Group-1/code/includes/comment.inc.php',
+        url: '/Web%20Developement/Code/includes/comment.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -216,7 +215,7 @@ $('.like-button').click(function() {
     // Send an HTTP request to the server
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/try/EAWD-Group-1/code/includes/like.inc.php',
+        url: '/Web%20Developement/Code/includes/like.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -274,7 +273,7 @@ $('.dislike-button').click(function() {
     // Send an HTTP request to the server
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/try/EAWD-Group-1/code/includes/dislike.inc.php',
+        url: '/Web%20Developement/Code/includes/dislike.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,

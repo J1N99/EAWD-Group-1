@@ -1,5 +1,9 @@
 <?php
 include("header.php");
+include("includes/dbConnection.inc.php");
+$sql = "SELECT * FROM department";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
 ?>
 
 <form action="includes/signup.inc.php" method="post">
@@ -14,6 +18,26 @@ include("header.php");
         <label>Email</label>
         <input type="email" name="email" placeholder="Email">
     </div>
+
+    <!--start of department-->
+
+    <?php
+    if ($resultCheck > 0) {
+    ?>
+        <label>Department:</label>
+        <select name="did">
+            <?php
+            while ($row = mysqli_fetch_assoc($result)) {
+                $id = $row["department_id"];
+            ?>
+                <option value="<?php echo $id ?>"><?php echo $row['department'] ?></option>
+            <?php
+            }
+
+            ?>
+        </select>
+    <?php
+    } ?>
     <div>
         <label>Password</label>
         <input type="password" name="password" placeholder="Password">
