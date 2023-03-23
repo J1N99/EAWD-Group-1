@@ -42,26 +42,53 @@ if (isset($_POST['submit'])) {
           $emailQAC = $row2['email'];
 
             // Contents of Email
-            $subjectQAC = "A new idea has been posted by " . $nameAuthor;
-            $messageQAC = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
-          <div style='margin:50px auto;width:70%;padding:20px 0'>
-          <div style='border-bottom:1px solid #eee'>
-              <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
-          </div>
-          <p style='font-size:1.1em'>Hi, [" . $nameQAC . "]</p>
-          <p>Date: " . $date . "</p><br>
-          <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
-          <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
-          <p>Posted By: " . $nameAuthor . "</p>
-          <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
-          <hr style='border:none;border-top:1px solid #eee' />
-          <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
-              <p>GGIT</p>
-              <p>14000 Bukit Mertajam</p>
-              <p>Pulau Pinang</p>
-          </div>
-          </div>
-          </div>";
+            $subjectQAC = "A new idea has been posted";
+            if($astatus == 1)
+            {
+              $messageQAC = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
+              <div style='margin:50px auto;width:70%;padding:20px 0'>
+              <div style='border-bottom:1px solid #eee'>
+                  <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
+              </div>
+              <p style='font-size:1.1em'>Hi, [" . $nameQAC . "]</p>
+              <p>Date: " . $date . "</p><br>
+              <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
+              <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
+              <p>Posted By: Anonymous</p>
+              <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
+              <hr style='border:none;border-top:1px solid #eee' />
+              <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
+                  <p>GGIT</p>
+                  <p>14000 Bukit Mertajam</p>
+                  <p>Pulau Pinang</p>
+              </div>
+              </div>
+              </div>";
+            }
+            else
+            if($astatus == 0)
+            {
+              $messageQAC = "<div style='font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;border:1px solid black'>
+              <div style='margin:50px auto;width:70%;padding:20px 0'>
+              <div style='border-bottom:1px solid #eee'>
+                  <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
+              </div>
+              <p style='font-size:1.1em'>Hi, [" . $nameQAC . "]</p>
+              <p>Date: " . $date . "</p><br>
+              <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
+              <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
+              <p>Posted By: " . $nameAuthor . "</p>
+              <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
+              <hr style='border:none;border-top:1px solid #eee' />
+              <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
+                  <p>GGIT</p>
+                  <p>14000 Bukit Mertajam</p>
+                  <p>Pulau Pinang</p>
+              </div>
+              </div>
+              </div>";
+            }
+
 
             $headers = "Content-type: text/html\r\n";
 
