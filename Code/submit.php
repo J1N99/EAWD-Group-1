@@ -48,7 +48,7 @@ $resultCheck = mysqli_num_rows($result);
         <input type="file" name="uploadDocument" />
         <br />
 
-        <input type="checkbox" class="checkann"><span>Do you want post it as annoymous</span>
+        <input type="checkbox" name="checkann" value="1"><span>Do you want post it as annoymous</span>
         <br /> <br />
         <label>Please read the term and condition and check the box:</label>
         <br />
