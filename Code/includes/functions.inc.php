@@ -182,7 +182,7 @@ function deleteCategories($conn, $id)
 }
 
 
-function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus)
+function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus, $title_id)
 {
 
 
@@ -199,7 +199,7 @@ function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $descri
         $newpdfname = uniqid("pdf-", true) . '.' . $filetypelower;
         $img_upload_path = "../uploads/" . $newpdfname;
         move_uploaded_file($img_tempname, $img_upload_path);
-        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus);
+        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id);
         //save db 
         //header("location:../submit.php?status=success");
     } else {
@@ -207,11 +207,11 @@ function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $descri
         exit();
     }
 }
-function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus)
+function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id)
 {
 
 
-    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title,a_status) VALUES (?,?,?,?,?,?,?);";
+    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title,a_status,title_id) VALUES (?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         //header("location:../submit.php?error=stmterror2");
@@ -219,7 +219,7 @@ function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $
     }
 
 
-    mysqli_stmt_bind_param($stmt, "ssssssi", $newpdfname, $categories, $date, $id, $description, $title, $astatus);
+    mysqli_stmt_bind_param($stmt, "ssssssii", $newpdfname, $categories, $date, $id, $description, $title, $astatus, $title_id);
     mysqli_stmt_execute($stmt);
     //mysqli_stmt_close($stmt);
     //header("location:../submit.php?error=none");
@@ -275,5 +275,26 @@ function deletedepartment($conn, $id)
         header("Location:../admin/adddepartment.php?error=deletefail");
     } else {
         header("location:../admin/adddepartment.php?error=none");
+    }
+}
+
+
+function createTitle($conn, $title, $closeDate, $FinalCloseDate)
+{
+
+    if (strtotime($closeDate) > strtotime($FinalCloseDate)) {
+        header("Location:../admin/addtitle.php?closedate=bigger");
+    } else {
+        $sql = "INSERT INTO title (title,closeDate,finalCloseDate) VALUES (?,?,?);";
+        $stmt = mysqli_stmt_init($conn);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location:../admin/addtitle.php?error=stmterror2");
+            exit(); //stop
+        }
+        mysqli_stmt_bind_param($stmt, "sss", $title, $closeDate, $FinalCloseDate);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        header("location:../admin/addtitle.php?error=none");
+        exit();
     }
 }

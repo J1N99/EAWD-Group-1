@@ -14,13 +14,13 @@ if (isset($_POST['submit'])) {
     $img_tempname = $_FILES['uploadDocument']['tmp_name'];
     $error = $_FILES['uploadDocument']['error'];
     $id = $_POST['id'];
-
+    $title_id = $_POST['title_id'];
     if ($_FILES['uploadDocument']['size'] == 0) {
         $newpdfname = "";
         $date = date("Y/m/d");
-        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus);
+        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id);
     } else {
-        filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus);
+        filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus, $title_id);
     }
 
 
