@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2023 at 06:00 AM
+-- Generation Time: Mar 23, 2023 at 09:29 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -98,25 +98,29 @@ CREATE TABLE `idea` (
   `document_url` varchar(100) NOT NULL,
   `a_status` int(11) NOT NULL,
   `categories_id` int(11) NOT NULL,
-  `closeDate` date NOT NULL,
-  `finalCloseDate` date NOT NULL,
   `views` int(11) NOT NULL,
   `submitDate` date NOT NULL,
   `user_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `title_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `idea`
 --
 
-INSERT INTO `idea` (`idea_id`, `document_url`, `a_status`, `categories_id`, `closeDate`, `finalCloseDate`, `views`, `submitDate`, `user_id`, `description`, `title`) VALUES
-(1, 'pdf-6405fe1524ddb1.31561392.pdf', 0, 8, '0000-00-00', '0000-00-00', 0, '0000-00-00', 5, 'test', 'Table 1'),
-(2, 'pdf-6405fe6cd75d90.43371750.pdf', 0, 9, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Complain', 'Table 2'),
-(3, '', 0, 10, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Test Empty', 'Table 3'),
-(4, 'pdf-64060175056090.80554375.pdf', 0, 9, '0000-00-00', '0000-00-00', 0, '2023-03-06', 5, 'Test files', 'Table 4'),
-(5, 'pdf-6406087ed57de7.80537377.pdf', 0, 9, '0000-00-00', '0000-00-00', 69, '2023-03-06', 5, 'table no use', 'Table 5');
+INSERT INTO `idea` (`idea_id`, `document_url`, `a_status`, `categories_id`, `views`, `submitDate`, `user_id`, `description`, `title`, `title_id`) VALUES
+(1, 'pdf-6405fe1524ddb1.31561392.pdf', 0, 8, 0, '0000-00-00', 5, 'test', 'Table 1', 0),
+(2, 'pdf-6405fe6cd75d90.43371750.pdf', 0, 9, 0, '2023-03-06', 5, 'Complain', 'Table 2', 0),
+(3, '', 0, 10, 0, '2023-03-06', 5, 'Test Empty', 'Table 3', 0),
+(4, 'pdf-64060175056090.80554375.pdf', 0, 9, 0, '2023-03-06', 5, 'Test files', 'Table 4', 0),
+(5, 'pdf-6406087ed57de7.80537377.pdf', 0, 9, 85, '2023-03-06', 5, 'table no use', 'Table 5', 1),
+(6, '', 1, 8, 10, '2023-03-23', 5, 'Des', 'Title', 0),
+(7, '', 1, 8, 1, '2023-03-23', 5, 'Des', 'Title 3', 0),
+(8, '', 1, 9, 0, '2023-03-23', 5, 'Test title id', 'Complain', 0),
+(9, '', 1, 10, 0, '2023-03-23', 5, 'Test title id', 'Title', 4),
+(10, '', 1, 8, 0, '2023-03-23', 5, 'Test and see', 'Test ', 4);
 
 -- --------------------------------------------------------
 
@@ -139,6 +143,27 @@ CREATE TABLE `likepost` (
 INSERT INTO `likepost` (`likepost_id`, `idea_id`, `user_id`, `t_up`, `t_down`) VALUES
 (23, 5, 3, 1, 0),
 (24, 5, 5, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `title`
+--
+
+CREATE TABLE `title` (
+  `title_id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `closeDate` date NOT NULL,
+  `finalCloseDate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `title`
+--
+
+INSERT INTO `title` (`title_id`, `title`, `closeDate`, `finalCloseDate`) VALUES
+(4, 'Title', '2023-03-30', '2023-05-04'),
+(5, 'Test final', '2023-03-23', '2023-04-06');
 
 -- --------------------------------------------------------
 
@@ -200,6 +225,12 @@ ALTER TABLE `likepost`
   ADD PRIMARY KEY (`likepost_id`);
 
 --
+-- Indexes for table `title`
+--
+ALTER TABLE `title`
+  ADD PRIMARY KEY (`title_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -231,13 +262,19 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `idea`
 --
 ALTER TABLE `idea`
-  MODIFY `idea_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idea_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `likepost`
 --
 ALTER TABLE `likepost`
   MODIFY `likepost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `title`
+--
+ALTER TABLE `title`
+  MODIFY `title_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
