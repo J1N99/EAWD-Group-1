@@ -215,7 +215,7 @@ function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         //header("location:../submit.php?error=stmterror2");
-        exit(); //stop
+        //exit(); //stop
     }
 
 
