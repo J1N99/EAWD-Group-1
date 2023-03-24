@@ -242,43 +242,72 @@ include("../../includes/dbConnection.inc.php");
             </div>
             <!-- post card end -->
           </div>
+
+           <!--reply content-->          
+          <div class="d-flex flex-start mt-4">
+            <div class="flex-grow-1 flex-shrink-1">
+              <div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="mb-1">
+                    Simona Disa <span class="small">- 3 hours ago</span>
+                  </p>
+                </div>
+                <p class="card-text mb-0">
+                  letters, as opposed to using 'Content here, content here',
+                  making it look like readable English.
+                </p>
+              </div>                      
+            </div>
+          </div>
+
+          <hr class="hr hr-blurry" />
+          <div class="d-flex flex-start mt-4">
+            <div class="flex-grow-1 flex-shrink-1">
+              <div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="mb-1">
+                    Simona Disa <span class="small">- 3 hours ago</span>
+                  </p>
+                </div>
+                <p class="card-text mb-0">
+                  letters, as opposed to using 'Content here, content here',
+                  making it look like readable English.
+                </p>
+              </div>                      
+            </div>
+          </div>
+          <!-- reply content end -->
+          
         </div>
         <!-- navbar end -->
 
+                 
 
-
-
-
-
-
-
-                            
-
-                  <!--modal dialog-->
-                  <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="replyModalLabel">New message</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <form>
-                            <div class="mb-3">
-                              <label for="message-text" class="col-form-label">Message:</label>
-                              <textarea class="form-control" id="message-text"></textarea>
-                              <label class="form-check-label" for="anonymousBox">Anonymous</label>
-                              <input class="form-check-input ms-2 me-2" type="checkbox" value="" id="anonymousBox" />                                 
-                            </div>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Send message</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div> 
+        <!--modal dialog-->
+        <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="replyModalLabel">New message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Message:</label>
+                    <textarea class="form-control" id="message-text"></textarea>
+                    <label class="form-check-label" for="anonymousBox">Anonymous</label>
+                    <input class="form-check-input ms-2 me-2" type="checkbox" value="" id="anonymousBox" />                                 
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+              </div>
+            </div>
+          </div>
+        </div> 
 
 
 
