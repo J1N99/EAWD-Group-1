@@ -5,7 +5,7 @@ if (isset($_POST['submit'])) {
     require_once("functions.inc.php");
 
     if (categoriestaken($conn, $categories) !== false) {
-        header("location:../admin/addcategories.php?error=categoriestaken");
+        header("location:../position/QA-Manager/category.php?error=categoriestaken");
         exit(); //stop
     }
 

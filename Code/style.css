@@ -1,0 +1,137 @@
+:root {
+    --main-bg-color: #e8e8e8;
+    --main-text-color: #494848;
+    --second-text-color: #bbbec5;    
+    --second-bg-color: #313131;
+    --border-color: #aaaaaa;
+    --icon-bg-color: #d0d3d2;    
+}
+
+.btn.btn-primary {
+    background: #6c5ce7;
+    border-color: #6c5ce7;
+    color: #fff;
+}
+
+.btn.btn-primary:hover, .btn.btn-primary:focus {
+    border-color: #4430e0 !important;
+    background: #4430e0 !important;
+}
+
+.btn .icon.icon-primary {
+    background: #6c5ce7;
+}
+
+.btn.btn-secondary {
+    color: #fff; 
+    border-color: var(--border-color);
+    background: var(--second-bg-color);
+}
+
+btn.btn-secondary:hover, .btn.btn-secondary:focus {
+    border-color: var(--main-bg-color) !important;
+    background: #444242 !important;
+}
+
+.btn .icon.icon-secondary {
+    background: var(--icon-bg-color) !important;
+}
+
+.icon-background {
+    background: var(--icon-bg-color);
+}
+
+.primary-text {
+    color: var(--main-text-color);
+}
+
+.second-text {
+    color: var(--second-text-color) !important;
+}
+
+.primary-bg {
+    background-color: var(--main-bg-color);
+}
+
+.secondary-bg {
+    background-color: var(--second-bg-color);
+}
+
+.rounded-full {
+    border-radius: 100%;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    background-color: var(--main-bg-color);
+    min-height: 100vh;   
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+.navbar {
+    border-bottom: 1px solid rgb(181, 181, 181) ;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+#menu-toggle {
+    cursor: pointer;
+}
+
+.list-group-item {
+    border: none;
+    padding: 20px 30px;
+}
+
+.list-group-item.active {
+    background-color: transparent !important;
+    color: var(--main-text-color) !important;
+    font-weight: bold;
+    border: none;
+}
+
+@media (min-width:768px ) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }    
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+
+@media (min-width:576px ) { 
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+ }
+
+ body {
+    font-family: 'Montserrat' !important;
+ }

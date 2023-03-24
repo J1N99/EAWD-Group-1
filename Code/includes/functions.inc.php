@@ -124,7 +124,7 @@ function loginuser($conn, $email, $password)
         $_SESSION['email'] = $uidexists["email"];
         if ($_SESSION['position'] == 1) {
             // if position is  QA manager redirect to admin pages;
-            header("location:../admin/index.php");
+            header("location:../position/QA-Manager/dashboard.php");
         } else {
             header("location:../index.php");
         }
@@ -138,7 +138,7 @@ function categoriestaken($conn, $categories)
     $sql = "SELECT * FROM categories WHERE categories=?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../admin/addcategories.php?error=stmterror1");
+        header("location:../position/QA-Manager/category.php?error=stmterror1");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $categories);
@@ -160,24 +160,26 @@ function createCategories($conn, $categories)
     $sql = "INSERT INTO categories (categories) VALUES (?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../admin/addcategories.php?error=stmterror2");
+        header("location:../position/QA-Manager/category.php?error=stmterror2");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $lowerCategories);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location:../admin/addcategories.php?error=none");
+    header("location:../position/QA-Manager/category.php?error=none");
     exit();
 }
 
 function deleteCategories($conn, $id)
 {
+    console.log($id);
+    
     $sql = "DELETE FROM categories WHERE categories_id=$id";
 
     if (!mysqli_query($conn, $sql)) {
-        header("Location:../admin/addcategories.php?error=deletecartfail");
+        header("Location:../position/QA-Manager/category.php?error=deletecartfail");
     } else {
-        header("location:../admin/addcategories.php?error=none");
+        header("location:../position/QA-Manager/category.php?error=none");
     }
 }
 
@@ -232,7 +234,7 @@ function departmenttaken($conn, $department)
     $sql = "SELECT * FROM department WHERE department=?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../admin/adddepartment.php?error=stmterror1");
+        header("location:../position/adddepartment.php?error=stmterror1");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $department);
@@ -255,13 +257,13 @@ function createdepartment($conn, $department)
     $sql = "INSERT INTO department (department) VALUES (?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../admin/adddepartment.php?error=stmterror2");
+        header("location:../position/adddepartment.php?error=stmterror2");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $lowerDepartment);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location:../admin/adddepartment.php?error=none");
+    header("location:../position/adddepartment.php?error=none");
     exit();
 }
 
@@ -271,8 +273,8 @@ function deletedepartment($conn, $id)
     $sql = "DELETE FROM department WHERE department_id=$id";
 
     if (!mysqli_query($conn, $sql)) {
-        header("Location:../admin/adddepartment.php?error=deletefail");
+        header("Location:../position/adddepartment.php?error=deletefail");
     } else {
-        header("location:../admin/adddepartment.php?error=none");
+        header("location:../position/adddepartment.php?error=none");
     }
 }

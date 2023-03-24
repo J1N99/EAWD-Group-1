@@ -1,22 +1,6 @@
 <?php
 include("header.php");
 ?>
-<h1>
-    <?php
-    echo "Hello World!";
-    echo "XXX";
-    echo "XXX";
-    echo "XXX";
-    echo "XXX";
-
-
-
-
-
-    ?>
-    <br>
-</h1>
-
 
 <marquee>SEND HELP!!</marquee>
 <h2>

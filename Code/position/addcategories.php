@@ -7,7 +7,7 @@ $resultCheck = mysqli_num_rows($result);
 ?>
 
 <!-- add categories-->
-<form action="../includes/addcategories.inc.php" method="post" enctype="multipart/form-data">
+<form action="../../includes/addcategories.inc.php" method="post" enctype="multipart/form-data">
     <div class="">
 
         <label>categories</label>
@@ -16,13 +16,21 @@ $resultCheck = mysqli_num_rows($result);
     </div>
 </form>
 
+<form action="../../includes/addcategories.inc.php" method="post" enctype="multipart/form-data">
+    <div class="input-group flex-row-reverse my-4">
+        <button type="button" name="submit" class="btn btn-secondary me-4">Add Category</button>      
+        <input type="text" name="categories" id="category" placeholder="categories" required>                          
+    </div>
+</form>
+
+
+
 
 
 
 <div class="">
-    <form action="../includes/deletecategories.inc.php" method="post">
+    <form action="../../includes/deletecategories.inc.php" method="post">
         <!-- deleted id-->
-
 
         <?php
                 if ($resultCheck > 0) {
@@ -49,6 +57,18 @@ $resultCheck = mysqli_num_rows($result);
     </form>
 
 
+    <?php
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $id= $row["categories_id"];
+                    echo $id;
+                    echo $row['categories'];
+                }
+            } else {
+                echo "This is no data on the option";
+            }
+
+        ?>
 
 
 
