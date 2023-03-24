@@ -25,7 +25,7 @@ if ($resultCheck > 0) {
     $sql = "INSERT INTO likepost (idea_id,user_id,t_up,t_down) VALUES (?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../listdetails.php?id=$id&error=stmterror2");
+        header("location:../position/Staff/idea-detail.php?id=$id&error=stmterror2");
         exit(); //stop
     }
 
@@ -33,6 +33,6 @@ if ($resultCheck > 0) {
     mysqli_stmt_bind_param($stmt, "ssss", $id, $userid, $up, $down);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location:../listdetails.php?id=$id&status=success");
+    header("location:../position/Staff/idea-detail.php?id=$id&status=success");
     exit();
 }

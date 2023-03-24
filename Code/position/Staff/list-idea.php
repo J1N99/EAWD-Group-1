@@ -15,7 +15,7 @@ include("../../includes/dbConnection.inc.php");
 
         <div class="list-group list-group-flush my-3">
 
-            <a href="#" class="list-group-item list-group-item-action second-text fw-bold active">
+            <a href="./dashboard.php" class="list-group-item list-group-item-action second-text fw-bold active">
                 <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
             </a>
 
@@ -160,7 +160,7 @@ include("../../includes/dbConnection.inc.php");
                         <br><?php echo "Category:" . $categories ?>
                         <br><?php echo "Department:" . $department ?>
                     </p>
-                    <a href="#" class="btn btn-secondary">Read More</a>
+                    <a href="../../listdetails.php?id=<?php echo $id?>" class="btn btn-secondary">Read More</a>
                 </div>
             </div>
             <?php

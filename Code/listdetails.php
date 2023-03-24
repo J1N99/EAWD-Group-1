@@ -52,39 +52,41 @@ if ($resultCheck > 0) {
     $rowCheckLike = mysqli_fetch_assoc($resultClike);
     if ($resultCheckLike > 0) {
         if ($rowCheckLike['t_up'] == 0) {
-    ?>
-<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
+?>
+            <!--like function-->
+            <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+            data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
 <?php
         } else {
-        ?>
-<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Liked" />
+?>
+            <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+            data-id="<?php echo $_SESSION['id'] ?>" value="Liked" />
 <?php
         }
 
         if ($rowCheckLike['t_down'] == 0) {
-        ?>
-<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
+?>
+            <!--dislike function-->
+            <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+            data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
 <?php
         } else {
-        ?>
+?>
 
-<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Disliked" />
+            <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+            data-id="<?php echo $_SESSION['id'] ?>" value="Disliked" />
 <?php
 
         }
     } else {
-        ?>
-<input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
-<input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
+?>
+        <input type="button" class="like-button" data-item-id="<?php echo $_GET['id'] ?>"
+        data-id="<?php echo $_SESSION['id'] ?>" value="Like" />
+        <input type="button" class="dislike-button" data-item-id="<?php echo $_GET['id'] ?>"
+        data-id="<?php echo $_SESSION['id'] ?>" value="Dislike" />
 <?php
     }
-    ?>
+?>
 
 
 
@@ -215,7 +217,7 @@ $('.like-button').click(function() {
     // Send an HTTP request to the server
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/Web%20Developement/Code/includes/like.inc.php',
+        url: './includes/like.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
