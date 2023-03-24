@@ -147,6 +147,9 @@ include("../../includes/dbConnection.inc.php");
                         } else {
                       ?>
 
+                    <div class="d-flex justify-content-between align-items-center">
+                    <!-- button group start -->
+                    <div class="btn-group ma-0">
                       <button type="button" class="btn btn-sm btn-outline-secondary"
                         id="like-button"  value="Liked"
                         data-item-id="<?php echo $_GET['id'] ?>"
@@ -217,7 +220,7 @@ include("../../includes/dbConnection.inc.php");
                       <button type="button" class="btn btn-sm btn-outline-secondary"
                         onclick="window.location.href='../../uploads/<?php echo $url?>'">
                         <i class="far fa-file">
-                        <span class="ms-1  dislike-value">Download</span>
+                        <span class="ms-1">Download</span>
                         </i>                        
                       </button>
 
@@ -277,7 +280,7 @@ include("../../includes/dbConnection.inc.php");
             </div>
           </div>
           <!-- reply content end -->
-          
+
         </div>
         <!-- navbar end -->
 
@@ -421,7 +424,7 @@ include("../../includes/dbConnection.inc.php");
                     var newlike = likevalue - 1;
 
                     $(".like").text(newlike);
-                    $(".dislike-button").val("Disliked");
+                    $("#dislike-button").val("Disliked");
                     $('#like-button').val('Like');
                 }
             },
