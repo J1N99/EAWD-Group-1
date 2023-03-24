@@ -162,7 +162,7 @@ include("../../includes/dbConnection.inc.php");
                                     $t_down=$row['sum(t_down)'];                                    
                         ?>
                         <tr>
-                            <td><a href="listdetails.php?id=<?php echo $id?>"><?php echo $title?></td>
+                            <td><a href="../../listdetails.php?id=<?php echo $id?>"><?php echo $title?></td>
                             <td>
                                 <?php
                                     if ($t_up==null) {

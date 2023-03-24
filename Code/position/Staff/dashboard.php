@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="./css/dashboard.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <title>DashBoard</title>
-</head>
-<body>
+<?php
+include("../../header.php");
+?>
+
+<link rel="stylesheet" href="../../style.css">
 
     <div class="d-flex" id="wrapper">
 
@@ -69,67 +61,61 @@
                 
                 <div class="container">
                     <div class="text-center my-5">
-                        <h1>All Ideas</h1> <hr/>
+                        <h1>All Title</h1> <hr/>
                     </div>
                     
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">
-                                <img src="../images/fan_art.png" alt="image" class="img-fluid">
-
+                            <div class="card mb-5 shadow-sm">                                
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <h2>Ideas Post</h2>
+                                        <h2>Title Post</h2>
                                     </div>
                                     <div class="card-text">
-                                        <p>This is text with a little bit description.</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Posted Date: xx/xx/xxxx</span>
-                                        <a href="./idea-detail.html" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>
+                                        <p>How to increase the reputation?</p>
+                                        <p>Posted Date: xx/xx/xxxx</p>
+                                        <p>Closure Date: xx/xx/xxxx</p>
+                                        <p>Final Closure Date: xx/xx/xxxx</p>
+                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
+                                    </div>                                                                                                       
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">
-                                <img src="../images/dyogrammaton.jpg" alt="image" class="img-fluid">
-
+                            <div class="card mb-5 shadow-sm">                                
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <h2>Ideas Post</h2>
+                                        <h2>Title Post</h2>
                                     </div>
                                     <div class="card-text">
-                                        <p>This is text with a little bit description.</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Posted Date: xx/xx/xxxx</span>
-                                        <a href="./idea-detail.html" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>
+                                        <p>How to increase the reputation?</p>
+                                        <p>Posted Date: xx/xx/xxxx</p>
+                                        <p>Closure Date: xx/xx/xxxx</p>
+                                        <p>Final Closure Date: xx/xx/xxxx</p>
+                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
+                                    </div>                                                                                                       
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">
-                                <img src="../images/succubus queen.jpg" alt="image" class="img-fluid">
-
+                            <div class="card mb-5 shadow-sm">                                
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <h2>Ideas Post</h2>
+                                        <h2>Title Post</h2>
                                     </div>
                                     <div class="card-text">
-                                        <p>This is text with a little bit description.</p>
-                                    </div>                                    
-                                    <div class="d-flex justify-content-between">
-                                        <span>Posted Date: xx/xx/xxxx</span>
-                                        <a href="#" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>
-                                    
+                                        <p>How to increase the reputation?</p>
+                                        <p>Posted Date: xx/xx/xxxx</p>
+                                        <p>Closure Date: xx/xx/xxxx</p>
+                                        <p>Final Closure Date: xx/xx/xxxx</p>
+                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
+                                    </div>                                                                                                       
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row">
@@ -144,5 +130,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="../../script.js"></script>
-</body>
-</html>
+    
+
+<?php
+include("../../footer.php");
+?>
