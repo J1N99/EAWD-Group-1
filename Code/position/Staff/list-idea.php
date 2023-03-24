@@ -160,7 +160,7 @@ include("../../includes/dbConnection.inc.php");
                         <br><?php echo "Category:" . $categories ?>
                         <br><?php echo "Department:" . $department ?>
                     </p>
-                    <a href="../../listdetails.php?id=<?php echo $id?>" class="btn btn-secondary">Read More</a>
+                    <a href="./idea-detail.php?id=<?php echo $id?>" class="btn btn-secondary">Read More</a>
                 </div>
             </div>
             <?php
