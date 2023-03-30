@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
               <div style='border-bottom:1px solid #eee'>
                   <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
               </div>
-              <p style='font-size:1.1em'>Hi, " . $nameQAC . "</p>
+              <p style='font-size:1.1em'>Hi, " . $nameQAC . ",</p>
               <p>Date: " . $date . "</p><br>
               <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
               <div style='border-bottom:1px solid #eee'>
                   <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
               </div>
-              <p style='font-size:1.1em'>Hi, [" . $nameQAC . "]</p>
+              <p style='font-size:1.1em'>Hi, [" . $nameQAC . "],</p>
               <p>Date: " . $date . "</p><br>
               <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
