@@ -192,7 +192,7 @@ $(document).ready(function() {
         // Send AJAX request to server to update view count in database
         $.ajax({
             // Change to your own path if the function failed to run
-            url: '/Web%20Developement/Code/includes/viewcount.inc.php',
+            url: 'includes/viewcount.inc.php',
             method: 'POST',
             data: {
                 item_id: item_id,
@@ -225,7 +225,7 @@ $('.submit-comment').click(function() {
     var id = $(this).data('id');
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '../Web%20Developement/Code/includes/comment.inc.php',
+        url: 'includes/comment.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -234,7 +234,7 @@ $('.submit-comment').click(function() {
             checkbox: checkbox
         },
         success: function(response) {
-            //location.reload();
+            location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Error: ' + textStatus + ' - ' + errorThrown);
@@ -254,7 +254,7 @@ $('.like-button').click(function() {
     // Send an HTTP request to the server
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/Web%20Developement/Code/includes/like.inc.php',
+        url: 'includes/like.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -312,7 +312,7 @@ $('.dislike-button').click(function() {
     // Send an HTTP request to the server
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/Web%20Developement/Code/includes/dislike.inc.php',
+        url: 'includes/dislike.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,

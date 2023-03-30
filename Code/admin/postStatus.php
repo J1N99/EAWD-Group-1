@@ -10,8 +10,9 @@ include("../includes/dbConnection.inc.php");
     Select Filter
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="../admin/postStatus.inc.php?desc=true">Posted</a></li>
-        <li><a class="dropdown-item" href="../admin/postStatus.inc.php?asc=true">No Posted</a></li>
+        <li><a class="dropdown-item" href="../admin/postStatus.php?overview=true">Overview</a></li>
+        <li><a class="dropdown-item" href="../admin/postStatus.php?desc=true">Posted</a></li>
+        <li><a class="dropdown-item" href="../admin/postStatus.php?asc=true">No Posted</a></li>
     </ul>
 </div>
 
@@ -29,7 +30,27 @@ include("../includes/dbConnection.inc.php");
 
     <?php
     $i = 1;
-        $query1 = mysqli_query($conn, "select * from user");
+        if(isset($_GET['overview']))
+        {
+            $query1 = mysqli_query($conn, "select * from user");
+        }
+        else
+        if(isset($_GET['desc']))
+        {
+            $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, idea.user_id from user
+            left join idea on user.user_id = idea.user_id");
+        }
+        else
+        if(isset($_GET['asc']))
+        {
+            $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, COUNT(idea.user_id) AS idea_count 
+            from user
+            left join idea on user.user_id = idea.user_id 
+            GROUP BY user.user_id
+            ORDER BY idea_count asc, user.user_id asc");
+        }
+
+
         //$query1 = mysqli_query($conn, "select user.user_id, user.name, user.email, idea.user_id from user
         //left join idea on user.user_id = idea.user_id
         //group by idea.user_id desc");
