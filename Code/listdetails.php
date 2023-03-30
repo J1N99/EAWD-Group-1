@@ -225,7 +225,7 @@ $('.submit-comment').click(function() {
     var id = $(this).data('id');
     $.ajax({
         // Change to your own path if the function failed to run
-        url: '/Web%20Developement/Code/includes/comment.inc.php',
+        url: '../Web%20Developement/Code/includes/comment.inc.php',
         type: 'POST',
         data: {
             item_id: item_id,
@@ -234,7 +234,7 @@ $('.submit-comment').click(function() {
             checkbox: checkbox
         },
         success: function(response) {
-            location.reload();
+            //location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Error: ' + textStatus + ' - ' + errorThrown);

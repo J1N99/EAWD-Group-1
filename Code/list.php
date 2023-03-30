@@ -60,11 +60,11 @@ $resultCheck = mysqli_num_rows($result);
         Latest Idea
     </option>
 </select>
-<label>Filter lastest</label>
+<label>Filter latest</label>
 <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
     <option default>Please latest comment:</option>
     <option value="list.php?comment=true">
-        Lastest comment
+        Latest comment
     </option>
 </select>
 
@@ -77,7 +77,6 @@ if ($resultCheck > 0) {
         $title = $row['title'];
         $t_up = $row['sum(t_up)'];
         $t_down = $row['sum(t_down)'];
-
 ?>
         <br />
         <a href="listdetails.php?id=<?php echo $id ?>"><?php echo $title ?></a>
