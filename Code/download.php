@@ -25,7 +25,7 @@ function download_csv() {
     }
 
     // Define the query to retrieve the data from the table
-    $sql = "SELECT idea_id, document_url, closeDate FROM idea";
+    $sql = "SELECT idea_id, document_url, a_status, categories_id, views, submitDate, user_id, description, title, title_id FROM idea";
 
     // Execute the query
     $result = mysqli_query($conn, $sql);
@@ -41,12 +41,12 @@ function download_csv() {
     $fp = fopen('php://output', 'w');
 
     // Write the column headers to the file pointer as CSV
-    $headers = array("idea_id", "document_url", "closeDate");
+    $headers = array("idea_id", "document_url", "a_status", "categories_id", "views", "submitDate", "user_id", "description", "title", "title_id");
     fputcsv($fp, $headers);
 
     // Write the data to the file pointer as CSV
     while ($row = mysqli_fetch_assoc($result)) {
-        $data = array($row['idea_id'], $row['document_url'], $row['closeDate']);
+        $data = array($row['idea_id'], $row['document_url'], $row['a_status'], $row['categories_id'], $row['views'], $row['submitDate'], $row['user_id'], $row['description'], $row['title'], $row['title_id']);
         fputcsv($fp, $data);
     }
 

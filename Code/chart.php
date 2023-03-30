@@ -11,10 +11,25 @@
 
 <?php 
   $con = new mysqli('localhost:3307','root','','feedbackdb');
+
+    // // Execute the query
+    // $result = mysqli_query($con, "SELECT * FROM idea");
+
+    // // Get the total number of records
+    // $total_records = mysqli_num_rows($result);
+
+    // // Print the total number of records
+    // echo "Total records: " . $total_records; 
+
+     $total1 = $total2 = $total3 = 0;
+
+
+
   $query = $con->query("
-    SELECT COUNT(user.department) as totalpost, user.department as departmentname
+    SELECT COUNT(department.department_id) as totalpost, department.department as departmentname
     FROM idea
     LEFT JOIN user ON idea.user_id = user.user_id
+    LEFT JOIN department ON user.department = department.department_id
     GROUP BY user.department
   ");
 
@@ -22,10 +37,12 @@
   {
     $departmentname[] = $data['departmentname'];
     $totalpost[] = $data['totalpost'];
+    $total1 += $data['totalpost'];
   }
 
-  $query2 = $con->query("SELECT COUNT(user.department)/(SELECT COUNT(*) FROM idea) * 100  as percentpost, user.department as departmentname
+  $query2 = $con->query("SELECT COUNT(department.department_id)/(SELECT COUNT(*) FROM idea) * 100  as percentpost, department.department as departmentname
   FROM idea LEFT JOIN user ON idea.user_id = user.user_id
+  LEFT JOIN department ON user.department = department.department_id
   GROUP BY user.department");
 
     foreach($query2 as $data2)
@@ -34,14 +51,17 @@
     $percentpostG2[] = $data2['percentpost'];
     }
 
-  $query3 = $con->query("SELECT COUNT(DISTINCT idea.user_id) as contributors, user.department as departmentname
+    $total2 = $total1;
+  $query3 = $con->query("SELECT COUNT(DISTINCT department.department_id) as contributors, department.department as departmentname
   FROM idea LEFT JOIN user ON idea.user_id = user.user_id
+  LEFT JOIN department ON user.department = department.department_id  
   GROUP BY user.department");
 
     foreach($query3 as $data3)
     {
     $departmentnameG3[] = $data3['departmentname'];
     $contributorsG3[] = $data3['contributors'];
+    $total3 += $data3['contributors'];
     }
 
 ?>
@@ -207,6 +227,7 @@ function createChart1() {
     if (Chart.getChart("myChart")){
           Chart.getChart("myChart").destroy();
         }
+        document.getElementById('postinfo').textContent = "<?php echo 'Total posts: '.$total1?>";
   return new Chart(
     document.getElementById('myChart'),
     config1
@@ -217,6 +238,7 @@ function createChart2() {
     if (Chart.getChart("myChart")){
           Chart.getChart("myChart").destroy();
         }
+        document.getElementById('postinfo').textContent = "<?php echo 'Total posts: '.$total2?>";
     return new Chart(
     document.getElementById('myChart'),
     config2
@@ -227,6 +249,7 @@ function createChart3() {
     if (Chart.getChart("myChart")){
           Chart.getChart("myChart").destroy();
         }
+        document.getElementById('postinfo').textContent = "<?php echo 'Total contributors: '.$total3?>";
   return new Chart(
     document.getElementById('myChart'),
     config3
@@ -243,6 +266,7 @@ function createChart3() {
   <button id="btnGraph3" onclick="createChart3()">Number of contributors within each Department</button>
 <div>
 
+<span id="postinfo"></span>
 <div style="width: 500px;">
   <canvas id="myChart"></canvas>
 </div>
