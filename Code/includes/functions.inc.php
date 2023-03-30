@@ -172,13 +172,34 @@ function createCategories($conn, $categories)
 
 function deleteCategories($conn, $id)
 {
-    $sql = "DELETE FROM categories WHERE categories_id=$id";
 
-    if (!mysqli_query($conn, $sql)) {
-        header("Location:../admin/addcategories.php?error=deletecartfail");
-    } else {
-        header("location:../admin/addcategories.php?error=none");
+    try {
+        // Attempt to delete the category
+        $conn->query("DELETE FROM categories WHERE categories_id=$id");
+
+        // Check if the delete operation was successful
+        if ($conn->affected_rows > 0) {
+            // Category was deleted successfully
+            header("location:../admin/addcategories.php?error=none");
+        } else {
+            // Category was not deleted (probably because it is used by another table)
+            header("location:../admin/addcategories.php?error=deletefail");
+        }
+    } catch (mysqli_sql_exception $e) {
+        // An error occurred (probably a foreign key constraint violation)
+        header("location:../admin/addcategories.php?error=deletefail");
     }
+
+
+
+
+    // $sql = "DELETE FROM categories WHERE categories_id=$id";
+
+    // if (!mysqli_query($conn, $sql)) {
+    //     header("Location:../admin/addcategories.php?error=deletecartfail");
+    // } else {
+    //     header("location:../admin/addcategories.php?error=none");
+    // }
 }
 
 
