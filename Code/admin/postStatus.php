@@ -30,25 +30,26 @@ include("../includes/dbConnection.inc.php");
 
     <?php
     $i = 1;
-        if(isset($_GET['overview']))
-        {
-            $query1 = mysqli_query($conn, "select * from user");
-        }
-        else
-        if(isset($_GET['desc']))
-        {
-            $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, idea.user_id from user
-            left join idea on user.user_id = idea.user_id");
-        }
-        else
-        if(isset($_GET['asc']))
-        {
-            $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, COUNT(idea.user_id) AS idea_count 
-            from user
-            left join idea on user.user_id = idea.user_id 
-            GROUP BY user.user_id
-            ORDER BY idea_count asc, user.user_id asc");
-        }
+    // Display the content in different order based on the drop down list
+    if(isset($_GET['overview']))
+    {
+        $query1 = mysqli_query($conn, "select * from user");
+    }
+    else
+    if(isset($_GET['desc']))
+    {
+        $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, idea.user_id from user
+        left join idea on user.user_id = idea.user_id");
+    }
+    else
+    if(isset($_GET['asc']))
+    {
+        $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, COUNT(idea.user_id) AS idea_count 
+        from user
+        left join idea on user.user_id = idea.user_id 
+        GROUP BY user.user_id
+        ORDER BY idea_count asc, user.user_id asc");
+    }
 
 
         //$query1 = mysqli_query($conn, "select user.user_id, user.name, user.email, idea.user_id from user

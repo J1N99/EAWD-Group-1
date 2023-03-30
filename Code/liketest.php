@@ -14,7 +14,7 @@ include("includes/dbConnection.inc.php");
         console.log(id);
         // Send an HTTP request to the server
         $.ajax({
-            url: '/Web%20Developement/code/includes/like.inc.php',
+            url: 'includes/like.inc.php',
             type: 'POST',
             data: {
                 item_id: item_id,
