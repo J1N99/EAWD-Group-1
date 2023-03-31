@@ -1,6 +1,11 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+if(isset($_GET['id']))
+{
+    $titleId=$_GET['id'];
+    
+}
 ?>
 
 <link rel="stylesheet" href="../../style.css">
@@ -66,6 +71,7 @@ include("../../includes/dbConnection.inc.php");
                     LEFT JOIN categories ON idea.categories_id= categories.categories_id 
                     LEFT JOIN user ON idea.user_id= user.user_id
                     LEFT JOIN department ON user.department= department.department_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id ORDER BY views DESC";
         } else if (isset($_GET['tup'])) {
             $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,idea.description,sum(t_up),sum(t_down),categories.categories,department.department,idea.a_status,user.name FROM idea 
@@ -73,6 +79,7 @@ include("../../includes/dbConnection.inc.php");
                     LEFT JOIN categories ON idea.categories_id= categories.categories_id 
                     LEFT JOIN user ON idea.user_id= user.user_id
                     LEFT JOIN department ON user.department= department.department_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id ORDER BY t_up DESC";
         } else if (isset($_GET['tdown'])) {
             $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,idea.description,sum(t_up),sum(t_down),categories.categories,department.department,idea.a_status,user.name FROM idea 
@@ -80,6 +87,7 @@ include("../../includes/dbConnection.inc.php");
                     LEFT JOIN categories ON idea.categories_id= categories.categories_id 
                     LEFT JOIN user ON idea.user_id= user.user_id
                     LEFT JOIN department ON user.department= department.department_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id ORDER BY t_down DESC";
         } else if (isset($_GET['idea'])) {
             $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,idea.description,sum(t_up),sum(t_down),categories.categories,department.department,idea.a_status,user.name FROM idea 
@@ -87,12 +95,14 @@ include("../../includes/dbConnection.inc.php");
                     LEFT JOIN categories ON idea.categories_id= categories.categories_id 
                     LEFT JOIN user ON idea.user_id= user.user_id
                     LEFT JOIN department ON user.department= department.department_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id ORDER BY submitDate DESC";
         } else if (isset($_GET["comment"])) {
             // pending comment
             $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,idea.description,sum(t_up),sum(t_down) FROM idea 
                     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
                     LEFT JOIN comment ON idea.idea_id=comment.idea_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id ORDER BY comment.commentDate DESC";
         } else {
             $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.description, sum(t_up),sum(t_down), categories.categories,department.department,idea.a_status,user.name FROM idea
@@ -100,21 +110,107 @@ include("../../includes/dbConnection.inc.php");
                     LEFT JOIN categories ON idea.categories_id= categories.categories_id 
                     LEFT JOIN user ON idea.user_id= user.user_id
                     LEFT JOIN department ON user.department= department.department_id
+                    WHERE title_id=$titleId
                     group by idea.idea_id";
+                    
         }
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         ?>
 
-        <select class="btn btn-secondary ms-5 mt-4 select" aria-label="Default select example"
-            onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-            <option default>Select Filter</option>
-            <option value="list-idea.php?view=true">Most View</option>
-            <option value="list-idea.php?tup=true">Most Like</option>
-            <option value="list-idea.php?tup=false">Most Dislike</option>
-            <option value="list-idea.php?idea=true">Latest Ideas</option>
-            <option value="list-idea.php?comment=true">Latest Comment</option>
-        </select>
+        <div class="btn-toolbar justify-content-between">
+            <div class="btn-group">
+                <select class="btn btn-secondary ms-5 mt-4 select" aria-label="Default select example"
+                    onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option default>Select Filter</option>
+                    <option value="list-idea.php?view=true&id=<?php echo $titleId?>">Most View</option>
+                    <option value="list-idea.php?tup=true&id=<?php echo $titleId?>">Most Like</option>
+                    <option value="list-idea.php?tup=false&id=<?php echo $titleId?>">Most Dislike</option>
+                    <option value="list-idea.php?idea=true&id=<?php echo $titleId?>">Latest Ideas</option>
+                    <option value="list-idea.php?comment=true&id=<?php echo $titleId?>">Latest Comment</option>
+                </select>
+
+                <?php
+                    $sqlcategory = "SELECT * FROM categories";
+                    $resultcategory = mysqli_query($conn, $sqlcategory);
+                    $resultCheckcategory = mysqli_num_rows($resultcategory);
+                    $submit = "";
+                    $currentDate = date('Y-m-d');
+                    
+                    $sql2 = "SELECT * FROM title WHERE closeDate>='$currentDate'";
+                    $resultTitle = mysqli_query($conn, $sql2);
+                    $resultCheckTitle = mysqli_num_rows($resultTitle);
+                ?>
+            </div>
+
+            <div class="btn-group me-5">
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-secondary ms-2 mt-4 btn-block" 
+                    data-bs-toggle="modal" data-bs-target="#exampleModal">Post
+                </button>
+
+                <!-- Modal -->
+                <form action="../../includes/addidea.inc.php" method="post" enctype="multipart/form-data">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">New Post</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label"  required >Idea Title</label>
+                                    <input type="text" class="form-control" id="post-title" name="title" required>
+                                </div>
+                                <div class="mb-3">
+                                <label for="post-category" class="form-label">Category</label>
+                                    <?php
+                                        if ($resultCheckcategory > 0) {
+                                    ?>
+                                    <select name="did" class="select">
+                                        <?php
+                                            while ($rowCategory = mysqli_fetch_assoc($resultcategory)) {
+                                                $id = $rowCategory["categories_id"];
+                                        ?>
+                                        <option value="<?php echo $id ?>"><?php echo $rowCategory['categories'] ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
+                                    <?php
+                                        }
+                                    ?>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="post-comment" class="form-label" id="description">Post Description</label>
+                                    <textarea class="form-control" id="post-comment" name="description" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="anonymous-check" name="checkann" value="1">
+                                    <label class="form-check-label" for="checkann">Post Anonymously</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="uploadDocument" class="form-label">Upload Document</label>
+                                    <input type="file" class="form-control" id="post-document" name="uploadDocument">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input"  name="checkbox" id="terms-check" required>
+                                    <label class="form-check-label" for="terms-check">I agree to the terms and conditions</label>
+                                </div>
+                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <input name="id" type="hidden" value="<?php echo $_SESSION['id'] ?>" />
+                                    <input name="titleid" type="hidden" value="<?php echo $titleId?>"/>
+                                    <button type="submit" class="btn btn-primary" name="submit">Post</button>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="container-fluid px-5 mt-4">
 
@@ -126,7 +222,7 @@ include("../../includes/dbConnection.inc.php");
                         <br>Category: XXXX
                         <br>Department: xxxx
                     </p>
-                    <a href="#" class="btn btn-secondary">Read More</a>
+                    <a href="./idea-detail.php" class="btn btn-secondary">Read More</a>
                 </div>
             </div>
 

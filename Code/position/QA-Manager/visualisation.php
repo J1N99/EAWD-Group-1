@@ -26,7 +26,7 @@ include("../../header.php");
                     <i class="fas fa-solid fa-list me-2"></i>Categories
                 </a>
 
-                <a href="./overview.php" class="list-group-item list-group-item-action second-text fw-bold">                    
+                <a href="./overview.php?overview=true" class="list-group-item list-group-item-action second-text fw-bold">                    
                     <i class="fas fa-solid fa-globe me-2"></i>Overview
                 </a>
 
@@ -74,7 +74,7 @@ include("../../header.php");
 
             <!--Content-->
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle ms-5 mt-4" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle ms-4 mt-4" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                   Select Filter
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -92,7 +92,7 @@ include("../../header.php");
 
                     <li class="d-grid">
                         <button class="border border-0 bg-transparent" onclick="createChart3()">
-                            <a class="dropdown-item" id="btnGraph2" href="#">Number of contributors within each Department</a>
+                            <a class="dropdown-item" id="btnGraph3" href="#">Number of contributors within each Department</a>
                         </button>                    
                     </li>               
                 </ul>
@@ -102,10 +102,13 @@ include("../../header.php");
 
             $con = new mysqli('localhost','root','','feedbackdb');
 
+            $total1 = $total2 = $total3 = 0;
+
             $query = $con->query("
-                SELECT COUNT(user.department) as totalpost, user.department as departmentname
+                SELECT COUNT(department.department_id) as totalpost, department.department as departmentname
                 FROM idea
                 LEFT JOIN user ON idea.user_id = user.user_id
+                LEFT JOIN department ON user.department = department.department_id
                 GROUP BY user.department
             ");
 
@@ -113,31 +116,39 @@ include("../../header.php");
             {
                 $departmentname[] = $data['departmentname'];
                 $totalpost[] = $data['totalpost'];
+                $total1 += $data['totalpost'];
             }
 
-            $query2 = $con->query("SELECT COUNT(user.department)/(SELECT COUNT(*) FROM idea) * 100  as percentpost, user.department as departmentname
+            $query2 = $con->query("SELECT COUNT(department.department_id)/(SELECT COUNT(*) FROM idea) * 100  as percentpost, department.department as departmentname
             FROM idea LEFT JOIN user ON idea.user_id = user.user_id
+            LEFT JOIN department ON user.department = department.department_id
             GROUP BY user.department");
 
             foreach($query2 as $data2)
             {
-            $departmentnameG2[] = $data2['departmentname'];
-            $percentpostG2[] = $data2['percentpost'];
+                $departmentnameG2[] = $data2['departmentname'];
+                $percentpostG2[] = $data2['percentpost'];
             }
 
-            $query3 = $con->query("SELECT COUNT(DISTINCT idea.user_id) as contributors, user.department as departmentname
+            $total2 = $total1;
+            $query3 = $con->query("SELECT COUNT(DISTINCT department.department_id) as contributors, department.department as departmentname
             FROM idea LEFT JOIN user ON idea.user_id = user.user_id
+            LEFT JOIN department ON user.department = department.department_id  
             GROUP BY user.department");
 
-                foreach($query3 as $data3)
-                {
+            foreach($query3 as $data3)
+            {
                 $departmentnameG3[] = $data3['departmentname'];
                 $contributorsG3[] = $data3['contributors'];
-                }
+                $total3 += $data3['contributors'];
+            }
 
         ?>
  
         <script>
+           const btnGraph1 = document.getElementById('btnGraph1');
+            const btnGraph2 = document.getElementById('btnGraph2');
+            const btnGraph3 = document.getElementById('btnGraph3');
             const chartContainer = document.getElementById('myChart');
 
             // Define the data for each chart
@@ -292,6 +303,7 @@ include("../../header.php");
                 if (Chart.getChart("myChart")){
                     Chart.getChart("myChart").destroy();
                     }
+                    document.getElementById('postinfo').textContent = "<?php echo 'Total posts: '.$total1?>";
             return new Chart(
                 document.getElementById('myChart'),
                 config1
@@ -302,6 +314,7 @@ include("../../header.php");
                 if (Chart.getChart("myChart")){
                     Chart.getChart("myChart").destroy();
                     }
+                    document.getElementById('postinfo').textContent = "<?php echo 'Total posts: '.$total2?>";
                 return new Chart(
                 document.getElementById('myChart'),
                 config2
@@ -312,11 +325,13 @@ include("../../header.php");
                 if (Chart.getChart("myChart")){
                     Chart.getChart("myChart").destroy();
                     }
+                    document.getElementById('postinfo').textContent = "<?php echo 'Total contributors: '.$total3?>";
             return new Chart(
                 document.getElementById('myChart'),
                 config3
             );
             }
+
 
 
         // Add event listeners to the buttons to create the appropriate chart
@@ -326,6 +341,7 @@ include("../../header.php");
         <div class="container-fluid mt-5">
             <div class="text-center col-md-5">
                 <div class="chart-size">
+                    <span id="postinfo"></span>
                     <canvas id="myChart"></canvas>
                 </div>
             </div>
@@ -336,7 +352,6 @@ include("../../header.php");
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>        
     <script src="../../script.js"></script>
-    <script src="./javascript/visualisation.js"></script>
 
 <?php
 include("../../footer.php");

@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <link rel="stylesheet" href="../../style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <title>DashBoard</title>
-</head>
-<body>
+<?php
+include("../../header.php");
+include("../../includes/dbConnection.inc.php");
+?>
+
+<link rel="stylesheet" href="../../style.css">
 
     <div class="d-flex" id="wrapper">
 
@@ -20,13 +14,21 @@
             </div>
 
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active">
                     <i class="fas fa-tachometer-alt me-2"></i>DashBoard
                 </a>
 
-                <a href="./ideas.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
-                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
-                </a>        
+                <a href="./account.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
+                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Account
+                </a>
+                
+                <a href="./department.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
+                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Department
+                </a> 
+
+                <a href="./title.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
+                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Title
+                </a> 
 
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
                     <i class="fas fa-sharp fa-regular fa-right-from-bracket me-2"></i>LogOut
@@ -53,7 +55,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle primary-text fw-bold" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>QA-Coordinator Name
+                                <i class="fas fa-user me-2"></i>Admin Name
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -75,7 +77,7 @@
                                 <h3 class="fs-2">100</h3>
                                 <p class="fs-5">Total</p>
                             </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <i class="fas fa-truck fs-1 border rounded-full icon-background p-3"></i>
                         </div>
                     </div>
     
@@ -85,7 +87,7 @@
                                 <h3 class="fs-2">100</h3>
                                 <p class="fs-5">Total</p>
                             </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <i class="fas fa-truck fs-1 border rounded-full icon-background p-3"></i>
                         </div>
                     </div>
     
@@ -95,7 +97,7 @@
                                 <h3 class="fs-2">100</h3>
                                 <p class="fs-5">Total</p>
                             </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <i class="fas fa-truck fs-1 border rounded-full icon-background p-3"></i>
                         </div>
                     </div>
 
@@ -105,7 +107,7 @@
                                 <h3 class="fs-2">100</h3>
                                 <p class="fs-5">Total</p>
                             </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <i class="fas fa-truck fs-1 border rounded-full icon-background p-3"></i>
                         </div>
                     </div>
                 </div>
@@ -114,7 +116,10 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>    
+    <script src="./javascript/overview.js" type="text/javascript"></script>
     <script src="../../script.js"></script>
-</body>
-</html>
+
+<?php
+include("../../footer.php");
+?>

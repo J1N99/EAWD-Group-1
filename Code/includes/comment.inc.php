@@ -89,7 +89,6 @@ if($checkbox == 0)
 }
 // headers shared among the email content
 $headers = "Content-type: text/html\r\n";
-// Email for Author - End here
 
 // An email is sent to the author of that particular post as a notification
 if(mail($toAuthor, $subjectAuthor, $messageAuthor, $headers)) {
@@ -98,6 +97,7 @@ if(mail($toAuthor, $subjectAuthor, $messageAuthor, $headers)) {
 } else {
     echo "<script>alert('There are some errors in sending the email. Please try again');</script>";
 }
+// Email for Author - End here
 
 // Email for Sender - Start here (2)
 $toSender = $emailSender;

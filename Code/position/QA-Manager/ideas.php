@@ -26,7 +26,7 @@ include("../../includes/dbConnection.inc.php");
                     <i class="fas fa-solid fa-list me-2"></i>Categories
                 </a>
 
-                <a href="./overview.php" class="list-group-item list-group-item-action second-text fw-bold">                    
+                <a href="./overview.php?overview=true" class="list-group-item list-group-item-action second-text fw-bold">                    
                     <i class="fas fa-solid fa-globe me-2"></i>Overview
                 </a>
 
@@ -118,7 +118,7 @@ include("../../includes/dbConnection.inc.php");
                 $resultCheck = mysqli_num_rows($result);
             ?>
 
-            <select class="btn btn-secondary ms-5 mt-4 select" aria-label="Default select example"
+            <select class="btn btn-secondary ms-4 mt-4 select" aria-label="Default select example"
             onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">                
                 <option default>Select Filter</option>
                 <option value="ideas.php?view=true">Most View</option>
@@ -162,7 +162,7 @@ include("../../includes/dbConnection.inc.php");
                                     $t_down=$row['sum(t_down)'];                                    
                         ?>
                         <tr>
-                            <td><a href="../../listdetails.php?id=<?php echo $id?>"><?php echo $title?></td>
+                            <td><a href="../Staff/idea-detail.php?id=<?php echo $id?>"><?php echo $title?></td>
                             <td>
                                 <?php
                                     if ($t_up==null) {
@@ -183,7 +183,7 @@ include("../../includes/dbConnection.inc.php");
                                 <?php
                                     if ($url!=="") {
                                 ?>
-                                     <a href=" uploads/<?php echo $url?>">Document</a>
+                                     <a href=" ../../uploads/<?php echo $url?>">Document</a>
                                     
                                 <?php
                                     } else {

@@ -56,8 +56,7 @@ include("../../includes/dbConnection.inc.php");
                 </li>
               </ul> 
             </div>
-          </nav>
-
+          </nav>          
           
           <!-- content start-->        
           <?php
@@ -78,28 +77,33 @@ include("../../includes/dbConnection.inc.php");
             $resultCheck = mysqli_num_rows($result);
             $row = mysqli_fetch_assoc($result);
 
-            if ($resultCheck > 0) {
-          
-              //$id=$row['idea_id'];
-              $url = $row['document_url'];
-              $submitDate = $row['submitDate'];
-              $title = $row['title'];
-              $t_up = $row['sum(t_up)'];
-              $t_down = $row['sum(t_down)'];
-              $description = $row['description'];
-              $view = $row['views'];
-              $userName = $row['name'];
-              $astatus = $row['a_status'];
+            ?>
+            <div class="container-fluid">
+            <?php
 
-              if ($t_up == null) {
-                  $t_up = 0;
-              }
-              if ($t_down == null) {
-                  $t_down = 0;
-              }                              
+              if ($resultCheck > 0) {
+            
+                //$id=$row['idea_id'];
+                $url = $row['document_url'];
+                $submitDate = $row['submitDate'];
+                $title = $row['title'];
+                $t_up = $row['sum(t_up)'];
+                $t_down = $row['sum(t_down)'];
+                $description = $row['description'];
+                $view = $row['views'];
+                $userName = $row['name'];
+                $astatus = $row['a_status'];
+
+                if ($t_up == NULL) {
+                    $t_up = 0; 
+                }
+
+                if ($t_down == NULL) {
+                    $t_down = 0;                  
+                }                                              
           ?>
+            <input type="hidden" value=<?php echo $view ?> data-item-id="<?php echo $_GET['id'] ?>" class="view">
 
-          <div class="container-fluid">
             <!-- post card start -->
             <div class="card my-3">
 
@@ -113,6 +117,7 @@ include("../../includes/dbConnection.inc.php");
                   } ?>
                   <span class="fs-6 text-start fw-light fst-italic"> - <?php echo $submitDate ?></span>
                 </h5>
+                <span style="font-size:0.85rem;">Views <?php echo $view;?></span>
               </div>
               <!-- card header end -->
 
@@ -190,24 +195,27 @@ include("../../includes/dbConnection.inc.php");
                           }
                         } else {
                       ?>
-                      
-                      <button type="button" class="btn btn-sm btn-outline-secondary"
-                        id="like-button"  value="Like"
-                        data-item-id="<?php echo $_GET['id'] ?>"
-                        data-id="<?php echo $_SESSION['id'] ?>" value="Like">
-                          <i class="far fa-thumbs-up me-2">                            
-                            <span class="ms-1 like"><?php echo $t_up ?></span>
-                          </i>
-                      </button>
+                      <!-- this is diffult like and dislike -->
+                      <div class="d-flex justify-content-between align-items-center">
+                        <!-- button group start -->
+                        <div class="btn-group ma-0">
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                          id="like-button"  value="Like"
+                          data-item-id="<?php echo $_GET['id'] ?>"
+                          data-id="<?php echo $_SESSION['id'] ?>" value="Like">
+                            <i class="far fa-thumbs-up me-2">                            
+                              <span class="ms-1 like"><?php echo $t_up ?></span>
+                            </i>
+                        </button>
 
-                      <button type="button" class="btn btn-sm btn-outline-secondary"
-                        id="dislike-button" value="Dislike" 
-                        data-item-id="<?php echo $_GET['id'] ?>"
-                        data-id="<?php echo $_SESSION['id'] ?>" value="Dislike">
-                          <i class="far fa-thumbs-down me-2">
-                            <span class="ms-1  dislike-value"><?php echo $t_down ?></span>
-                          </i>
-                      </button> 
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                          id="dislike-button" value="Dislike" 
+                          data-item-id="<?php echo $_GET['id'] ?>"
+                          data-id="<?php echo $_SESSION['id'] ?>" value="Dislike">
+                            <i class="far fa-thumbs-down me-2">
+                              <span class="ms-1  dislike-value"><?php echo $t_down ?></span>
+                            </i>
+                        </button> 
 
                       <?php
                         }
@@ -244,42 +252,64 @@ include("../../includes/dbConnection.inc.php");
               <!-- card body end -->
             </div>
             <!-- post card end -->
-          </div>
 
-           <!--reply content-->          
-          <div class="d-flex flex-start mt-4">
-            <div class="flex-grow-1 flex-shrink-1">
-              <div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <p class="mb-1">
-                    Simona Disa <span class="small">- 3 hours ago</span>
-                  </p>
-                </div>
-                <p class="card-text mb-0">
-                  letters, as opposed to using 'Content here, content here',
-                  making it look like readable English.
-                </p>
-              </div>                      
-            </div>
-          </div>
+            <!--reply content-->
+            
+            <?php
+               $sql2 = "SELECT comment.comment_id, comment.user_id, comment.a_status, comment.commentDate, comment.idea_id, comment.comment,
+               user.name FROM comment
+               LEFT JOIN user ON comment.user_id= user.user_id
+               WHERE idea_id=$id";
+           
+               $result2 = mysqli_query($conn, $sql2);
+               $resultCheck2 = mysqli_num_rows($result2);
+           
+               if ($resultCheck2 > 0) {
+           
+                   $sqlCheckLike = "SELECT * FROM likepost WHERE idea_id=$id AND user_id=$_SESSION[id]";
+                   $resultClike = mysqli_query($conn, $sqlCheckLike);
+                   $resultCheckLike = mysqli_num_rows($resultClike);
+                   $rowCheckLike = mysqli_fetch_assoc($resultClike);          
+           
+                   while ($row2 = mysqli_fetch_assoc($result2)) {
+                       $comment = $row2['comment'];
+                       $commentDate = $row2['commentDate'];
+                       $commentName = $row2['name'];
+                       $commentAnn = $row2['a_status'];
+            ?>
 
-          <hr class="hr hr-blurry" />
-          <div class="d-flex flex-start mt-4">
-            <div class="flex-grow-1 flex-shrink-1">
-              <div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <p class="mb-1">
-                    Simona Disa <span class="small">- 3 hours ago</span>
+            <div class="d-flex flex-start mt-4">
+              <div class="flex-grow-1 flex-shrink-1">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-1">
+                      <?php
+                        if ($commentAnn == 1) {
+                            echo "Anonymous"; ?><span class="small"> - <?php echo $commentDate ?></span>
+                      <?php
+                        } else {
+                            echo $commentName; ?> - <?php echo $commentDate ?></span>
+                      <?php
+                        }
+                      ?>                      
+                    </p>
+                  </div>
+                  <p class="card-text mb-0">
+                    <?php echo $comment ?>
                   </p>
-                </div>
-                <p class="card-text mb-0">
-                  letters, as opposed to using 'Content here, content here',
-                  making it look like readable English.
-                </p>
-              </div>                      
+                </div>                      
+              </div>
             </div>
+            <hr class="hr hr-blurry" />
+
+            <?php
+                  }
+              }
+            ?>
+            <!-- reply content end -->
           </div>
-          <!-- reply content end -->
+          <!-- container fluid end -->
+
 
         </div>
         <!-- navbar end -->
@@ -287,34 +317,106 @@ include("../../includes/dbConnection.inc.php");
                  
 
         <!--modal dialog-->
-        <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="replyModalLabel">New message</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form>
+        <form action="">
+          <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="replyModalLabel">New message</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">              
                   <div class="mb-3">
                     <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <textarea class="form-control comment" id="message-text"></textarea>
                     <label class="form-check-label" for="anonymousBox">Anonymous</label>
-                    <input class="form-check-input ms-2 me-2" type="checkbox" value="" id="anonymousBox" />                                 
+                    <input class="form-check-input ms-2 me-2 checkann" type="checkbox" id="anonymousBox" />                                 
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary submit-comment"
+                    data-item-id="<?php echo $_GET['id'] ?>"
+                    data-id="<?php echo $_SESSION['id'] ?>" value="submit comment">
+                      Send message
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div> 
-
-
+          </div> 
+        </form>
 
     </div>
+
+    <!-- view function-->
+    <script>
+      $(document).ready(function() {
+          $(window).on('load', function() {
+              // Increment view count
+              var currentCount = parseInt($('.view').val());
+              var item_id = $('.view').data('item-id');
+
+              // Send AJAX request to server to update view count in database
+              $.ajax({
+                  // Change to your own path if the function failed to run
+                  url: '../../includes/viewcount.inc.php',
+                  method: 'POST',
+                  data: {
+                      item_id: item_id,
+                      view_count: currentCount + 1
+                  },
+                  success: function(response) {
+                      console.log(response);
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log('Error updating view count: ' + errorThrown);
+                  }
+              });
+          });
+      });
+    </script>
+
+    <!-- comment function-->
+    <script>
+    var checkbox = 0;
+    $('.submit-comment').click(function() {
+        if ($('.checkann').prop('checked')) {
+            checkbox = 1;
+        } else {
+            checkbox = 0;
+        }
+
+        
+        var comment = $(".comment").val();
+        var item_id = $(this).data('item-id');
+        var id = $(this).data('id');
+
+        if (comment.trim() === "") {
+          alert("Cannot be empty");
+        } else {
+          console.log(checkbox)
+            $.ajax({
+              // Change to your own path if the function failed to run
+              url: '../../includes/comment.inc.php',
+              type: 'POST',
+              data: {
+                  item_id: item_id,
+                  id: id,
+                  comment: comment,
+                  checkbox: checkbox
+              },
+              success: function(response) {
+                location.reload();
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                  console.log('Error: ' + textStatus + ' - ' + errorThrown);
+              }
+          })
+        }
+        
+
+    });
+    </script>
 
     <script>
     $('#like-button').click(function() {

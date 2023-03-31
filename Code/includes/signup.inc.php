@@ -11,30 +11,35 @@ if (isset($_POST["submit"])) {
     require_once("functions.inc.php");
 
     if (emptyInputSignup($name, $email, $password, $repeatpassword) !== false) {
-        header("location:../signup.php?error=emptyinput");
+        $error_msg = "Cannot Empty Input";
+        header("location:../position/admin/account.php?error=". urlencode($error_msg));
         exit(); //stop
     }
     if (invalidemail($email) !== false) {
-        header("location:../signup.php?error=invalidemail");
+        $error_msg = "Invalid Email";
+        header("location:../position/admin/account.php?error=". urlencode($error_msg));
         exit(); //stop
     }
     if (invalidrepassword($password, $repeatpassword) !== false) {
-        header("location:../signup.php?error=passwordwrong");
+        $error_msg = "Your password is invalid. Please enter a valid password.";
+        header("location:../position/admin/account.php?error=". urlencode($error_msg));
         exit(); //stop
     }
     if (invalidpasswordlength($password) !== false) {
-        header("location:../signup.php?error=invalidpassword");
+        $error_msg = "Your password is not enough length.";
+        header("location:../position/admin/account.php?error=". urlencode($error_msg));        
         exit(); //stop
     }
     if (usernametaken($conn, $email) !== false) {
-        header("location:../signup.php?error=usernametaken");
+        $error_msg = "Username has been taken by other user.";
+        header("location:../position/admin/account.php?error=". urlencode($error_msg));
         exit(); //stop
     }
 
     createUser($conn, $name, $email, $password, $department);
 } else {
-    header("location:../signup.php");
+    header("location:../position/admin/account.php");
 }
 if (isset($_POST['login'])) {
-    header("location:../login.php");
+    header("location:../position/admin/account.php");
 }

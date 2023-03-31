@@ -95,31 +95,31 @@ if ($resultCheck > 0) {
 }
 
 
-$sql2 = "SELECT comment.comment_id, comment.user_id, comment.a_status, comment.commentDate, comment.idea_id, comment.comment,
-user.name FROM comment
-LEFT JOIN user ON comment.user_id= user.user_id
-WHERE idea_id=$id";
+    $sql2 = "SELECT comment.comment_id, comment.user_id, comment.a_status, comment.commentDate, comment.idea_id, comment.comment,
+    user.name FROM comment
+    LEFT JOIN user ON comment.user_id= user.user_id
+    WHERE idea_id=$id";
 
-$result2 = mysqli_query($conn, $sql2);
-$resultCheck2 = mysqli_num_rows($result2);
+    $result2 = mysqli_query($conn, $sql2);
+    $resultCheck2 = mysqli_num_rows($result2);
 
-if ($resultCheck2 > 0) {
+    if ($resultCheck2 > 0) {
 
-    $sqlCheckLike = "SELECT * FROM likepost WHERE idea_id=$id AND user_id=$_SESSION[id]";
-    $resultClike = mysqli_query($conn, $sqlCheckLike);
-    $resultCheckLike = mysqli_num_rows($resultClike);
-    $rowCheckLike = mysqli_fetch_assoc($resultClike);
-
-
+        $sqlCheckLike = "SELECT * FROM likepost WHERE idea_id=$id AND user_id=$_SESSION[id]";
+        $resultClike = mysqli_query($conn, $sqlCheckLike);
+        $resultCheckLike = mysqli_num_rows($resultClike);
+        $rowCheckLike = mysqli_fetch_assoc($resultClike);
 
 
 
-    while ($row2 = mysqli_fetch_assoc($result2)) {
-        $comment = $row2['comment'];
-        $commentDate = $row2['commentDate'];
-        $commentName = $row2['name'];
-        $commentAnn = $row2['a_status'];
-    ?>
+
+
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            $comment = $row2['comment'];
+            $commentDate = $row2['commentDate'];
+            $commentName = $row2['name'];
+            $commentAnn = $row2['a_status'];
+?>
 <p>This is comment <?php echo $comment ?></p>
 <p>This is comment Date <?php echo $commentDate ?></p>
 <p>Author:
@@ -142,7 +142,7 @@ if ($resultCheck2 > 0) {
 <textarea class="comment" style="width:350px;height:100px">
 </textarea>
 <input type="button" class="submit-comment" data-item-id="<?php echo $_GET['id'] ?>"
-    data-id="<?php echo $_SESSION['id'] ?>" value="submit comment" />
+data-id="<?php echo $_SESSION['id'] ?>" value="submit comment" />
 <input type="checkbox" class="checkann"> Do you want to comment in annoymous
 <!-- view function-->
 <script>

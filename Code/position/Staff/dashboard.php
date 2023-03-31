@@ -1,5 +1,6 @@
 <?php
 include("../../header.php");
+include("../../includes/dbConnection.inc.php");
 ?>
 
 <link rel="stylesheet" href="../../style.css">
@@ -14,7 +15,7 @@ include("../../header.php");
 
             <div class="list-group list-group-flush my-3">
 
-                <a href="#" class="list-group-item list-group-item-action second-text fw-bold active">                    
+                <a href="./dashboard.php" class="list-group-item list-group-item-action second-text fw-bold active">                    
                     <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
                 </a>
 
@@ -64,66 +65,64 @@ include("../../header.php");
                         <h1>All Title</h1> <hr/>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">                                
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h2>Title Post</h2>
+                    
+                </div>
+                <!-- end container -->
+
+                <!-- card container -->
+                <div class="container row">
+                    <?php
+
+                        $sql = "SELECT * FROM title";
+                        $result = mysqli_query($conn, $sql);
+                        $resultCheck = mysqli_num_rows($result);
+
+                        if ($resultCheck > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $id = $row['title_id'];
+                                $title = $row['title'];
+                                $closeDate = $row['closeDate'];
+                                $finalCloseDate = $row['finalCloseDate'];
+
+                    ?>
+                        
+                    <div class="container mb-4">
+                        <div class="align-items-center justify-content-center my-2">
+                            <div class="card ">
+                                <div class="p-4">                                    
+                                    <div class="mb-4">
+                                        <h5 class="card-title mb-0 pb-4"><?php echo $title?></h5>
                                     </div>
-                                    <div class="card-text">
-                                        <p>How to increase the reputation?</p>
-                                        <p>Posted Date: xx/xx/xxxx</p>
-                                        <p>Closure Date: xx/xx/xxxx</p>
-                                        <p>Final Closure Date: xx/xx/xxxx</p>
-                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>                                                                                                       
+                                    <div class="row align-items-center mb-2 d-flex" style="font-size:0.85rem">
+                                        <div class="col-10">
+                                            <p class="d-flex align-items-center mb-0">
+                                                Closure Date: <?php echo $closeDate ?>
+                                            </p>
+                                        </div> 
+                                        <div class="col-10">
+                                            <p class="d-flex align-items-center mb-0">
+                                                Final Closure Date: <?php echo $finalCloseDate ?>
+                                            </p>
+                                        </div>    
+                                        <div class="col-2">
+                                        <a href="./list-idea.php?id=<?php echo $id?>" class="btn btn-outline-secondary d-inline-flex rounded-0">Read More</a>
+                                        </div>     
+                                        
+                                                                            
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
+                    </div>                    
 
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">                                
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h2>Title Post</h2>
-                                    </div>
-                                    <div class="card-text">
-                                        <p>How to increase the reputation?</p>
-                                        <p>Posted Date: xx/xx/xxxx</p>
-                                        <p>Closure Date: xx/xx/xxxx</p>
-                                        <p>Final Closure Date: xx/xx/xxxx</p>
-                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>                                                                                                       
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card mb-5 shadow-sm">                                
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h2>Title Post</h2>
-                                    </div>
-                                    <div class="card-text">
-                                        <p>How to increase the reputation?</p>
-                                        <p>Posted Date: xx/xx/xxxx</p>
-                                        <p>Closure Date: xx/xx/xxxx</p>
-                                        <p>Final Closure Date: xx/xx/xxxx</p>
-                                        <a href="./list-idea.php" class="btn btn-outline-primary d-inline-flex rounded-0">Read More</a>
-                                    </div>                                                                                                       
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                    </div>
-                </div>                
-
+                    <?php
+                            }
+                        }
+                    ?>
+                </div>
+                <!-- card container end -->
             </div>
+            <!-- content end -->
 
         </div>
     </div>

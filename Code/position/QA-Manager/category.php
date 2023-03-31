@@ -25,7 +25,7 @@ include("../../header.php");
                     <i class="fas fa-solid fa-list me-2"></i>Categories
                 </a>
 
-                <a href="./overview.php" class="list-group-item list-group-item-action second-text fw-bold">                    
+                <a href="./overview.php?overview=true" class="list-group-item list-group-item-action second-text fw-bold">                    
                     <i class="fas fa-solid fa-globe me-2"></i>Overview
                 </a>
 
@@ -72,13 +72,54 @@ include("../../header.php");
             </nav>
 
             <!--Content-->            
+            <?php
+                if (isset($_GET['error'])) { 
+                    $error_msg = $_GET['error']; 
+                    if ($error_msg == "addedSucess") {
+                        ?>
+                        <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                            <div class="alert alert-success">
+                                Added Successful
+                            </div>
+                        </div>
+                        <?php
+                    } else if ($error_msg == "stmterror2") {
+                        ?>
+                        <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                            <div class="alert alert-danger">
+                                An error create a new category
+                            </div>
+                        </div>
+                        <?php
+                    } else if ($error_msg == "categoriestaken") {
+                        ?>
+                        <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                            <div class="alert alert-danger">
+                                This category has been added
+                            </div>
+                        </div>
+                        <?php
+                    } else if ($error_msg == "deletefail") {
+                        ?>
+                        <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                            <div class="alert alert-danger">
+                                You're unable to delete
+                            </div>
+                        </div>
+                        <?php
+                    } else if ($error_msg == "deletedSucess") {
+                        ?>
+                        <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                            <div class="alert alert-danger">
+                                Deleted Successful
+                            </div>
+                        </div>
+                        <?php
+                    }       
 
-            <!-- <form action="" method="post" enctype="multipart/form-data">
-                <div class="input-group flex-row-reverse my-4">
-                    <button type="button" name="submit" class="btn btn-secondary me-4">Add Category</button>      
-                    <input type="text" name="categories" id="category" placeholder="categories" required>                          
-                </div>
-            </form> -->
+                }
+            ?>
+
 
             <form action="../../includes/addcategories.inc.php" method="post" enctype="multipart/form-data">
                 <div class="input-group flex-row-reverse my-4">                    

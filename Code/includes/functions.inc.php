@@ -48,7 +48,7 @@ function usernametaken($conn, $email)
     $sql = "SELECT * FROM user WHERE email=?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../signup.php?error=stmterror1");
+        header("location:../position/admin/account.php?error=stmterror1");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $email);
@@ -73,7 +73,7 @@ function createUser($conn, $name, $email, $password, $department)
     $sql = "INSERT INTO user (position,name,department,email,password) VALUES (?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../signup.php?error=stmterror2");
+        header("location:../position/admin/account.php?error=stmterror2");
         exit(); //stop
     }
 
@@ -84,7 +84,7 @@ function createUser($conn, $name, $email, $password, $department)
     mysqli_stmt_bind_param($stmt, "ssiss", $position, $name, $department, $email, $hashedPwd);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location:../signup.php?error=none");
+    header("location:../position/admin/account.php?error=createSucess");
     exit();
 }
 
@@ -166,7 +166,7 @@ function createCategories($conn, $categories)
     mysqli_stmt_bind_param($stmt, "s", $lowerCategories);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location:../position/QA-Manager/category.php?error=none");
+    header("location:../position/QA-Manager/category.php?error=addedSucess");
     exit();
 }
 
@@ -177,9 +177,9 @@ function deleteCategories($conn, $id)
     $sql = "DELETE FROM categories WHERE categories_id=$id";
 
     if (!mysqli_query($conn, $sql)) {
-        header("Location:../position/QA-Manager/category.php?error=deletecartfail");
+        header("Location:../position/QA-Manager/category.php?error=deletefail");
     } else {
-        header("location:../position/QA-Manager/category.php?error=none");
+        header("location:../position/QA-Manager/category.php?error=deletedSucess");
     }
 }
 
@@ -209,22 +209,22 @@ function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $descri
         exit();
     }
 }
-function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title)
+function insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id)
 {
 
-    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title) VALUES (?,?,?,?,?,?);";
+    $sql = "INSERT INTO idea (document_url,categories_id,submitDate,user_id,description,title,a_status,title_id) VALUES (?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../submit.php?error=stmterror2");
-        exit(); //stop
+        // header("location:../submit.php?error=stmterror2");
+        // exit(); //stop
     }
 
 
-    mysqli_stmt_bind_param($stmt, "ssssss", $newpdfname, $categories, $date, $id, $description, $title);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $newpdfname, $categories, $date, $id, $description, $title,$astatus, $title_id);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    header("location:../submit.php?error=none");
-    exit();
+    // mysqli_stmt_close($stmt);
+    // header("location:../submit.php?error=none");
+    // exit();
 }
 
 
@@ -234,7 +234,7 @@ function departmenttaken($conn, $department)
     $sql = "SELECT * FROM department WHERE department=?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../position/adddepartment.php?error=stmterror1");
+        header("location:../position/admin/department.php?error=stmterror1");
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $department);
@@ -256,14 +256,14 @@ function createdepartment($conn, $department)
 
     $sql = "INSERT INTO department (department) VALUES (?);";
     $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location:../position/adddepartment.php?error=stmterror2");
+    if (!mysqli_stmt_prepare($stmt, $sql)) {        
+        header("location:../position/admin/department.php?error=stmterror2");        
         exit(); //stop
     }
     mysqli_stmt_bind_param($stmt, "s", $lowerDepartment);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    header("location:../position/adddepartment.php?error=none");
+    mysqli_stmt_close($stmt);    
+    header("location:../position/admin/department.php?error=addedSucess");
     exit();
 }
 
@@ -273,8 +273,28 @@ function deletedepartment($conn, $id)
     $sql = "DELETE FROM department WHERE department_id=$id";
 
     if (!mysqli_query($conn, $sql)) {
-        header("Location:../position/adddepartment.php?error=deletefail");
+        header("Location:../position/admin/department.php?error=deletefail");
     } else {
-        header("location:../position/adddepartment.php?error=none");
+        header("location:../position/admin/department.php?error=deletedSucess");
+    }
+}
+
+function createTitle($conn, $title, $closeDate, $FinalCloseDate)
+{
+
+    if (strtotime($closeDate) > strtotime($FinalCloseDate)) {
+        header("Location:../position/admin/title.php?error=closeDateBigger");
+    } else {
+        // $sql = "INSERT INTO title (title,closeDate,finalCloseDate) VALUES (?,?,?);";
+        // $stmt = mysqli_stmt_init($conn);
+        // if (!mysqli_stmt_prepare($stmt, $sql)) {
+        //     header("location:../position/admin/title.php?error=stmterror2");
+        //     exit(); //stop
+        // }
+        // mysqli_stmt_bind_param($stmt, "sss", $title, $closeDate, $FinalCloseDate);
+        // mysqli_stmt_execute($stmt);
+        // mysqli_stmt_close($stmt);        
+        header("location:../position/admin/title.php?error=none");
+        exit();
     }
 }

@@ -5,6 +5,7 @@
     --second-bg-color: #313131;
     --border-color: #aaaaaa;
     --icon-bg-color: #d0d3d2;    
+    
 }
 
 .btn.btn-primary {
@@ -135,3 +136,18 @@ btn.btn-secondary:hover, .btn.btn-secondary:focus {
  body {
     font-family: 'Montserrat' !important;
  }
+
+ .fade-out {
+    display: inline-block;
+    margin: 0 0.5rem;
+  
+    animation: fadeOut; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 8s; /* don't forget to set a duration! */
+  }
+
+  .alert-box {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
