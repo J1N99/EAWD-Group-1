@@ -122,11 +122,26 @@ function loginuser($conn, $email, $password)
         $_SESSION['name'] = $uidexists["name"];
         $_SESSION['department'] = $uidexists["department"];
         $_SESSION['email'] = $uidexists["email"];
-        if ($_SESSION['position'] == 1) {
-            // if position is QA manager redirect to admin pages;
+
+        // If the user is a QA Manager/Position ID is 1
+        if ($_SESSION['position'] == 1)
+        {
             header("location:../admin/index.php");
-        } else {
-            header("location:../index.php");
+        } 
+        else // If the user is a QA Coordinator/Position ID is 2
+        if($_SESSION['position'] == 2)
+        {
+            header("location:../admin/EncourageEmail.php");
+        }
+        else // If the user is an Admin/Position ID is 3
+        if($_SESSION['position'] == 3)
+        {
+            header("location:../admin/overviewStatus.php");
+        }
+        else // If the user is a Staff/Position ID is 4
+        if($_SESSION['position'] == 4)
+        {
+            header("location:../admin/postStatus.php");
         }
         exit();
     }
