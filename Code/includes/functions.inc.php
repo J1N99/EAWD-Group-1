@@ -123,7 +123,7 @@ function loginuser($conn, $email, $password)
         $_SESSION['department'] = $uidexists["department"];
         $_SESSION['email'] = $uidexists["email"];
         if ($_SESSION['position'] == 1) {
-            // if position is  QA manager redirect to admin pages;
+            // if position is QA manager redirect to admin pages;
             header("location:../admin/index.php");
         } else {
             header("location:../index.php");
