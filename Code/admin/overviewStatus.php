@@ -45,8 +45,8 @@ include("../includes/dbConnection.inc.php");
         $query1 = mysqli_query($conn, "SELECT * FROM title ORDER BY finalCloseDate ASC");
     }
 
-    $status1 = "Pending";
-    $status1 = "Completed";
+    $status1 = "In Progress";
+    $status2 = "Completed";
     // Getting today's date
     $today = date('Y-m-d');
         if(mysqli_num_rows($query1)>0){
@@ -61,12 +61,12 @@ include("../includes/dbConnection.inc.php");
                 <?php 
                 if($row1['finalCloseDate'] >= $today)
                 {
-                    echo "In Progress";
+                    echo $status1;
                 }
                 else
                 if($row1['finalCloseDate'] < $today)
                 {
-                    echo "Completed";
+                    echo $status2;
                 }
                 ?></div></td>
             </tr>

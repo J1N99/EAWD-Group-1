@@ -52,9 +52,10 @@ if($checkbox == 1)
         <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
     </div>
     <p style='font-size:1.1em'>Hi,</p>
-    <p>There is a new comment posted under your post.[" . $date . "]</p><br>
+    <p>There is a new comment posted under your post.</p><br>
     <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $comment . "</h2>
     <p>By: Anonymous</p>
+    <p>Date: " . $date . "</p><br>
     <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
     <hr style='border:none;border-top:1px solid #eee' />
     <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
@@ -74,9 +75,10 @@ if($checkbox == 0)
         <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
     </div>
     <p style='font-size:1.1em'>Hi,</p>
-    <p>There is a new comment posted under your post.[" . $date . "]</p><br>
+    <p>There is a new comment posted under your post.</p><br>
     <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $comment . "</h2>
     <p>By: " . $nameSender . "</p>
+    <p>Date: " . $date . "</p><br>
     <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
     <hr style='border:none;border-top:1px solid #eee' />
     <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
@@ -112,10 +114,11 @@ if($checkbox == 1)
         <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
     </div>
     <p style='font-size:1.1em'>Hi,</p>
-    <p>You have submitted a new comment.[" . $date . "]</p><br>
+    <p>You have submitted a new comment.</p><br>
     <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $desc . "</h2>
     <p>Posted By: " . $nameAuthor . "</p>
     <p>Anonymous Status: Comment submitted anonymously</p>
+    <p>Date: " . $date . "</p><br>
     <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
     <hr style='border:none;border-top:1px solid #eee' />
     <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
@@ -135,10 +138,11 @@ if($checkbox == 0)
         <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
     </div>
     <p style='font-size:1.1em'>Hi,</p>
-    <p>You have submitted a new comment.[" . $date . "]</p><br>
+    <p>You have submitted a new comment.</p><br>
     <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $desc . "</h2>
-    <p>Posted By: " . $nameAuthor . "</p>
+    <p>Author of the Post: " . $nameAuthor . "</p>
     <p>Anonymous Status: Comment submitted without anonymously</p>
+    <p>Date: " . $date . "</p><br>
     <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
     <hr style='border:none;border-top:1px solid #eee' />
     <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>

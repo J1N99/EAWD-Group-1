@@ -52,10 +52,11 @@ if (isset($_POST['submit'])) {
                   <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
               </div>
               <p style='font-size:1.1em'>Hi, " . $nameQAC . ",</p>
-              <p>Date: " . $date . "</p><br>
+              
               <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
               <p>Posted By: Anonymous</p>
+              <p>Date: " . $date . "</p><br>
               <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
               <hr style='border:none;border-top:1px solid #eee' />
               <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
@@ -75,10 +76,11 @@ if (isset($_POST['submit'])) {
                   <a href='' style='font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600'>GGIT</a>
               </div>
               <p style='font-size:1.1em'>Hi, [" . $nameQAC . "],</p>
-              <p>Date: " . $date . "</p><br>
+              
               <p>A new idea with title <b>[" . $title . "]</b> has been posted:-</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $description . "</h2>
               <p>Posted By: " . $nameAuthor . "</p>
+              <p>Date: " . $date . "</p><br>
               <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
               <hr style='border:none;border-top:1px solid #eee' />
               <div style='float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300'>
