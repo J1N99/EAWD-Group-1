@@ -12,6 +12,8 @@ include("../header.php");
     <a href="addcategories.php">Add categories</a>
 </h2>
 
+<button type="button" name="signOut" onclick="location.href='../includes/signOut.php'">Sign Out</button>
+
 
 <?php
 include("../footer.php");
