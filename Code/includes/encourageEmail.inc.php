@@ -41,7 +41,7 @@
               <p style='font-size:1.1em'>Hi, " . $nameStaff . ",</p>
               <p>A new message from the Senior Leadership.</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $content . "</h2>
-              <p>Posted By: " . $nameAuthor . "</p><br>
+              <p>Posted By: " . $nameAuthor . "</p>
               <p>Date: " . $date . "</p><br>
               <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
               <hr style='border:none;border-top:1px solid #eee' />
