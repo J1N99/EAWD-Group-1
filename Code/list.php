@@ -1,7 +1,7 @@
 <?php
 include("header.php");
 include("includes/dbConnection.inc.php");
-include("includes/preventAltLogin.inc.php");
+include("includes/authLogin.inc.php");
 
 if (isset($_GET['view'])) {
     $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
