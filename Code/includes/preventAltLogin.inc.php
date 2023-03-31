@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// If the $_SESSION['email'] has not been assigned any value yet (means false)
 if (!isset($_SESSION['email']) || $_SESSION['email'] !== true) {
     // Set the alert message
     $message = "Please perform login action before accessing to the internal system.";
