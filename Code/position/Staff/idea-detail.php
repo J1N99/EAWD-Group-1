@@ -3,82 +3,54 @@ include("../../header.php");
 include("../../includes/dbConnection.inc.php");
 ?>
 
+<?php
+    session_reset()
+?>
+
 <link rel="stylesheet" href="../../style.css">
 
-    <div class="d-flex" id="wrapper">
+<div class="d-flex" id="wrapper">
 
-        <!--sidebar-->
-      <div class="bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-          <i class="fas fa-user-secret me-2"></i>Test
-        </div>
+    <!--sidebar-->
+    <?php 
+            include("../../nav.php");
+        ?>  
 
-        <div class="list-group list-group-flush my-3">
+            <!-- content start-->
+              <?php
+          if (!isset($_GET['id'])) {
+            header("location:index.php");
+          } else if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, user.name, idea.a_status, sum(t_up), sum(t_down), idea.description, idea.views 
+                    FROM idea 
+                    LEFT JOIN likepost ON idea.idea_id = likepost.idea_id
+                    LEFT JOIN user ON idea.user_id = user.user_id 
+                    WHERE idea.idea_id = $id 
+                    GROUP BY idea.idea_id 
+                    ORDER BY views DESC";
+          }
 
-            <a href="./dashboard.php" class="list-group-item list-group-item-action second-text fw-bold active">                    
-                <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
-            </a>
+          $result = mysqli_query($conn, $sql);
+          $resultCheck = mysqli_num_rows($result);
+          $row = mysqli_fetch_assoc($result);
 
-            <a href="../login.php" class="list-group-item list-group-item-action second-text fw-bold">                    
-                <i class="fas fa-sharp fa-regular fa-right-from-bracket me-2"></i>LogOut
-            </a>
+          ?>
 
-        </div>
-      </div>
-        <!-- sidebar end -->
-
-        <!--navbar header-->
-        <div id="page-content-wrapper">
-          <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-            <div class="d-flex align-items-center">
-              <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-              <h2 class="fs-2 m-0">Ideas</h2>
+        <!-- filter function-->
+        <div class="btn-toolbar justify-content-between">
+            <div class="btn-group">
+                <select class="btn btn-secondary mt-4 select" style="margin-left:0.9rem!important"
+                    aria-label="Default select example"
+                    onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option default>Select Filter</option>
+                    <option value="idea-detail.php?comment=true&id=<?php echo $id ?>">Latest Comment</option>
+                </select>
             </div>
-                
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-              aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        </div>
+        <!--end of filter-->
 
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                  <a class="dropdown-toggle primary-text fw-bold" href="#" id="navbarDropdownMenuLink" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fas fa-user me-2"></i>Staff Name
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">LogOut</a></li>
-                  </ul>
-                </li>
-              </ul> 
-            </div>
-          </nav>          
-          
-          <!-- content start-->        
-          <?php
-            if (!isset($_GET['id'])) {
-              header("location:index.php");
-            } else if (isset($_GET['id'])) {
-              $id = $_GET['id'];
-              $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, user.name, idea.a_status, sum(t_up), sum(t_down), idea.description, idea.views 
-              FROM idea 
-              LEFT JOIN likepost ON idea.idea_id = likepost.idea_id
-              LEFT JOIN user ON idea.user_id = user.user_id 
-              WHERE idea.idea_id = $id 
-              GROUP BY idea.idea_id 
-              ORDER BY views DESC";
-            }
-
-            $result = mysqli_query($conn, $sql);
-            $resultCheck = mysqli_num_rows($result);
-            $row = mysqli_fetch_assoc($result);
-
-            ?>
-            <div class="container-fluid">
+        <div class="container-fluid">
             <?php
 
               if ($resultCheck > 0) {
@@ -135,6 +107,7 @@ include("../../includes/dbConnection.inc.php");
                     if ($resultCheckLike > 0) {
                       if ($rowCheckLike['t_up'] == 0) {
                   ?>
+                   
 
                   <div class="d-flex justify-content-between align-items-center">
                     <!-- button group start -->

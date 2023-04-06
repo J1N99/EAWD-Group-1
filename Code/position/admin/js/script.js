@@ -27,8 +27,9 @@ let addNewCategory = () => {
 }
 
 let deleteCategory = (index) => {    
-    console.log(index);
+    console.log("get id: "+ index);
     const i = index.parentNode.parentNode.rowIndex;
+    console.log(i)
     document.getElementById("categoryTable").deleteRow(i);    
 }
 

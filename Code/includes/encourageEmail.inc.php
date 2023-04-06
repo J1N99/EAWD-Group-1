@@ -40,7 +40,7 @@
               </div>
               <p style='font-size:1.1em'>Hi, " . $nameStaff . ",</p>
               <p>A new message from the Senior Leadership.</p><br>
-              <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . $content.trim() . "</h2>
+              <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . trim($content) . "</h2>
               <p>Posted By: " . $nameAuthor . "</p><br>
               <p>Date: " . $date . "</p><br>
               <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
@@ -57,7 +57,8 @@
               $headers = "Content-type: text/html\r\n";
   
             if(mail($emailStaff, $subject, $message, $headers)) {
-              echo "<script>alert('Email has been sent.');</script>";
+              echo "<script>
+              window.location.href='../position/QA-Coordinator/encourage-mail.php?status=success';</script>";
               //header("location:../listdetails.php?id=$id&emailstatus=success");
             } else {
                 echo "<script>alert('There are some errors in sending the email. Please try again');</script>";
@@ -65,8 +66,7 @@
         }
     }
 
-
-    header("location:../position/QA-Coordinator/encourage-mail.php?status=success");
+    //header("location:../position/QA-Coordinator/encourage-mail.php?status=success");
 
 
 

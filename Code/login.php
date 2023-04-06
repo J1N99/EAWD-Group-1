@@ -4,10 +4,6 @@ include("header.php");
 <link rel="stylesheet" href="css/login.css">
 
 
-</style>
-
-
-
 
 <form class="container-fluid" action="includes/login.inc.php" method="post">
   <div class="text-center">

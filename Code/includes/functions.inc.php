@@ -115,20 +115,40 @@ function loginuser($conn, $email, $password)
         header("location:../login.php?error=wronglogin");
         exit();
     } else {
-        //open session to store global variable
-        session_start();
-        $_SESSION['id'] = $uidexists["user_id"];
-        $_SESSION['position'] = $uidexists["position"];
-        $_SESSION['name'] = $uidexists["name"];
-        $_SESSION['department'] = $uidexists["department"];
-        $_SESSION['email'] = $uidexists["email"];
-        if ($_SESSION['position'] == 1) {
-            // if position is  QA manager redirect to admin pages;
-            header("location:../position/QA-Manager/dashboard.php");
-        } else {
-            header("location:../index.php");
-        }
-        exit();
+         //open session to store global variable
+         session_start();
+         $_SESSION['id'] = $uidexists["user_id"];
+         $_SESSION['position'] = $uidexists["position"];
+         $_SESSION['name'] = $uidexists["name"];
+         $_SESSION['department'] = $uidexists["department"];
+         $_SESSION['email'] = $uidexists["email"];
+            // If the user is a QA Manager/Position ID is 1  	
+            if ($_SESSION['position'] == 1)
+            {
+                header("location:../position/QA-Manager/dashboard.php");
+            } 
+            else // If the user is a QA Coordinator/Position ID is 2  
+            if($_SESSION['position'] == 2)
+            {
+                header("location:../position/QA-Coordinator/dashboard.php");
+            }
+            else // If the user is an Admin/Position ID is 3
+            if($_SESSION['position'] == 3)
+            {
+                header("location:../position/admin/dashboard.php");
+            }
+            else // If the user is a Staff/Position ID is 4  
+            if($_SESSION['position'] == 4)
+            {
+                header("location:../position/Staff/dashboard.php");
+            }
+         // if ($_SESSION['position'] == 1) {
+         //     // if position is  QA manager redirect to admin pages;
+         //     header("location:../position/QA-Manager/dashboard.php");
+         // } else {
+         //     header("location:../index.php");
+         // }
+         exit();
     }
 }
 
@@ -175,6 +195,14 @@ function deleteCategories($conn, $id)
     console.log($id);
     
     $sql = "DELETE FROM categories WHERE categories_id=$id";
+
+        // Check if there is any records in the database
+        $query1 = mysqli_query($conn, "select * from categories where categories_id = '$id'");
+        if (mysqli_num_rows($query1) > 0) {
+            echo "<script>
+            window.location.href='../position/admin/department.php?error=categoryUsed';</script>";
+            exit();
+        }
 
     if (!mysqli_query($conn, $sql)) {
         header("Location:../position/QA-Manager/category.php?error=deletefail");
@@ -272,9 +300,19 @@ function deletedepartment($conn, $id)
 {
     $sql = "DELETE FROM department WHERE department_id=$id";
 
+
+    // Check if there is any records in the database
+    $query1 = mysqli_query($conn, "select * from user where department = '$id'");
+    if (mysqli_num_rows($query1) > 0) {
+        echo "<script>
+        window.location.href='../position/admin/department.php?error=departmentUsed';</script>";
+        exit();
+    }
+    
     if (!mysqli_query($conn, $sql)) {
         header("Location:../position/admin/department.php?error=deletefail");
     } else {
+
         header("location:../position/admin/department.php?error=deletedSucess");
     }
 }
