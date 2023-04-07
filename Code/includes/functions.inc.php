@@ -191,16 +191,17 @@ function createCategories($conn, $categories)
 }
 
 function deleteCategories($conn, $id)
-{
-    console.log($id);
+{    
     
     $sql = "DELETE FROM categories WHERE categories_id=$id";
 
         // Check if there is any records in the database
         $query1 = mysqli_query($conn, "select * from categories where categories_id = '$id'");
         if (mysqli_num_rows($query1) > 0) {
-            echo "<script>
-            window.location.href='../position/admin/department.php?error=categoryUsed';</script>";
+            // echo "<script>
+            // window.location.href='../position/QA-Manager/category.php?error=categoryUsed';</script>";
+            // exit();
+            header("Location:../position/QA-Manager/category.php?error=categoryUsed");
             exit();
         }
 
@@ -304,8 +305,9 @@ function deletedepartment($conn, $id)
     // Check if there is any records in the database
     $query1 = mysqli_query($conn, "select * from user where department = '$id'");
     if (mysqli_num_rows($query1) > 0) {
-        echo "<script>
-        window.location.href='../position/admin/department.php?error=departmentUsed';</script>";
+        // echo "<script>
+        // window.location.href='../position/admin/department.php?error=departmentUsed';</script>";
+        header("Location:../position/admin/department.php?error=departmentUsed");
         exit();
     }
     

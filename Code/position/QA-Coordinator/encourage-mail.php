@@ -1,6 +1,7 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 ?>
 
 <link rel="stylesheet" href="../../style.css">
@@ -18,6 +19,23 @@ include("../../includes/dbConnection.inc.php");
                 $sql = "SELECT * FROM categories";
                 $result = mysqli_query($conn, $sql);
                 $resultCheck = mysqli_num_rows($result);
+            ?>
+
+            <?php
+                if(isset($_GET['status'])) {
+                    $status_msg = $_GET['status'];
+
+                    if($status_msg == "success") {
+                        ?>
+                            <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                                <div class="alert alert-success">
+                                    Sent Successful
+                                </div>
+                            </div>
+                        <?php
+                    }
+                }
+
             ?>
 
             <div class="container">

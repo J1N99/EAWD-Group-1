@@ -1,5 +1,7 @@
 <?php
 include("../../header.php");
+include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 ?>
 
 <link rel="stylesheet" href="../../style.css">
@@ -10,7 +12,6 @@ include("../../header.php");
         <?php 
             include("../../nav.php");
         ?>
-
             <!--Content-->            
             <?php
                 if (isset($_GET['error'])) { 
@@ -59,7 +60,7 @@ include("../../header.php");
                         ?>
                         <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
                             <div class="alert alert-danger">
-                                Category has been used
+                                Unable Deleted because you're using
                             </div>
                         </div>
                         <?php

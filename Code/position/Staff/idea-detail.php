@@ -1,6 +1,7 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 ?>
 
 <?php

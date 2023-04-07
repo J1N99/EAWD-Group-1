@@ -1,39 +1,16 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 ?>
                 
 <?php
     if (isset($_GET['id']) && isset($_GET['status']) && isset($_GET['ori'])) {
 
-        //check manager
-        $sqlCheckManager = "SELECT * FROM user WHERE position=1";
-        $resultManager = mysqli_query($conn, $sqlCheckManager);
-        $resultCheckManager = mysqli_num_rows($resultManager);
-
-        //check department
-        $sqlCheckDepartment = "SELECT * FROM department";
-        $resultDepartment = mysqli_query($conn, $sqlCheckDepartment);
-        $resultCheckDepartment = mysqli_num_rows($resultDepartment);
-
-        //check coordinator
-        $sqlCheckCoordinator = "SELECT * FROM user WHERE position=2";
-        $resultCoordinator = mysqli_query($conn, $sqlCheckCoordinator);
-        $resultCheckCoordinator = mysqli_num_rows($resultCoordinator);
-
-
         $status = $_GET['status'];
         $id = $_GET['id'];
 
-        if ($resultCheckDepartment == $resultCheckCoordinator) {
-            if ($status == 2) {
-                header("Location: account.php?update=failure&coordinator=bigthandepartment");
-                exit();
-            }
-        }
-
-
-        if ($resultCheckManager == 1 || 0) {
+        
             if ($status == 1) {
                 $query = "UPDATE user SET position=? WHERE user_id=?";
 
@@ -51,11 +28,8 @@ include("../../includes/dbConnection.inc.php");
                 } else {
                     header("Location: account.php?update=failure");
                 }
-            } else {
-                header("Location: account.php?update=failure&manager=bigthanone");
-                exit();
-            }
-        }
+            } 
+        
 
 
         if ($_SESSION['id'] == $id) {
@@ -95,6 +69,33 @@ include("../../includes/dbConnection.inc.php");
     $resultCheck = mysqli_num_rows($result);
     $no = 0;
 ?>  
+
+<?php
+    if(isset($_GET['update'])) {
+        $status_msg = $_GET['update'];
+
+        if($status_msg == "success") {
+            ?>
+                <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                    <div class="alert alert-success">
+                        Updated Successful
+                    </div>
+                </div>
+            <?php
+        } else  if($status_msg == "failure") {
+            ?>
+                <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                    <div class="alert alert-success">
+                        Updated fail
+                    </div>
+                </div>
+            <?php
+        }
+    }
+
+?>
+
+
 
 <link rel="stylesheet" href="../../style.css">
 

@@ -1,6 +1,7 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 if(isset($_GET['id']))
 {
     $titleId=$_GET['id'];
@@ -100,9 +101,33 @@ $start_from = ($page-1) * $limit;
 
             <div class="btn-group me-5">
                     <!-- Button trigger modal -->
-                <button type="button" class="btn btn-secondary ms-2 mt-4 btn-block" 
-                    data-bs-toggle="modal" data-bs-target="#exampleModal">Post
-                </button>
+
+                    <?php
+
+                        $today = date('Y-m-d');
+                        $sqlgetDate = "SELECT * FROM title WHERE closeDate >= '$today' AND title_id = '$titleId'";
+                        $resultFilter = mysqli_query($conn, $sqlgetDate);
+                        $resultCheckFilter = mysqli_num_rows($resultFilter);
+
+                        if ($resultCheckFilter > 0) {
+                    ?>
+
+                    <button type="button" class="btn btn-secondary ms-2 mt-4 btn-block" 
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">Post
+                    </button>
+
+                        <?php
+                            }
+                        else {
+                        ?>
+                        <button type="button" class="btn btn-secondary ms-2 mt-4 btn-block" 
+                            data-bs-toggle="modal" data-bs-target="#exampleModal" hidden>Post
+                        </button>
+                <?php
+                    }
+                ?>
+
+
 
                 <!-- Modal -->
                 <form action="../../includes/addidea.inc.php" method="post" enctype="multipart/form-data">
@@ -153,8 +178,8 @@ $start_from = ($page-1) * $limit;
                                     </div>
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" name="checkbox" id="terms-check" required>
-                                        <label class="form-check-label" for="terms-check">I agree to the terms and
-                                            conditions</label>
+                                        <a href="../../term.php" class="form-check-label" target="_blank" for="terms-check">I agree to the terms and
+                                            conditions</a>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -171,18 +196,6 @@ $start_from = ($page-1) * $limit;
         </div>
 
         <div class="container-fluid px-5 mt-4">
-
-            <!-- <div class="card mt-4">
-                <h5 class="card-header">Idea Title</h5>
-                <div class="card-body">
-                    <h5 class="card-text">This is the idea description</h5>
-                    <p class="card-text fs-6">Posted by: anonymously / XXXX
-                        <br>Category: XXXX
-                        <br>Department: xxxx
-                    </p>
-                    <a href="./idea-detail.php" class="btn btn-secondary">Read More</a>
-                </div>
-            </div> -->
 
             <?php
             if ($resultCheck > 0) {
@@ -237,7 +250,7 @@ $start_from = ($page-1) * $limit;
 
             $pageLink = "<ul class='pagination'>";  
             for ($i=1; $i<=$total_pages; $i++) {
-                        $pageLink .= "<li class='page-item'><a class='page-link' href='list-idea.php?page=".$i."&id=".$titleId."'>".$i."</a></li>";	
+                        $pageLink .= "<li class='page-item'><a class='page-link my-4' href='list-idea.php?page=".$i."&id=".$titleId."'>".$i."</a></li>";	
             }
             echo $pageLink . "</ul>";  
             ?>

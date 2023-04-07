@@ -28,8 +28,8 @@ include("../../includes/authLogin.inc.php");
                 <!-- card container -->
                 <div class="container row">
                     <?php
-
-                        $sql = "SELECT * FROM title";
+                        $today = date('Y-m-d');
+                        $sql = "SELECT * FROM title WHERE finalCloseDate >= '$today'";
                         $result = mysqli_query($conn, $sql);
                         $resultCheck = mysqli_num_rows($result);
 
@@ -39,6 +39,7 @@ include("../../includes/authLogin.inc.php");
                                 $title = $row['title'];
                                 $closeDate = $row['closeDate'];
                                 $finalCloseDate = $row['finalCloseDate'];
+                                
 
                     ?>
                         
