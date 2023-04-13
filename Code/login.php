@@ -4,6 +4,28 @@ include("header.php");
 <link rel="stylesheet" href="css/login.css">
 
 
+<?php
+    if (isset($_GET['error'])) { 
+        $error_msg = $_GET['error']; 
+        if ($error_msg == "emptyinput") {
+            ?>
+            <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                <div class="alert alert-danger">
+                    Please field the email or password
+                </div>
+            </div>
+            <?php
+        } else if ($error_msg == "wronglogin") {
+          ?>
+          <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+              <div class="alert alert-danger">
+                  Email or password incorrect
+              </div>
+          </div>
+          <?php
+      } 
+  ?>
+
 
 <form class="container-fluid" action="includes/login.inc.php" method="post">
   <div class="text-center">
@@ -23,7 +45,7 @@ include("header.php");
             </div>
 
             <div class="d-grid">
-              <input class="btn btn-primary btn-login text-uppercase fw-bold" name="submit" type="submit" value="Submit">
+              <input class="btn btn-primary btn-login text-uppercase fw-bold" name="submit" type="submit" value="Login">
             </div>
 
           </div>
