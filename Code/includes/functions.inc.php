@@ -300,8 +300,6 @@ function createdepartment($conn, $department)
 function deletedepartment($conn, $id)
 {
     $sql = "DELETE FROM department WHERE department_id=$id";
-    echo $id;
-    die();
 
 
     // Check if there is any records in the database
