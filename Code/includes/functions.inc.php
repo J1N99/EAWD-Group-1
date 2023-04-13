@@ -125,7 +125,13 @@ function loginuser($conn, $email, $password)
         if ($_SESSION['position'] == 1) {
             // if position is  QA manager redirect to admin pages;
             header("location:../position/QA-Manager/dashboard.php");
-        } else {
+        } 
+        else
+        if ($_SESSION['position'] == 2) {
+            // if position is  QA manager redirect to admin pages;
+            header("location:../position/QA-Coordinator/dashboard.php");
+        } 
+        else {
             header("location:../index.php");
         }
         exit();
@@ -271,6 +277,8 @@ function createdepartment($conn, $department)
 function deletedepartment($conn, $id)
 {
     $sql = "DELETE FROM department WHERE department_id=$id";
+    echo $id;
+    die();
 
     if (!mysqli_query($conn, $sql)) {
         header("Location:../position/admin/department.php?error=deletefail");

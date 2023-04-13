@@ -161,9 +161,10 @@ include("../../includes/dbConnection.inc.php");
                                     <td>
                                         <button type="submit" name="submit" onchange="deleteCategory(this)" 
                                             class="border-0 btn-transition btn btn-outline-danger">
+                                            <input type="hidden" name="department_id" value="<?php echo $id; ?>">
                                                 <i class="fa fa-trash"></i>
                                         </button>
-                                        <input type="hidden" name="department_id" value="<?php echo $id; ?>">                                    
+                                                                            
                                         <?php
                                                 }                                
                                             } else {
