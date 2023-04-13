@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $title = $_POST['title'];
 
 
-    if(isset($_POST['my_checkbox'])){
+    if(isset($_POST['checkann'])){
       $astatus = 1;
     }else{
       $astatus = 0;
