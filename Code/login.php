@@ -13,7 +13,7 @@ include("header.php");
             ?>
             <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
                 <div class="alert alert-danger">
-                    Please field the email or password
+                    Please fill in the email and password
                 </div>
             </div>
             <?php
