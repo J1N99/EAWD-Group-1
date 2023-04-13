@@ -4,6 +4,8 @@ include("header.php");
 <link rel="stylesheet" href="css/login.css">
 
 
+<form class="container-fluid" action="includes/login.inc.php" method="post">
+
 <?php
     if (isset($_GET['error'])) { 
         $error_msg = $_GET['error']; 
@@ -24,10 +26,8 @@ include("header.php");
           </div>
           <?php
       } 
+    }
   ?>
-
-
-<form class="container-fluid" action="includes/login.inc.php" method="post">
   <div class="text-center">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
