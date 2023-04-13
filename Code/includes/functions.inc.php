@@ -115,28 +115,6 @@ function loginuser($conn, $email, $password)
         header("location:../login.php?error=wronglogin");
         exit();
     } else {
-<<<<<<< HEAD
-        //open session to store global variable
-        session_start();
-        $_SESSION['id'] = $uidexists["user_id"];
-        $_SESSION['position'] = $uidexists["position"];
-        $_SESSION['name'] = $uidexists["name"];
-        $_SESSION['department'] = $uidexists["department"];
-        $_SESSION['email'] = $uidexists["email"];
-        if ($_SESSION['position'] == 1) {
-            // if position is  QA manager redirect to admin pages;
-            header("location:../position/QA-Manager/dashboard.php");
-        } 
-        else
-        if ($_SESSION['position'] == 2) {
-            // if position is  QA manager redirect to admin pages;
-            header("location:../position/QA-Coordinator/dashboard.php");
-        } 
-        else {
-            header("location:../index.php");
-        }
-        exit();
-=======
          //open session to store global variable
          session_start();
          $_SESSION['id'] = $uidexists["user_id"];
@@ -171,7 +149,6 @@ function loginuser($conn, $email, $password)
          //     header("location:../index.php");
          // }
          exit();
->>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
     }
 }
 

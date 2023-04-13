@@ -59,7 +59,7 @@
              
             <?php if($_SESSION['position']==4){?>
             <!--Staff-->
-                <a href="./dashboard.php" id="ideas" class="list-group-item list-group-item-action second-text fw-bold ">                    
+                <a href="./dashboard.php" id="dashboard" class="list-group-item list-group-item-action second-text fw-bold ">                    
                 <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
             </a>
 

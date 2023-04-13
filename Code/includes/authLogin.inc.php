@@ -24,7 +24,7 @@ $QAC = "QA-Coordinator";
 $admin = "admin";
 $Staff = "Staff";
 
-if($_SESSION['position'] == 1 && $place != $QAM)
+if($_SESSION['position'] == 1 && strpos($url_path, $QAM) === false)
 {
     // Set the alert message
     $message = "You can only access to the internal system from the perspective of " . $QAM;
@@ -33,7 +33,7 @@ if($_SESSION['position'] == 1 && $place != $QAM)
     window.location.href='../QA-Manager/dashboard.php';</script>";
     exit();
 }
-else if($_SESSION['position'] == 2 && $place != $QAC)
+else if($_SESSION['position'] == 2 && strpos($url_path, $QAC) === false)
 {
     // Set the alert message
     $message = "You can only access to the internal system from the perspective of " . $QAC;
@@ -42,7 +42,7 @@ else if($_SESSION['position'] == 2 && $place != $QAC)
     window.location.href='../QA-Coordinator/dashboard.php';</script>";
     exit();
 }
-else if($_SESSION['position'] == 3 && $place != $admin)
+else if($_SESSION['position'] == 3 && strpos($url_path, $admin) === false)
 {
     // Set the alert message
     $message = "You can only access to the internal system from the perspective of " . $admin;
@@ -51,7 +51,7 @@ else if($_SESSION['position'] == 3 && $place != $admin)
     window.location.href='../admin/dashboard.php';</script>";
     exit();
 }
-else if($_SESSION['position'] == 4 && $place != $Staff)
+else if($_SESSION['position'] == 4 && strpos($url_path, $Staff) === false)
 {
     // Set the alert message
     $message = "You can only access to the internal system from the perspective of " . $Staff;

@@ -44,12 +44,52 @@ include("../../includes/authLogin.inc.php");
                     if(isset($_GET['overview']))
                     {
                         $query1 = mysqli_query($conn, "select * from user where position = '4'");
+
+                        if(mysqli_num_rows($query1)>0){
+                            //all user
+                            while($row1 = mysqli_fetch_assoc($query1)){ 
+                            $idStaff = $row1['user_id'];
+                            //$query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
+                            $query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
+
+                            ?>
+                            <tr>
+                                <td><div id = "c1"><?php echo $i++."."; ?></div></td>
+                                <td><div id = "c1"><?php echo $row1['name']; ?></div></td>
+                                <td><div id = "c1"><?php echo $row1['email']; ?></div></td>
+                                <td><div id = "c1"><?php echo mysqli_num_rows($query2); ?></div></td>
+                            </tr>
+                        <?php
+                        }
+                        } 
                     }
                     else
                     if(isset($_GET['desc']))
                     {
                         $query1 = mysqli_query($conn, "select DISTINCT user.user_id, user.name, user.email, idea.user_id from user
                         left join idea on user.user_id = idea.user_id where position = '4'");
+                        if(mysqli_num_rows($query1)>0){
+                            //all user
+                            while($row1 = mysqli_fetch_assoc($query1)){ 
+                            $idStaff = $row1['user_id'];
+                            //$query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
+                            $query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
+                            if(mysqli_num_rows($query2) == 0)
+                            {
+                                continue;
+                            }
+                            else{
+                            ?>
+                            <tr>
+                                <td><div id = "c1"><?php echo $i++."."; ?></div></td>
+                                <td><div id = "c1"><?php echo $row1['name']; ?></div></td>
+                                <td><div id = "c1"><?php echo $row1['email']; ?></div></td>
+                                <td><div id = "c1"><?php echo mysqli_num_rows($query2); ?></div></td>
+                            </tr>
+                        <?php
+                            }
+                        }
+                        } 
                     }
                     else
                     if(isset($_GET['asc']))
@@ -59,17 +99,18 @@ include("../../includes/authLogin.inc.php");
                         left join idea on user.user_id = idea.user_id where position = '4'
                         GROUP BY user.user_id
                         ORDER BY idea_count asc, user.user_id asc");
-                    }
 
-
-                        //$query1 = mysqli_query($conn, "select user.user_id, user.name, user.email, idea.user_id from user
-                        //left join idea on user.user_id = idea.user_id
-                        //group by idea.user_id desc");
                         if(mysqli_num_rows($query1)>0){
+                            //all user
                             while($row1 = mysqli_fetch_assoc($query1)){ 
                             $idStaff = $row1['user_id'];
                             //$query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
                             $query2 = mysqli_query($conn, "select * from idea where user_id = '$idStaff'");
+                            if(mysqli_num_rows($query2)>0)
+                            {
+                                continue;
+                            }
+                            else{
                             ?>
                             <tr>
                                 <td><div id = "c1"><?php echo $i++."."; ?></div></td>
@@ -77,8 +118,17 @@ include("../../includes/authLogin.inc.php");
                                 <td><div id = "c1"><?php echo $row1['email']; ?></div></td>
                                 <td><div id = "c1"><?php echo mysqli_num_rows($query2); ?></div></td>
                             </tr>
-                        <?php }
-                    } ?>
+                        <?php
+                            }
+                        }
+                        } 
+                    }
+
+
+                        //$query1 = mysqli_query($conn, "select user.user_id, user.name, user.email, idea.user_id from user
+                        //left join idea on user.user_id = idea.user_id
+                        //group by idea.user_id desc");
+                    ?>
                 </table>
                 <!-- table end -->
 
