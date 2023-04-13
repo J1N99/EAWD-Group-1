@@ -1,39 +1,16 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
 ?>
                 
 <?php
     if (isset($_GET['id']) && isset($_GET['status']) && isset($_GET['ori'])) {
 
-        //check manager
-        $sqlCheckManager = "SELECT * FROM user WHERE position=1";
-        $resultManager = mysqli_query($conn, $sqlCheckManager);
-        $resultCheckManager = mysqli_num_rows($resultManager);
-
-        //check department
-        $sqlCheckDepartment = "SELECT * FROM department";
-        $resultDepartment = mysqli_query($conn, $sqlCheckDepartment);
-        $resultCheckDepartment = mysqli_num_rows($resultDepartment);
-
-        //check coordinator
-        $sqlCheckCoordinator = "SELECT * FROM user WHERE position=2";
-        $resultCoordinator = mysqli_query($conn, $sqlCheckCoordinator);
-        $resultCheckCoordinator = mysqli_num_rows($resultCoordinator);
-
-
         $status = $_GET['status'];
         $id = $_GET['id'];
 
-        if ($resultCheckDepartment == $resultCheckCoordinator) {
-            if ($status == 2) {
-                header("Location: account.php?update=failure&coordinator=bigthandepartment");
-                exit();
-            }
-        }
-
-
-        if ($resultCheckManager == 1 || 0) {
+        
             if ($status == 1) {
                 $query = "UPDATE user SET position=? WHERE user_id=?";
 
@@ -47,30 +24,27 @@ include("../../includes/dbConnection.inc.php");
                 $query_run = mysqli_stmt_execute($stmt);
 
                 if ($query_run) {
-                    header("Location: updateposition.php?update=success");
+                    header("Location: account.php?update=success");
                 } else {
-                    header("Location: updateposition.php?update=failure");
+                    header("Location: account.php?update=failure");
                 }
-            } else {
-                header("Location: updateposition.php?update=failure&manager=bigthanone");
-                exit();
-            }
-        }
+            } 
+        
 
 
         if ($_SESSION['id'] == $id) {
-            header("Location: updateposition.php?update=failure");
+            header("Location: account.php?update=failure");
             exit();
         }
 
         
         // if ($_GET['ori'] == 1) {
-        //     header("Location: updateposition.php?update=failure");
+        //     header("Location: account.php?update=failure");
         //     exit();
         // }
         $query = "UPDATE user SET position=? WHERE user_id=?";
 
-
+            
         $stmt = mysqli_prepare($conn, $query);
 
 
@@ -96,70 +70,41 @@ include("../../includes/dbConnection.inc.php");
     $no = 0;
 ?>  
 
+<?php
+    if(isset($_GET['update'])) {
+        $status_msg = $_GET['update'];
+
+        if($status_msg == "success") {
+            ?>
+                <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                    <div class="alert alert-success">
+                        Updated Successful
+                    </div>
+                </div>
+            <?php
+        } else  if($status_msg == "failure") {
+            ?>
+                <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                    <div class="alert alert-success">
+                        Updated fail
+                    </div>
+                </div>
+            <?php
+        }
+    }
+
+?>
+
+
+
 <link rel="stylesheet" href="../../style.css">
 
     <div class="d-flex" id="wrapper">
 
         <!--sidebar-->
-        <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                <i class="fas fa-user-secret me-2"></i>Test
-            </div>
-
-            <div class="list-group list-group-flush my-3">
-                <a href="./dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-tachometer-alt me-2"></i>DashBoard
-                </a>
-
-                <a href="./account.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active">                    
-                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Account
-                </a>
-                
-                <a href="./department.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
-                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Department
-                </a> 
-
-                <a href="./title.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
-                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Title
-                </a> 
-
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">                    
-                    <i class="fas fa-sharp fa-regular fa-right-from-bracket me-2"></i>LogOut
-                </a>
-            </div>
-        </div>
-
-        <!--navbar header-->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-2 m-0">Account</h2>
-                </div>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle primary-text fw-bold" href="#" id="navbarDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>Admin Name
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <li><a class="dropdown-item" href="#">Profile</a></li>
-                              <li><a class="dropdown-item" href="#">Settings</a></li>
-                              <li><a class="dropdown-item" href="#">LogOut</a></li>
-                            </ul>
-                        </li>
-                    </ul> 
-                </div>
-            </nav>
-
+        <?php 
+            include("../../nav.php");
+        ?>
             <!--Content-->
             <div class="container-fluid px-4">
                 <div class="btn-group">

@@ -1,77 +1,135 @@
 <?php
 include("../../header.php");
 include("../../includes/dbConnection.inc.php");
+include("../../includes/authLogin.inc.php");
+if(isset($_GET['id']))
+{
+    $titleId=$_GET['id'];
+    
+}
+$limit = 5;  
+if (isset($_GET["page"])) {
+    $page  = $_GET["page"]; 
+    } 
+    else{ 
+    $page=1;
+    };  
+$start_from = ($page-1) * $limit;  
 ?>
 
 <link rel="stylesheet" href="../../style.css">
 
+    <?php
+        function download_csv() {
+            // Connect to the database
+            $conn = mysqli_connect('localhost', 'root', '', 'feedbackdb');
+
+            // Check for connection errors
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+
+            // Define the query to retrieve the data from the table
+            $sql = "SELECT idea_id, document_url, a_status, categories_id, views, submitDate, user_id, description, title, title_id FROM idea";
+
+            // Execute the query
+            $result = mysqli_query($conn, $sql);
+
+            // Set headers for the CSV file
+            header("Content-type: text/csv");
+            header("Content-Disposition: attachment; filename=file.csv");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+
+            ob_end_clean();
+            // Open a file pointer for output
+            $fp = fopen('php://output', 'w');
+
+            // Write the column headers to the file pointer as CSV
+            $headers = array("idea_id", "document_url", "a_status", "categories_id", "views", "submitDate", "user_id", "description", "title", "title_id");
+            fputcsv($fp, $headers);
+
+            // Write the data to the file pointer as CSV
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data = array($row['idea_id'], $row['document_url'], $row['a_status'], $row['categories_id'], $row['views'], $row['submitDate'], $row['user_id'], $row['description'], $row['title'], $row['title_id']);
+                fputcsv($fp, $data);
+            }
+
+            // Close the file pointer
+            fclose($fp);
+
+            // Download the file
+            //readfile('file.csv');
+
+            // Close the database connection
+            mysqli_close($conn);
+        }
+
+        // Check if the download button was clicked
+        if (isset($_POST['download_btn'])) {
+            // Call the download_csv() function to generate and download the CSV file
+            download_csv();
+        }
+
+
+        function download_zip(){
+            // Define the folder to be zipped and the output ZIP file name
+        $folder_path = '../../uploads/';
+        $zip_name = 'files.zip';
+
+        // Create a new ZIP archive
+        $zip = new ZipArchive();
+
+        // Open the archive for writing
+        if ($zip->open($zip_name, ZipArchive::CREATE) !== TRUE) {
+            die("Unable to create ZIP archive");
+        }
+
+        // Create a recursive directory iterator to loop through all files and directories inside the folder
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder_path));
+
+        // Loop through the files and add them to the ZIP archive
+        foreach ($iterator as $file) {
+            // Check if the file is a directory
+            if ($file->isDir()) {
+                continue;
+            }
+
+            // Get the file path and name relative to the folder path
+            $file_pathname = $file->getPathname();
+            $file_relative_path = substr($file_pathname, strlen($folder_path));
+
+            // Add the file to the ZIP archive using the relative path as the file name
+            $zip->addFile($file_pathname, $file_relative_path);
+        }
+
+        // Close the ZIP archive
+        $zip->close();
+
+        // Download the ZIP archive
+        header("Content-type: application/zip");
+        header("Content-Disposition: attachment; filename=$zip_name");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        readfile($zip_name);
+
+        // Delete the ZIP archive
+        unlink($zip_name);
+        }
+
+        if (isset($_POST['download_zip'])) {
+            // Call the download_csv() function to generate and download the CSV file
+            download_zip();
+        }
+    ?>
+
     <div class="d-flex" id="wrapper">
 
         <!--sidebar-->
-        <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                <i class="fas fa-user-secret me-2"></i>Test
-            </div>
-
-            <div class="list-group list-group-flush my-3">
-                <a href="./dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text">
-                    <i class="fas fa-tachometer-alt me-2"></i>DashBoard
-                </a>
-
-                <a href="#" class="list-group-item list-group-item-action second-text fw-bold active">                    
-                    <i class="fas fa-sharp fa-solid fa-lightbulb me-2"></i>Ideas
-                </a>
-
-                <a href="./category.php" class="list-group-item list-group-item-action second-text fw-bold">                    
-                    <i class="fas fa-solid fa-list me-2"></i>Categories
-                </a>
-
-                <a href="./overview.php?overview=true" class="list-group-item list-group-item-action second-text fw-bold">                    
-                    <i class="fas fa-solid fa-globe me-2"></i>Overview
-                </a>
-
-                <a href="./visualisation.php" class="list-group-item list-group-item-action second-text fw-bold">                    
-                    <i class="fas fa-regular fa-chart-line me-2"></i>Visualisation
-                </a>
-
-                <a href="../login.php" class="list-group-item list-group-item-action second-text fw-bold">                    
-                    <i class="fas fa-sharp fa-regular fa-right-from-bracket me-2"></i>LogOut
-                </a>
-
-            </div>
-        </div>
-
-        <!--navbar header-->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-2 m-0">Ideas</h2>
-                </div>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle primary-text fw-bold" href="#" id="navbarDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>QA-Manager Name
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <li><a class="dropdown-item" href="#">Profile</a></li>
-                              <li><a class="dropdown-item" href="#">Settings</a></li>
-                              <li><a class="dropdown-item" href="#">LogOut</a></li>
-                            </ul>
-                        </li>
-                    </ul> 
-                </div>
-            </nav>
-
+        <?php 
+            include("../../nav.php");
+        ?>
+        
             <!--Content-->
             <!-- <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle ms-5 mt-4" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -88,28 +146,98 @@ include("../../includes/dbConnection.inc.php");
 
             <?php
                 if (isset($_GET['view'])) {
-                    $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
-                    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
-                    group by idea.idea_id ORDER BY views DESC";
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                            total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                            FROM idea
+                            LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+                            LEFT JOIN categories ON idea.categories_id = categories.categories_id
+                            LEFT JOIN comment ON idea.idea_id = comment.idea_id
+                            LEFT JOIN (
+                                        SELECT idea_id, SUM(t_up) AS total_likes
+                                        FROM likepost
+                                        GROUP BY idea_id
+                                    ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                                    LEFT JOIN (
+                                        SELECT idea_id, SUM(t_down) AS total_dislikes
+                                        FROM likepost
+                                        GROUP BY idea_id
+                                    ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                            group by idea.idea_id ORDER BY views DESC LIMIT $start_from, $limit";
                 } else if (isset($_GET['tup'])) {
-                    $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                    total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                    FROM idea
                     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
-                    group by idea.idea_id ORDER BY t_up DESC";
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id                 
+                    LEFT JOIN comment ON idea.idea_id = comment.idea_id  
+                    LEFT JOIN (
+                                    SELECT idea_id, SUM(t_up) AS total_likes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                                LEFT JOIN (
+                                    SELECT idea_id, SUM(t_down) AS total_dislikes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id 
+                    group by idea.idea_id ORDER BY total_likes DESC LIMIT $start_from, $limit";
                 } else if (isset($_GET['tdown'])) {
-                    $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                    total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                    FROM idea
                     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
-                    group by idea.idea_id ORDER BY t_down DESC";
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id                 
+                    LEFT JOIN comment ON idea.idea_id = comment.idea_id
+                    LEFT JOIN (
+                                    SELECT idea_id, SUM(t_up) AS total_likes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                                LEFT JOIN (
+                                    SELECT idea_id, SUM(t_down) AS total_dislikes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                    group by idea.idea_id ORDER BY total_dislikes DESC LIMIT $start_from, $limit";
                 } else if (isset($_GET['idea'])) {
-                    $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                    total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                    FROM idea
                     LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
-                    group by idea.idea_id ORDER BY submitDate DESC";
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id                 
+                    LEFT JOIN comment ON idea.idea_id = comment.idea_id
+                    LEFT JOIN (
+                                    SELECT idea_id, SUM(t_up) AS total_likes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                                LEFT JOIN (
+                                    SELECT idea_id, SUM(t_down) AS total_dislikes
+                                    FROM likepost
+                                    GROUP BY idea_id
+                                ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                    group by idea.idea_id ORDER BY submitDate DESC LIMIT $start_from, $limit";
                 } else if (isset($_GET["comment"])) {
                     // pending comment
-                    $sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea 
-                    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
-                    LEFT JOIN comment ON idea.idea_id=comment.idea_id
-                    group by idea.idea_id ORDER BY comment.commentDate DESC";
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                            total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                            FROM idea
+                            LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+                            LEFT JOIN categories ON idea.categories_id = categories.categories_id                 
+                            LEFT JOIN comment ON idea.idea_id=comment.idea_id
+                            LEFT JOIN (
+                                        SELECT idea_id, SUM(t_up) AS total_likes
+                                        FROM likepost
+                                        GROUP BY idea_id
+                                    ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                                    LEFT JOIN (
+                                        SELECT idea_id, SUM(t_down) AS total_dislikes
+                                        FROM likepost
+                                        GROUP BY idea_id
+                                    ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                            group by idea.idea_id ORDER BY comment.commentDate DESC LIMIT $start_from, $limit";
                 } else {
+<<<<<<< HEAD
                     /*$sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
                 LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
                 group by idea.idea_id";*/
@@ -126,40 +254,63 @@ include("../../includes/dbConnection.inc.php");
                     group by idea.idea_id ORDER BY views DESC LIMIT";*/
 
                     
+=======
+                    
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                            total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                            FROM idea 
+                            LEFT JOIN likepost ON idea.idea_id = likepost.idea_id 
+                            LEFT JOIN categories ON idea.categories_id = categories.categories_id 
+                            LEFT JOIN comment ON idea.idea_id = comment.idea_id 
+                            LEFT JOIN (
+                                SELECT idea_id, SUM(t_up) AS total_likes
+                                FROM likepost
+                                GROUP BY idea_id
+                            ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                            LEFT JOIN (
+                                SELECT idea_id, SUM(t_down) AS total_dislikes
+                                FROM likepost
+                                GROUP BY idea_id
+                            ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                            GROUP BY idea.idea_id DESC LIMIT $start_from, $limit";
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
                 }
                 $result = mysqli_query($conn, $sql);
                 $resultCheck = mysqli_num_rows($result);
             ?>
 
-            <select class="btn btn-secondary ms-4 mt-4 select" aria-label="Default select example"
-            onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">                
-                <option default>Select Filter</option>
-                <option value="ideas.php?view=true">Most View</option>
-                <option value="ideas.php?tup=true">Most Like</option>
-                <option value="ideas.php?tup=false">Most Dislike</option>
-                <option value="ideas.php?idea=true">Latest Ideas</option>
-                <option value="ideas.php?comment=true">Latest Comment</option>
-            </select>
         
-<!-- 
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>
-                <button onclick="deleteCategory(this)" class="border-0 btn-transition btn btn-outline-danger">
-                    <i class="fa fa-trash"></i>                        
-                </button>   
-                </td> -->
+            
+            <div class="d-flex justify-content-between">
+                <select class="btn btn-secondary ms-4 mt-4 select" aria-label="Default select example"
+                onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">                
+                    <option default>Select Filter</option>
+                    <option value="ideas.php?view=true">Most View</option>
+                    <option value="ideas.php?tup=true">Most Like</option>
+                    <option value="ideas.php?tdown=false">Most Dislike</option>
+                    <option value="ideas.php?idea=true">Latest Ideas</option>
+                    <option value="ideas.php?comment=true">Latest Comment</option>
+                </select>
+                <div class="btn-group mt-4 me-4">
+                    <form method="post">
+                        <button type="submit" class="btn btn-secondary" name="download_btn">Download CSV</button>
+                        <button type="submit" class="btn btn-secondary" name="download_zip">Download ZIP</button>
+                    </form>
+                </div>
+            </div>
 
              <div class="table-responsive m-4">
                 <table class="table table-bordered table-secondary table-striped align-middle" id="categoryTable">
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
+                            <th scope="col">Categories</th>
+                            <th scope="col">Views</th>
                             <th scope="col">Like</th>
                             <th scope="col">Dislike</th>
                             <th scope="col">Document</th>
                             <th scope="col">Submit Date</th>
-                            <th scope="col">Table ID</th>
+                            <th scope="col">Latest Comment Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -168,15 +319,45 @@ include("../../includes/dbConnection.inc.php");
                             if ($resultCheck > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $id=$row['idea_id'];
+                                    $categoryID = $row['categories_id'];
+                                    $view=$row['views'];
                                     $url = $row['document_url'];
                                     $submitDate=$row['submitDate'];
+<<<<<<< HEAD
                                     $title=$row['title'];
                                     $t_up=$row['A'];
                                     $t_down=$row['B'];    
                                     //$total_likes=$row['total_likes'];                                
+=======
+                                    $title=$row['title'];                                    
+                                    $t_up=$row['total_likes'];
+                                    $t_down=$row['total_dislikes'];       
+
+                                    $queryLatestDate = mysqli_query($conn, "select DISTINCT * from comment where idea_id = '$id' order by commentDate DESC");
+                                    if (mysqli_num_rows($queryLatestDate) > 0) {
+                                        
+                                        $latestCommentDate = $row['commentDate'];                             
+                                        
+                                    }else {
+                                        $latestCommentDate = "No comment";
+                                    }
+                                    
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
                         ?>
                         <tr>
                             <td><a href="../Staff/idea-detail.php?id=<?php echo $id?>"><?php echo $title?></td>
+                            <td>
+                                <?php
+                                    $query1 = mysqli_query($conn, "select * from categories where categories_id = '$categoryID'");
+                                    if (mysqli_num_rows($query1) > 0) {
+                                        while ($row = mysqli_fetch_assoc($query1)) {
+                                            $categoryName = $row['categories'];
+                                        }
+                                    } 
+                                    echo $categoryName;
+                                ?>
+                            </td>
+                            <td><?php echo $view?></td>
                             <td>
                                 <?php
                                     if ($t_up==null) {
@@ -213,7 +394,7 @@ include("../../includes/dbConnection.inc.php");
                             </td>
                             <td>
                                 <?php 
-                                    echo $title 
+                                    echo $latestCommentDate 
                                 ?>
                             </td>
                         </tr>
@@ -222,13 +403,30 @@ include("../../includes/dbConnection.inc.php");
                         <?php
                                 }
                             }
+
                         ?>
                        
                     </tbody>
                 </table>
             </div>
-            <br />         
+            <br />    
+            
+            <?php
 
+                
+                $totalidea = mysqli_query($conn, "select * from idea");
+                
+                $total_records = mysqli_num_rows($totalidea);
+
+                $total_pages = ceil($total_records / $limit);
+
+                $pageLink = "<ul class='pagination ms-4'>";  
+                for ($i=1; $i<=$total_pages; $i++) {
+                            $pageLink .= "<li class='page-item'><a class='page-link' href='ideas.php?page=".$i."'>".$i."</a></li>";	
+                }
+                echo $pageLink . "</ul>";  
+            ?>
+                    
         </div>
     </div>
 
