@@ -19,108 +19,110 @@ $start_from = ($page-1) * $limit;
 
 <link rel="stylesheet" href="../../style.css">
 
+
     <?php
-        function download_csv() {
-            // Connect to the database
-            $conn = mysqli_connect('localhost', 'root', '', 'feedbackdb');
+    function download_csv() {
+        // Connect to the database
+        $conn = mysqli_connect('localhost', 'root', '', 'feedbackdb');
 
-            // Check for connection errors
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
-
-            // Define the query to retrieve the data from the table
-            $sql = "SELECT idea_id, document_url, a_status, categories_id, views, submitDate, user_id, description, title, title_id FROM idea";
-
-            // Execute the query
-            $result = mysqli_query($conn, $sql);
-
-            // Set headers for the CSV file
-            header("Content-type: text/csv");
-            header("Content-Disposition: attachment; filename=file.csv");
-            header("Pragma: no-cache");
-            header("Expires: 0");
-
-            ob_end_clean();
-            // Open a file pointer for output
-            $fp = fopen('php://output', 'w');
-
-            // Write the column headers to the file pointer as CSV
-            $headers = array("idea_id", "document_url", "a_status", "categories_id", "views", "submitDate", "user_id", "description", "title", "title_id");
-            fputcsv($fp, $headers);
-
-            // Write the data to the file pointer as CSV
-            while ($row = mysqli_fetch_assoc($result)) {
-                $data = array($row['idea_id'], $row['document_url'], $row['a_status'], $row['categories_id'], $row['views'], $row['submitDate'], $row['user_id'], $row['description'], $row['title'], $row['title_id']);
-                fputcsv($fp, $data);
-            }
-
-            // Close the file pointer
-            fclose($fp);
-
-            // Download the file
-            //readfile('file.csv');
-
-            // Close the database connection
-            mysqli_close($conn);
+        // Check for connection errors
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
         }
 
-        // Check if the download button was clicked
-        if (isset($_POST['download_btn'])) {
-            // Call the download_csv() function to generate and download the CSV file
-            download_csv();
-        }
+        // Define the query to retrieve the data from the table
+        $sql = "SELECT * FROM idea";
 
+        // Execute the query
+        $result = mysqli_query($conn, $sql);
 
-        function download_zip(){
-            // Define the folder to be zipped and the output ZIP file name
-        $folder_path = '../../uploads/';
-        $zip_name = 'files.zip';
-
-        // Create a new ZIP archive
-        $zip = new ZipArchive();
-
-        // Open the archive for writing
-        if ($zip->open($zip_name, ZipArchive::CREATE) !== TRUE) {
-            die("Unable to create ZIP archive");
-        }
-
-        // Create a recursive directory iterator to loop through all files and directories inside the folder
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder_path));
-
-        // Loop through the files and add them to the ZIP archive
-        foreach ($iterator as $file) {
-            // Check if the file is a directory
-            if ($file->isDir()) {
-                continue;
-            }
-
-            // Get the file path and name relative to the folder path
-            $file_pathname = $file->getPathname();
-            $file_relative_path = substr($file_pathname, strlen($folder_path));
-
-            // Add the file to the ZIP archive using the relative path as the file name
-            $zip->addFile($file_pathname, $file_relative_path);
-        }
-
-        // Close the ZIP archive
-        $zip->close();
-
-        // Download the ZIP archive
-        header("Content-type: application/zip");
-        header("Content-Disposition: attachment; filename=$zip_name");
+        // Set headers for the CSV file
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=file.csv");
         header("Pragma: no-cache");
         header("Expires: 0");
-        readfile($zip_name);
 
-        // Delete the ZIP archive
-        unlink($zip_name);
+        ob_end_clean();
+        // Open a file pointer for output
+        $fp = fopen('php://output', 'w');
+
+        // Write the column headers to the file pointer as CSV
+        $headers = array("idea_id", "document_url", "a_status", "categories_id", "views", "submitDate", "user_id", "description", "title", "title_id");
+        fputcsv($fp, $headers);
+
+        // Write the data to the file pointer as CSV
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data = array($row['idea_id'], $row['document_url'], $row['a_status'], $row['categories_id'], $row['views'], $row['submitDate'], $row['user_id'], $row['description'], $row['title'], $row['title_id']);
+            fputcsv($fp, $data);
         }
 
-        if (isset($_POST['download_zip'])) {
-            // Call the download_csv() function to generate and download the CSV file
-            download_zip();
+        // Close the file pointer
+        fclose($fp);
+
+        // Download the file
+        //readfile('file.csv');
+
+        // Close the database connection
+        mysqli_close($conn);
+    }
+
+    // Check if the download button was clicked
+    if (isset($_POST['download_btn'])) {
+        // Call the download_csv() function to generate and download the CSV file
+        download_csv();
+        exit();
+    }
+
+
+    function download_zip(){
+        // Define the folder to be zipped and the output ZIP file name
+    $folder_path = 'uploads/';
+    $zip_name = 'files.zip';
+
+    // Create a new ZIP archive
+    $zip = new ZipArchive();
+
+    // Open the archive for writing
+    if ($zip->open($zip_name, ZipArchive::CREATE) !== TRUE) {
+        die("Unable to create ZIP archive");
+    }
+
+    // Create a recursive directory iterator to loop through all files and directories inside the folder
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder_path));
+
+    // Loop through the files and add them to the ZIP archive
+    foreach ($iterator as $file) {
+        // Check if the file is a directory
+        if ($file->isDir()) {
+            continue;
         }
+
+        // Get the file path and name relative to the folder path
+        $file_pathname = $file->getPathname();
+        $file_relative_path = substr($file_pathname, strlen($folder_path));
+
+        // Add the file to the ZIP archive using the relative path as the file name
+        $zip->addFile($file_pathname, $file_relative_path);
+    }
+
+    // Close the ZIP archive
+    $zip->close();
+
+    // Download the ZIP archive
+    header("Content-type: application/zip");
+    header("Content-Disposition: attachment; filename=$zip_name");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    readfile($zip_name);
+
+    // Delete the ZIP archive
+    unlink($zip_name);
+    }
+
+    if (isset($_POST['download_zip'])) {
+        // Call the download_csv() function to generate and download the CSV file
+        download_zip();
+    }
     ?>
 
     <div class="d-flex" id="wrapper">
