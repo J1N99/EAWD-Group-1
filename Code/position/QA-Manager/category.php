@@ -36,7 +36,7 @@ include("../../includes/authLogin.inc.php");
                         ?>
                         <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
                             <div class="alert alert-danger">
-                                This category has been added
+                                The category has been added
                             </div>
                         </div>
                         <?php
@@ -60,7 +60,7 @@ include("../../includes/authLogin.inc.php");
                         ?>
                         <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
                             <div class="alert alert-danger">
-                                Unable Deleted because you're using
+                                Unable to delete while the category in used
                             </div>
                         </div>
                         <?php
@@ -84,7 +84,7 @@ include("../../includes/authLogin.inc.php");
                 $resultCheck = mysqli_num_rows($result);
             ?>
 
-            <form action="../../includes/deletecategories.inc.php" method="post">
+
                 <div class="table-responsive m-4">
                     <table class="table table-bordered table-secondary table-striped align-middle" id="categoryTable">
                         <thead>
@@ -112,7 +112,7 @@ include("../../includes/authLogin.inc.php");
                                     ?>
                                 </td>
                                 <td>
-                                    <button type="submit" name="submit" onchange="deleteCategory(this)" class="border-0 btn-transition btn btn-outline-danger">
+                                    <button type="submit" name="submit" onclick="window.location.href='../../includes/deletecategories.inc.php?category_id=<?php echo$id?>'" class="border-0 btn-transition btn btn-outline-danger">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                     <input type="hidden" name="category_id" value="<?php echo $id; ?>">                                    
@@ -126,8 +126,7 @@ include("../../includes/authLogin.inc.php");
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            </form>
+                                    </div>
                 
 
         </div>

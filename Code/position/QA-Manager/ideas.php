@@ -145,7 +145,26 @@ $start_from = ($page-1) * $limit;
             </div> -->
 
             <?php
-                if (isset($_GET['view'])) {
+                if (isset($_GET['overview'])) {
+                    $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
+                    total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                    FROM idea 
+                    LEFT JOIN likepost ON idea.idea_id = likepost.idea_id 
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id 
+                    LEFT JOIN comment ON idea.idea_id = comment.idea_id 
+                    LEFT JOIN (
+                        SELECT idea_id, SUM(t_up) AS total_likes
+                        FROM likepost
+                        GROUP BY idea_id
+                    ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                    LEFT JOIN (
+                        SELECT idea_id, SUM(t_down) AS total_dislikes
+                        FROM likepost
+                        GROUP BY idea_id
+                    ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                    GROUP BY idea.idea_id DESC LIMIT $start_from, $limit";
+                    
+                }else if (isset($_GET['view'])) {
                     $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
                             total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
                             FROM idea
@@ -265,7 +284,8 @@ $start_from = ($page-1) * $limit;
             <div class="d-flex justify-content-between">
                 <select class="btn btn-secondary ms-4 mt-4 select" aria-label="Default select example"
                 onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">                
-                    <option default>Select Filter</option>
+                    <option>Select Filter</option>
+                    <option value="ideas.php?overview=true">Overview</option>
                     <option value="ideas.php?view=true">Most View</option>
                     <option value="ideas.php?tup=true">Most Like</option>
                     <option value="ideas.php?tdown=false">Most Dislike</option>
@@ -319,7 +339,7 @@ $start_from = ($page-1) * $limit;
                                     
                         ?>
                         <tr>
-                            <td><a href="../Staff/idea-detail.php?id=<?php echo $id?>"><?php echo $title?></td>
+                            <td><a href="./idea-detail.php?id=<?php echo $id?>"><?php echo $title?></td>
                             <td>
                                 <?php
                                     $query1 = mysqli_query($conn, "select * from categories where categories_id = '$categoryID'");

@@ -30,15 +30,31 @@ include("../../includes/dbConnection.inc.php");
                                 </div>
                             </div>
                             <?php
-                        } else if ($error_msg == "closeDateBigger") {
+                        } else if ($error_msg == "closeDateBiggerThanFinal") {
                             ?>
                             <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
                                 <div class="alert alert-danger">
-                                    Your final close date cannot early than close date
+                                    Closure date is after final closure date
                                 </div>
                             </div>
                             <?php
-                        }    
+                        } else if ($error_msg == "closeDateBiggerThanCurrent") {
+                            ?>
+                            <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                                <div class="alert alert-danger">
+                                    Closure date is before current date
+                                </div>
+                            </div>
+                            <?php
+                        } else if ($error_msg == "finalCloseDateBiggerThanCurrent") {
+                            ?>
+                            <div class="d-flex justify-content-center mt-4 fade-out alert-box" role="alert">
+                                <div class="alert alert-danger">
+                                    Final closure date is before current date
+                                </div>
+                            </div>
+                            <?php
+                        }        
 
                     }
                 ?>
@@ -66,7 +82,7 @@ include("../../includes/dbConnection.inc.php");
                                 </div>
 
                                 <!-- Submit button -->
-                                <button type="submit" name="submit" class="btn btn-secondary btn-block mb-4">Send</button>
+                                <button type="submit" name="submit" class="btn btn-secondary btn-block mb-4">Add</button>
                             </form>
                         </div>
                     </div>

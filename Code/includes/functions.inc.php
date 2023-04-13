@@ -195,16 +195,16 @@ function deleteCategories($conn, $id)
     
     $sql = "DELETE FROM categories WHERE categories_id=$id";
 
-        // Check if there is any records in the database
-        $query1 = mysqli_query($conn, "select * from categories where categories_id = '$id'");
-        if (mysqli_num_rows($query1) > 0) {
-            // echo "<script>
-            // window.location.href='../position/QA-Manager/category.php?error=categoryUsed';</script>";
-            // exit();
-            header("Location:../position/QA-Manager/category.php?error=categoryUsed");
-            exit();
-        }
-
+    // Check if there is any records in the database
+    $query1 = mysqli_query($conn, "select * from idea where categories_id = '$id'");
+    if (mysqli_num_rows($query1) > 0) {
+        // echo "<script>
+        // window.location.href='../position/QA-Manager/category.php?error=categoryUsed';</script>";
+        // exit();
+        header("Location:../position/QA-Manager/category.php?error=categoryUsed");
+        exit();
+    }
+    else
     if (!mysqli_query($conn, $sql)) {
         header("Location:../position/QA-Manager/category.php?error=deletefail");
     } else {
@@ -213,7 +213,7 @@ function deleteCategories($conn, $id)
 }
 
 
-function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title)
+function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title,$astatus,$title_id)
 {
 
 
@@ -230,7 +230,7 @@ function filevalidationpdf($img_name, $img_tempname, $conn, $categories, $descri
         $newpdfname = uniqid("pdf-", true) . '.' . $filetypelower;
         $img_upload_path = "../uploads/" . $newpdfname;
         move_uploaded_file($img_tempname, $img_upload_path);
-        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title);
+        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title,$astatus,$title_id);
         //save db 
         header("location:../submit.php?status=success");
     } else {
@@ -321,20 +321,34 @@ function deletedepartment($conn, $id)
 
 function createTitle($conn, $title, $closeDate, $FinalCloseDate)
 {
+    $today = date('Y-m-d');
 
-    if (strtotime($closeDate) > strtotime($FinalCloseDate)) {
-        header("Location:../position/admin/title.php?error=closeDateBigger");
-    } else {
-        // $sql = "INSERT INTO title (title,closeDate,finalCloseDate) VALUES (?,?,?);";
-        // $stmt = mysqli_stmt_init($conn);
-        // if (!mysqli_stmt_prepare($stmt, $sql)) {
-        //     header("location:../position/admin/title.php?error=stmterror2");
-        //     exit(); //stop
-        // }
-        // mysqli_stmt_bind_param($stmt, "sss", $title, $closeDate, $FinalCloseDate);
-        // mysqli_stmt_execute($stmt);
-        // mysqli_stmt_close($stmt);        
-        header("location:../position/admin/title.php?error=none");
+    if (strtotime($closeDate) < strtotime($today)) {
+        header("Location:../position/admin/title.php?error=closeDateBiggerThanCurrent");
         exit();
     }
+
+    if (strtotime($FinalCloseDate) < strtotime($today)) {
+        header("Location:../position/admin/title.php?error=finalCloseDateBiggerThanCurrent");
+        exit();
+    }
+
+    if (strtotime($closeDate) > strtotime($FinalCloseDate)) {
+        header("Location:../position/admin/title.php?error=closeDateBiggerThanFinal");
+        exit();
+    } 
+
+
+
+    $sql = "INSERT INTO title (title,closeDate,finalCloseDate) VALUES (?,?,?);";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location:../position/admin/title.php?error=stmterror2");
+        exit(); //stop
+    }
+    mysqli_stmt_bind_param($stmt, "sss", $title, $closeDate, $FinalCloseDate);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);        
+    header("location:../position/admin/title.php?error=none");
+    exit();
 }

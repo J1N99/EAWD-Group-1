@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     if ($_FILES['uploadDocument']['size'] == 0) {
         $newpdfname = "";
         $date = date("Y/m/d");
-        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id);
+        insertIdea($id, $categories, $date, $description, $newpdfname, $conn, $title, $astatus, $title_id,$astatus,$title_id);
     } else {
         filevalidationpdf($img_name, $img_tempname, $conn, $categories, $description, $id, $title, $astatus, $title_id);
     }

@@ -178,8 +178,7 @@
                                 ?>
                             
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                              
                               <li><a class="dropdown-item" href="../../includes/signOut.php">LogOut</a></li>
                             </ul>
                         </li>

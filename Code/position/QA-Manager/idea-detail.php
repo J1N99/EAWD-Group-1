@@ -114,7 +114,7 @@ include("../../includes/authLogin.inc.php");
                     <!-- button group start -->
                     <div class="btn-group ma-0">
                       <button type="button" class="btn btn-sm btn-outline-secondary" 
-                        id="like-button"  value="Like"
+                        id="like-button"  value="Like" disabled
                         data-item-id="<?php echo $_GET['id'] ?>"
                         data-id="<?php echo $_SESSION['id'] ?>">
                           <i class="far fa-thumbs-up me-2">                            
@@ -130,7 +130,7 @@ include("../../includes/authLogin.inc.php");
                     <!-- button group start -->
                     <div class="btn-group ma-0">
                       <button type="button" class="btn btn-sm btn-outline-secondary"
-                        id="like-button"  value="Liked"
+                        id="like-button"  value="Liked" disabled
                         data-item-id="<?php echo $_GET['id'] ?>"
                         data-id="<?php echo $_SESSION['id'] ?>">
                           <i class="far fa-thumbs-up me-2">                            
@@ -144,7 +144,7 @@ include("../../includes/authLogin.inc.php");
                       ?>
 
                       <button type="button" class="btn btn-sm btn-outline-secondary"
-                        id="dislike-button" value="Dislike"
+                        id="dislike-button" value="Dislike" disabled
                         data-item-id="<?php echo $_GET['id'] ?>"
                         data-id="<?php echo $_SESSION['id'] ?>">
                           <i class="far fa-thumbs-down me-2">
@@ -157,7 +157,7 @@ include("../../includes/authLogin.inc.php");
                       ?>
 
                       <button type="button" class="btn btn-sm btn-outline-secondary"
-                        id="dislike-button" value="Disliked" 
+                        id="dislike-button" value="Disliked" disabled
                         data-item-id="<?php echo $_GET['id'] ?>"
                         data-id="<?php echo $_SESSION['id'] ?>">
                           <i class="far fa-thumbs-down me-2">
@@ -174,7 +174,7 @@ include("../../includes/authLogin.inc.php");
                         <!-- button group start -->
                         <div class="btn-group ma-0">
                         <button type="button" class="btn btn-sm btn-outline-secondary"
-                          id="like-button"  value="Like"
+                          id="like-button"  value="Like" disabled
                           data-item-id="<?php echo $_GET['id'] ?>"
                           data-id="<?php echo $_SESSION['id'] ?>" value="Like">
                             <i class="far fa-thumbs-up me-2">                            
@@ -183,7 +183,7 @@ include("../../includes/authLogin.inc.php");
                         </button>
 
                         <button type="button" class="btn btn-sm btn-outline-secondary"
-                          id="dislike-button" value="Dislike" 
+                          id="dislike-button" value="Dislike" disabled
                           data-item-id="<?php echo $_GET['id'] ?>"
                           data-id="<?php echo $_SESSION['id'] ?>" value="Dislike">
                             <i class="far fa-thumbs-down me-2">
@@ -212,9 +212,6 @@ include("../../includes/authLogin.inc.php");
                         }
                       ?>
 
-                      <button type="button" class="btn btn-sm btn-outline-secondary" 
-                        data-bs-toggle="modal" data-bs-whatever=" the author" data-bs-target="#replyModal" id="replyBtn">Reply
-                      </button>
 
                     </div>
                     <!-- button group end -->

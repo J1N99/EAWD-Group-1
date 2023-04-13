@@ -41,6 +41,10 @@ include("../../includes/authLogin.inc.php");
                     <?php
                     // Setting the index of table
                     $i = 1;
+
+                    // Getting today's date
+                    $today = date('Y-m-d');
+
                     // Display the content in different order based on the drop down list
                     if(isset($_GET['overview']))
                     {
@@ -49,18 +53,18 @@ include("../../includes/authLogin.inc.php");
                     else
                     if(isset($_GET['pending']))
                     {
-                        $query1 = mysqli_query($conn, "SELECT * FROM title ORDER BY finalCloseDate DESC");
+                        //$query1 = mysqli_query($conn, "SELECT * FROM title ORDER BY finalCloseDate DESC");
+                        $query1 = mysqli_query($conn, "SELECT * FROM title WHERE finalCloseDate >= '$today'");
                     }
                     else
                     if(isset($_GET['completed']))
                     {
-                        $query1 = mysqli_query($conn, "SELECT * FROM title ORDER BY finalCloseDate ASC");
+                        $query1 = mysqli_query($conn, "SELECT * FROM title WHERE finalCloseDate < '$today'");
                     }
 
                     $status1 = "Pending";
                     $status1 = "Completed";
-                    // Getting today's date
-                    $today = date('Y-m-d');
+
                         if(mysqli_num_rows($query1)>0){
                             while($row1 = mysqli_fetch_assoc($query1)){ 
                             ?>
