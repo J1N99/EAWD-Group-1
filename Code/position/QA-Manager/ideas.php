@@ -256,6 +256,24 @@ $start_from = ($page-1) * $limit;
                                     ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
                             group by idea.idea_id ORDER BY comment.commentDate DESC LIMIT $start_from, $limit";
                 } else {
+<<<<<<< HEAD
+                    /*$sql = "SELECT idea.idea_id, idea.document_url,idea.submitDate,idea.title,sum(t_up),sum(t_down) FROM idea
+                LEFT JOIN likepost ON idea.idea_id= likepost.idea_id 
+                group by idea.idea_id";*/
+
+                $sql = "SELECT idea.idea_id, idea.views, idea.categories_id, idea.document_url, idea.submitDate, idea.title, sum(likepost.t_up) as A, sum(likepost.t_down) as B FROM idea
+                    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id
+                    group by idea.idea_id";
+
+                    /*$sql = "SELECT idea.idea_id, idea.views, idea.categories_id, idea.document_url, idea.submitDate, idea.title, comment.commentDate, sum(t_up), sum(t_down), SUM(likepost.t_up) AS total_likes FROM idea
+                    LEFT JOIN likepost ON idea.idea_id= likepost.idea_id
+                    LEFT JOIN categories ON idea.categories_id = categories.categories_id
+                    LEFT JOIN comment ON idea.idea_id = comment.idea_id
+                    group by idea.idea_id ORDER BY views DESC LIMIT";*/
+
+                    
+=======
                     
                     $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, total_likes.total_likes, 
                             total_dislikes.total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
@@ -274,6 +292,7 @@ $start_from = ($page-1) * $limit;
                                 GROUP BY idea_id
                             ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
                             GROUP BY idea.idea_id DESC LIMIT $start_from, $limit";
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
                 }
                 $result = mysqli_query($conn, $sql);
                 $resultCheck = mysqli_num_rows($result);
@@ -324,6 +343,12 @@ $start_from = ($page-1) * $limit;
                                     $view=$row['views'];
                                     $url = $row['document_url'];
                                     $submitDate=$row['submitDate'];
+<<<<<<< HEAD
+                                    $title=$row['title'];
+                                    $t_up=$row['A'];
+                                    $t_down=$row['B'];    
+                                    //$total_likes=$row['total_likes'];                                
+=======
                                     $title=$row['title'];                                    
                                     $t_up=$row['total_likes'];
                                     $t_down=$row['total_dislikes'];       
@@ -337,6 +362,7 @@ $start_from = ($page-1) * $limit;
                                         $latestCommentDate = "No comment";
                                     }
                                     
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
                         ?>
                         <tr>
                             <td><a href="./idea-detail.php?id=<?php echo $id?>"><?php echo $title?></td>

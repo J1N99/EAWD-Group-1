@@ -41,7 +41,11 @@
               <p style='font-size:1.1em'>Hi, " . $nameStaff . ",</p>
               <p>A new message from the Senior Leadership.</p><br>
               <h2 style='background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;' id = 'otp1'>" . trim($content) . "</h2>
+<<<<<<< HEAD
+              <p>Posted By: " . $nameAuthor . "</p>
+=======
               <p>Posted By: " . $nameAuthor . "</p><br>
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
               <p>Date: " . $date . "</p><br>
               <p style='font-size:0.9em;'>Regards,<br />GGIT</p>
               <hr style='border:none;border-top:1px solid #eee' />
@@ -66,7 +70,12 @@
         }
     }
 
+<<<<<<< HEAD
+
+    header("location:../admin/encourageEmail.php?status=success");
+=======
     //header("location:../position/QA-Coordinator/encourage-mail.php?status=success");
+>>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
 
 
 
