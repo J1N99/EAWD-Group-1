@@ -31,7 +31,23 @@ $start_from = ($page-1) * $limit;
         }
 
         // Define the query to retrieve the data from the table
-        $sql = "SELECT * FROM idea";
+        $sql = "SELECT idea.idea_id, idea.document_url, idea.submitDate, idea.title, idea.views, CASE WHEN total_likes.total_likes IS NULL THEN 0 ELSE total_likes.total_likes END AS total_likes, 
+                CASE WHEN total_dislikes.total_dislikes IS NULL THEN 0 ELSE total_dislikes.total_dislikes END AS total_dislikes, categories.categories_id, categories.categories, comment.commentDate 
+                FROM idea 
+                LEFT JOIN likepost ON idea.idea_id = likepost.idea_id 
+                LEFT JOIN categories ON idea.categories_id = categories.categories_id 
+                LEFT JOIN comment ON idea.idea_id = comment.idea_id 
+                LEFT JOIN (
+                    SELECT idea_id, SUM(t_up) AS total_likes
+                    FROM likepost
+                    GROUP BY idea_id
+                ) AS total_likes ON idea.idea_id = total_likes.idea_id
+                LEFT JOIN (
+                    SELECT idea_id, SUM(t_down) AS total_dislikes
+                    FROM likepost
+                    GROUP BY idea_id
+                ) AS total_dislikes ON idea.idea_id = total_dislikes.idea_id
+                GROUP BY idea.idea_id";
 
         // Execute the query
         $result = mysqli_query($conn, $sql);
@@ -47,12 +63,12 @@ $start_from = ($page-1) * $limit;
         $fp = fopen('php://output', 'w');
 
         // Write the column headers to the file pointer as CSV
-        $headers = array("idea_id", "document_url", "a_status", "categories_id", "views", "submitDate", "user_id", "description", "title", "title_id");
+        $headers = array("title", "categories", "views", "likes", "dislikes", "document", "submit date", "latest comment date");
         fputcsv($fp, $headers);
 
         // Write the data to the file pointer as CSV
         while ($row = mysqli_fetch_assoc($result)) {
-            $data = array($row['idea_id'], $row['document_url'], $row['a_status'], $row['categories_id'], $row['views'], $row['submitDate'], $row['user_id'], $row['description'], $row['title'], $row['title_id']);
+            $data = array($row['title'], $row['categories'], $row['views'], $row['total_likes'], $row['total_dislikes'], $row['document_url'], $row['submitDate'], $row['commentDate']);
             fputcsv($fp, $data);
         }
 
@@ -76,7 +92,7 @@ $start_from = ($page-1) * $limit;
 
     function download_zip(){
         // Define the folder to be zipped and the output ZIP file name
-    $folder_path = 'uploads/';
+    $folder_path = '../../uploads/';
     $zip_name = 'files.zip';
 
     // Create a new ZIP archive

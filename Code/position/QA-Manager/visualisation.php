@@ -72,7 +72,7 @@ include("../../includes/authLogin.inc.php");
             }
 
             $total2 = $total1;
-            $query3 = $con->query("SELECT COUNT(DISTINCT department.department_id) as contributors, department.department as departmentname
+            $query3 = $con->query("SELECT COUNT(DISTINCT user.user_id) as contributors, department.department as departmentname
             FROM idea LEFT JOIN user ON idea.user_id = user.user_id
             LEFT JOIN department ON user.department = department.department_id  
             GROUP BY user.department");
