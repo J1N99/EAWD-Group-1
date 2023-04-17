@@ -51,17 +51,17 @@ include("../../includes/authLogin.inc.php");
                                         <h5 class="card-title mb-0 pb-4"><?php echo $title?></h5>
                                     </div>
                                     <div class="row align-items-center mb-2 d-flex" style="font-size:0.85rem">
-                                        <div class="col-10">
-                                            <p class="d-flex align-items-center mb-0">
+                                        <div class="col-11">
+                                            <p class="d-flex align-self-start mb-0">
                                                 Closure Date: <?php echo $closeDate ?>
                                             </p>
                                         </div> 
-                                        <div class="col-10">
-                                            <p class="d-flex align-items-center mb-0">
+                                        <div class="col-11">
+                                            <p class="d-flex align-self-start mb-0 ">
                                                 Final Closure Date: <?php echo $finalCloseDate ?>
                                             </p>
                                         </div>    
-                                        <div class="col-2">
+                                        <div class="col align-self-end">
                                         <a href="./list-idea.php?id=<?php echo $id?>" class="btn btn-outline-secondary d-inline-flex rounded-0">Read More</a>
                                         </div>     
                                         
