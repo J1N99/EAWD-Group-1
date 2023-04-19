@@ -127,11 +127,7 @@ include("../../includes/authLogin.inc.php");
                                             <input type="hidden" name="department_id" value="<?php echo $id; ?>">
                                                 <i class="fa fa-trash"></i>
                                         </button>
-<<<<<<< HEAD
-                                                                            
-=======
                                                                        
->>>>>>> d04e8ffd9d4174a6a6c1ceea89f75fa4695ae20d
                                         <?php
                                                 }                                
                                             } else {

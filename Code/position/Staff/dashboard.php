@@ -26,7 +26,7 @@ include("../../includes/authLogin.inc.php");
                 <!-- end container -->
 
                 <!-- card container -->
-                <div class="container row">
+                <div class="container">
                     <?php
                         $today = date('Y-m-d');
                         $sql = "SELECT * FROM title WHERE finalCloseDate >= '$today'";
